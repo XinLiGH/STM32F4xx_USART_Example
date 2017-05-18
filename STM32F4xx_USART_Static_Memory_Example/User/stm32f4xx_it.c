@@ -29,7 +29,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
-#include "USART.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -137,28 +136,6 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-}
-
-/**
-  * @brief  This function handles USART1 Handler.
-  * @param  None
-  * @retval None
-  */
-void USART1_IRQHandler(void)
-{
-  uint16_t num;
-  uint8_t buff[100];
-
-  if(USART_GetITStatus(USART1, USART_IT_IDLE) != RESET)
-  {
-    USART1->DR;
-    USART1->SR;
-
-    num = USART_GetReceiveData(USART1, buff, sizeof(buff));
-    USART_SetSendData(USART1, buff, num);
-
-    USART_ClearITPendingBit(USART1, USART_IT_IDLE);
-  }
 }
 
 /******************************************************************************/
