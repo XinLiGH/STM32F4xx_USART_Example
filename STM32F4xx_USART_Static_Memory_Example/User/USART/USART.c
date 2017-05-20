@@ -3021,7 +3021,7 @@ void USART1_IRQHandler(void)
   {
     USART_ReceiveData(USART1);  /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART1_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream2); /* Returns the number of remaining data units in the current DMA2 Stream2 transfer. */;
+    uint32_t number = USART1_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream2); /* Returns the number of remaining data units in the current DMA2 Stream2 transfer. */
     
     if(number > (USART1_BufferSize_Rx - USART1_ReceiveData_P))
     {
@@ -3110,7 +3110,7 @@ void USART2_IRQHandler(void)
   {
     USART_ReceiveData(USART2);  /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART2_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream5); /* Returns the number of remaining data units in the current DMA1 Stream5 transfer. */;
+    uint32_t number = USART2_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream5); /* Returns the number of remaining data units in the current DMA1 Stream5 transfer. */
     
     if(number > (USART2_BufferSize_Rx - USART2_ReceiveData_P))
     {
@@ -3200,7 +3200,7 @@ void USART3_IRQHandler(void)
   {
     USART_ReceiveData(USART3);                          /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART3_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream1); /* Returns the number of remaining data units in the current DMA1 Stream1 transfer. */;
+    uint32_t number = USART3_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream1); /* Returns the number of remaining data units in the current DMA1 Stream1 transfer. */
     
     if(number > (USART3_BufferSize_Rx - USART3_ReceiveData_P))
     {
@@ -3291,7 +3291,7 @@ void UART4_IRQHandler(void)
   {
     USART_ReceiveData(UART4); /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART4_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream2); /* Returns the number of remaining data units in the current DMA1 Stream2 transfer. */;
+    uint32_t number = USART4_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream2); /* Returns the number of remaining data units in the current DMA1 Stream2 transfer. */
     
     if(number > (USART4_BufferSize_Rx - USART4_ReceiveData_P))
     {
@@ -3380,7 +3380,7 @@ void UART5_IRQHandler(void)
   {
     USART_ReceiveData(UART5); /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART5_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream0); /* Returns the number of remaining data units in the current DMA1 Stream0 transfer. */;
+    uint32_t number = USART5_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream0); /* Returns the number of remaining data units in the current DMA1 Stream0 transfer. */
     
     if(number > (USART5_BufferSize_Rx - USART5_ReceiveData_P))
     {
@@ -3470,7 +3470,7 @@ void USART6_IRQHandler(void)
   {
     USART_ReceiveData(USART6);  /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART6_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream1); /* Returns the number of remaining data units in the current DMA2 Stream1 transfer. */;
+    uint32_t number = USART6_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream1); /* Returns the number of remaining data units in the current DMA2 Stream1 transfer. */
     
     if(number > (USART6_BufferSize_Rx - USART6_ReceiveData_P))
     {
@@ -3560,7 +3560,7 @@ void UART7_IRQHandler(void)
   {
     USART_ReceiveData(UART7); /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART7_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream3); /* Returns the number of remaining data units in the current DMA1 Stream3 transfer. */;
+    uint32_t number = USART7_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream3); /* Returns the number of remaining data units in the current DMA1 Stream3 transfer. */
     
     if(number > (USART7_BufferSize_Rx - USART7_ReceiveData_P))
     {
@@ -3649,7 +3649,7 @@ void UART8_IRQHandler(void)
   {
     USART_ReceiveData(UART8); /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART8_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream6); /* Returns the number of remaining data units in the current DMA1 Stream6 transfer. */;
+    uint32_t number = USART8_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream6); /* Returns the number of remaining data units in the current DMA1 Stream6 transfer. */
     
     if(number > (USART8_BufferSize_Rx - USART8_ReceiveData_P))
     {
@@ -3740,7 +3740,7 @@ void UART9_IRQHandler(void)
   {
     USART_ReceiveData(UART9); /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART9_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream7); /* Returns the number of remaining data units in the current DMA2 Stream7 transfer. */;
+    uint32_t number = USART9_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream7); /* Returns the number of remaining data units in the current DMA2 Stream7 transfer. */
     
     if(number > (USART9_BufferSize_Rx - USART9_ReceiveData_P))
     {
@@ -3829,7 +3829,7 @@ void UART10_IRQHandler(void)
   {
     USART_ReceiveData(UART10);  /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART10_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream0); /* Returns the number of remaining data units in the current DMA2 Stream0 transfer. */;
+    uint32_t number = USART10_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream0); /* Returns the number of remaining data units in the current DMA2 Stream0 transfer. */
     
     if(number > (USART10_BufferSize_Rx - USART10_ReceiveData_P))
     {
