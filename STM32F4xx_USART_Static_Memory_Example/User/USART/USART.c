@@ -227,10 +227,10 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 *****************************************************************/
 void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
 {
-  uint16_t USART_Mode = NULL;
+  uint16_t USART_Mode = NULL;             /* USART Mode definition */
   
-  GPIO_InitTypeDef GPIO_InitStructure;
-  USART_InitTypeDef USART_InitStructure;
+  GPIO_InitTypeDef GPIO_InitStructure;    /* GPIO Init structure definition */
+  USART_InitTypeDef USART_InitStructure;  /* USART Init Structure definition */
   
   if(USARTx == USART1)
   {
@@ -1024,7 +1024,7 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx)
 {
-  DMA_InitTypeDef DMA_InitStructure;
+  DMA_InitTypeDef DMA_InitStructure;  /* DMA Init structure definition */
 
   if((USARTx == USART2)
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
@@ -1250,7 +1250,7 @@ static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_DMA_RX_Configuration(USART_TypeDef* USARTx)
 {
-  DMA_InitTypeDef DMA_InitStructure;
+  DMA_InitTypeDef DMA_InitStructure;  /* DMA Init structure definition */
 
   if((USARTx == USART2)
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
@@ -1754,7 +1754,7 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
 {
-  NVIC_InitTypeDef NVIC_InitStructure;
+  NVIC_InitTypeDef NVIC_InitStructure;  /* NVIC Init Structure definition */
   
   if(USARTx == USART1)
   {
@@ -1763,11 +1763,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART1_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART1_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART1_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART1_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART1_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx) */
   }
@@ -1778,11 +1778,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART2_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART2_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART2_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART2_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART2_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx) */
   }
@@ -1794,11 +1794,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART3_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART3_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART3_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART3_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART3_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx) */
   }
@@ -1811,11 +1811,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART4_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART4_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART4_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART4_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART4_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx) */
   }
@@ -1826,11 +1826,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART5_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART5_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART5_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART5_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART5_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART5_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART5_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx) */
   }
@@ -1842,11 +1842,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART6_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART6_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART6_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART6_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART6_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx) */
   }
@@ -1858,11 +1858,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART7_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART7_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART7_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART7_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART7_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART7_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART7_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx) */
   }
@@ -1873,11 +1873,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART8_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART8_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART8_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART8_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART8_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART8_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART8_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx) */
   }
@@ -1890,11 +1890,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART9_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART9_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART9_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART9_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART9_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART9_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART9_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                       /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx) */
   }
@@ -1905,11 +1905,11 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
     {
       USART10_NVIC_Flag = true;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART10_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART10_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART10_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART10_IRQn;                                       /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART10_IRQ_PreemptionPriority;  /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART10_IRQ_SubPriority;                /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                                         /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                         /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx) */
   }
@@ -1925,7 +1925,7 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 {
-  NVIC_InitTypeDef NVIC_InitStructure;
+  NVIC_InitTypeDef NVIC_InitStructure;  /* NVIC Init Structure definition */
   
   if(USARTx == USART1)
   {
@@ -1934,11 +1934,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART1_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART1_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART1_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART1_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART1_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx) */
   }
@@ -1949,11 +1949,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART2_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART2_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART2_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART2_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART2_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx) */
   }
@@ -1965,11 +1965,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART3_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART3_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART3_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART3_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART3_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx) */
   }
@@ -1982,11 +1982,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART4_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART4_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART4_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART4_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART4_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx) */
   }
@@ -1997,11 +1997,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART5_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART5_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART5_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART5_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART5_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART5_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART5_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx) */
   }
@@ -2013,11 +2013,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART6_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART6_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART6_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;                                     /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART6_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART6_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx) */
   }
@@ -2029,11 +2029,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART7_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART7_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART7_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART7_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART7_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART7_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART7_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx) */
   }
@@ -2044,11 +2044,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART8_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART8_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART8_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART8_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART8_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART8_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART8_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx) */
   }
@@ -2061,11 +2061,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART9_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART9_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART9_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART9_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART9_IRQn;                                      /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART9_IRQ_PreemptionPriority; /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART9_IRQ_SubPriority;               /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                      /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                       /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx) */
   }
@@ -2076,11 +2076,11 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
     {
       USART10_NVIC_Flag = false;
       
-      NVIC_InitStructure.NVIC_IRQChannel = UART10_IRQn;
-      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART10_IRQ_PreemptionPriority;
-      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART10_IRQ_SubPriority;
-      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-      NVIC_Init(&NVIC_InitStructure);
+      NVIC_InitStructure.NVIC_IRQChannel = UART10_IRQn;                                       /* Specifies the IRQ channel to be enabled or disabled. */
+      NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = USART10_IRQ_PreemptionPriority;  /* Specifies the pre-emption priority for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelSubPriority = USART10_IRQ_SubPriority;                /* Specifies the subpriority level for the IRQ channel specified in NVIC_IRQChannel. */
+      NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;                                        /* Specifies whether the IRQ channel defined in NVIC_IRQChannel will be enabled or disabled. */
+      NVIC_Init(&NVIC_InitStructure);                                                         /* Initializes the NVIC peripheral according to the specified parameters in the NVIC_InitStruct. */
     }
 #endif /* (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx) */
   }
@@ -2975,9 +2975,9 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
 void USART1_IRQHandler(void)
 {
 #if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
-  if(USART_GetITStatus(USART1, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(USART1, USART_IT_TC) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(USART1, USART_IT_TC);
+    USART_ClearITPendingBit(USART1, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
     if(USART1_SendData_P == NULL)
     {
@@ -3017,9 +3017,9 @@ void USART1_IRQHandler(void)
 #endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
   
 #if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
-  if(USART_GetITStatus(USART1, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(USART1, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART1);
+    USART_ReceiveData(USART1);  /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART1_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream2); /* Returns the number of remaining data units in the current DMA2 Stream2 transfer. */;
     
@@ -3064,9 +3064,9 @@ void USART1_IRQHandler(void)
 void USART2_IRQHandler(void)
 {
 #if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
-  if(USART_GetITStatus(USART2, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(USART2, USART_IT_TC) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(USART2, USART_IT_TC);
+    USART_ClearITPendingBit(USART2, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
     if(USART2_SendData_P == NULL)
     {
@@ -3106,9 +3106,9 @@ void USART2_IRQHandler(void)
 #endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
   
 #if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
-  if(USART_GetITStatus(USART2, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(USART2, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART2);
+    USART_ReceiveData(USART2);  /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART2_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream5); /* Returns the number of remaining data units in the current DMA1 Stream5 transfer. */;
     
@@ -3154,9 +3154,9 @@ void USART2_IRQHandler(void)
 void USART3_IRQHandler(void)
 {
 #if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
-  if(USART_GetITStatus(USART3, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(USART3, USART_IT_TC) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(USART3, USART_IT_TC);
+    USART_ClearITPendingBit(USART3, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
     if(USART3_SendData_P == NULL)
     {
@@ -3196,9 +3196,9 @@ void USART3_IRQHandler(void)
 #endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
   
 #if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
-  if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART3);
+    USART_ReceiveData(USART3);                          /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART3_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream1); /* Returns the number of remaining data units in the current DMA1 Stream1 transfer. */;
     
@@ -3245,9 +3245,9 @@ void USART3_IRQHandler(void)
 void UART4_IRQHandler(void)
 {
 #if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
-  if(USART_GetITStatus(UART4, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(UART4, USART_IT_TC) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(UART4, USART_IT_TC);
+    USART_ClearITPendingBit(UART4, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
     if(USART4_SendData_P == NULL)
     {
@@ -3287,9 +3287,9 @@ void UART4_IRQHandler(void)
 #endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
   
 #if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
-  if(USART_GetITStatus(UART4, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(UART4, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART4);
+    USART_ReceiveData(UART4); /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART4_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream2); /* Returns the number of remaining data units in the current DMA1 Stream2 transfer. */;
     
@@ -3334,9 +3334,9 @@ void UART4_IRQHandler(void)
 void UART5_IRQHandler(void)
 {
 #if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
-  if(USART_GetITStatus(UART5, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(UART5, USART_IT_TC) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(UART5, USART_IT_TC);
+    USART_ClearITPendingBit(UART5, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
     if(USART5_SendData_P == NULL)
     {
@@ -3376,9 +3376,9 @@ void UART5_IRQHandler(void)
 #endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
   
 #if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
-  if(USART_GetITStatus(UART5, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(UART5, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART5);
+    USART_ReceiveData(UART5); /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART5_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream0); /* Returns the number of remaining data units in the current DMA1 Stream0 transfer. */;
     
@@ -3424,9 +3424,9 @@ void UART5_IRQHandler(void)
 void USART6_IRQHandler(void)
 {
 #if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
-  if(USART_GetITStatus(USART6, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(USART6, USART_IT_TC) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(USART6, USART_IT_TC);
+    USART_ClearITPendingBit(USART6, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
     if(USART6_SendData_P == NULL)
     {
@@ -3466,9 +3466,9 @@ void USART6_IRQHandler(void)
 #endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
   
 #if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
-  if(USART_GetITStatus(USART6, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(USART6, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART6);
+    USART_ReceiveData(USART6);  /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART6_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream1); /* Returns the number of remaining data units in the current DMA2 Stream1 transfer. */;
     
@@ -3514,9 +3514,9 @@ void USART6_IRQHandler(void)
 void UART7_IRQHandler(void)
 {
 #if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
-  if(USART_GetITStatus(UART7, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(UART7, USART_IT_TC) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(UART7, USART_IT_TC);
+    USART_ClearITPendingBit(UART7, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
     if(USART7_SendData_P == NULL)
     {
@@ -3556,9 +3556,9 @@ void UART7_IRQHandler(void)
 #endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
   
 #if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
-  if(USART_GetITStatus(UART7, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(UART7, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART7);
+    USART_ReceiveData(UART7); /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART7_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream3); /* Returns the number of remaining data units in the current DMA1 Stream3 transfer. */;
     
@@ -3603,9 +3603,9 @@ void UART7_IRQHandler(void)
 void UART8_IRQHandler(void)
 {
 #if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
-  if(USART_GetITStatus(UART8, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(UART8, USART_IT_TC) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(UART8, USART_IT_TC);
+    USART_ClearITPendingBit(UART8, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
     if(USART8_SendData_P == NULL)
     {
@@ -3645,9 +3645,9 @@ void UART8_IRQHandler(void)
 #endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
   
 #if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
-  if(USART_GetITStatus(UART8, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(UART8, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART8);
+    USART_ReceiveData(UART8); /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART8_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream6); /* Returns the number of remaining data units in the current DMA1 Stream6 transfer. */;
     
@@ -3694,9 +3694,9 @@ void UART8_IRQHandler(void)
 void UART9_IRQHandler(void)
 {
 #if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
-  if(USART_GetITStatus(UART9, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(UART9, USART_IT_TC) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(UART9, USART_IT_TC);
+    USART_ClearITPendingBit(UART9, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
     if(USART9_SendData_P == NULL)
     {
@@ -3736,9 +3736,9 @@ void UART9_IRQHandler(void)
 #endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
   
 #if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
-  if(USART_GetITStatus(UART9, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(UART9, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART9);
+    USART_ReceiveData(UART9); /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART9_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream7); /* Returns the number of remaining data units in the current DMA2 Stream7 transfer. */;
     
@@ -3783,9 +3783,9 @@ void UART9_IRQHandler(void)
 void UART10_IRQHandler(void)
 {
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
-  if(USART_GetITStatus(UART10, USART_IT_TC) != RESET)
+  if(USART_GetITStatus(UART10, USART_IT_TC) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ClearITPendingBit(UART10, USART_IT_TC);
+    USART_ClearITPendingBit(UART10, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
     if(USART10_SendData_P == NULL)
     {
@@ -3825,9 +3825,9 @@ void UART10_IRQHandler(void)
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
   
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
-  if(USART_GetITStatus(UART10, USART_IT_IDLE) != RESET)
+  if(USART_GetITStatus(UART10, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART10);
+    USART_ReceiveData(UART10);  /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART10_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream0); /* Returns the number of remaining data units in the current DMA2 Stream0 transfer. */;
     
