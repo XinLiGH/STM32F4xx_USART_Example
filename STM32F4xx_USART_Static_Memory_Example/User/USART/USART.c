@@ -257,21 +257,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART1_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART1_Tx, ENABLE);  /* Enable USART1_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART1_Rx, ENABLE);  /* Enable USART1_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART1_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART1_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART1_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART1_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART1_Tx, GPIO_PinSource_USART1_Tx, GPIO_AF_USART1); /* Connect GPIOxn to USART1_Tx */
-      GPIO_PinAFConfig(GPIO_USART1_Rx, GPIO_PinSource_USART1_Rx, GPIO_AF_USART1); /* Connect GPIOxn to USART1_Rx */
+      GPIO_PinAFConfig(USART1_Tx_GPIO, USART1_Tx_GPIO_PinSource, GPIO_AF_USART1); /* Connect GPIOxn to USART1_Tx */
+      GPIO_PinAFConfig(USART1_Rx_GPIO, USART1_Rx_GPIO_PinSource, GPIO_AF_USART1); /* Connect GPIOxn to USART1_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART1_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART1_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART1_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART1_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART1_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART1_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART1_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART1_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -302,21 +302,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART2_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART2_Tx, ENABLE);  /* Enable USART2_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART2_Rx, ENABLE);  /* Enable USART2_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART2_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART2_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART2_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART2_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART2_Tx, GPIO_PinSource_USART2_Tx, GPIO_AF_USART2);	/* Connect GPIOxn to USART2_Tx */
-      GPIO_PinAFConfig(GPIO_USART2_Rx, GPIO_PinSource_USART2_Rx, GPIO_AF_USART2);	/* Connect GPIOxn to USART2_Rx */
+      GPIO_PinAFConfig(USART2_Tx_GPIO, USART2_Tx_GPIO_PinSource, GPIO_AF_USART2);	/* Connect GPIOxn to USART2_Tx */
+      GPIO_PinAFConfig(USART2_Rx_GPIO, USART2_Rx_GPIO_PinSource, GPIO_AF_USART2);	/* Connect GPIOxn to USART2_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART2_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART2_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART2_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART2_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART2_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART2_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART2_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART2_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -348,21 +348,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART3_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART3_Tx, ENABLE);  /* Enable USART3_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART3_Rx, ENABLE);  /* Enable USART3_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART3_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART3_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART3_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART3_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART3_Tx, GPIO_PinSource_USART3_Tx, GPIO_AF_USART3); /* Connect GPIOxn to USART3_Tx */
-      GPIO_PinAFConfig(GPIO_USART3_Rx, GPIO_PinSource_USART3_Rx, GPIO_AF_USART3); /* Connect GPIOxn to USART3_Rx */
+      GPIO_PinAFConfig(USART3_Tx_GPIO, USART3_Tx_GPIO_PinSource, GPIO_AF_USART3); /* Connect GPIOxn to USART3_Tx */
+      GPIO_PinAFConfig(USART3_Rx_GPIO, USART3_Rx_GPIO_PinSource, GPIO_AF_USART3); /* Connect GPIOxn to USART3_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART3_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART3_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART3_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART3_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART3_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART3_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART3_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART3_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -395,21 +395,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART4_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART4_Tx, ENABLE);  /* Enable USART4_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART4_Rx, ENABLE);  /* Enable USART4_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART4_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART4_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART4_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART4_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART4_Tx, GPIO_PinSource_USART4_Tx, GPIO_AF_UART4);  /* Connect GPIOxn to USART4_Tx */
-      GPIO_PinAFConfig(GPIO_USART4_Rx, GPIO_PinSource_USART4_Rx, GPIO_AF_UART4);  /* Connect GPIOxn to USART4_Rx */
+      GPIO_PinAFConfig(USART4_Tx_GPIO, USART4_Tx_GPIO_PinSource, GPIO_AF_UART4);  /* Connect GPIOxn to USART4_Tx */
+      GPIO_PinAFConfig(USART4_Rx_GPIO, USART4_Rx_GPIO_PinSource, GPIO_AF_UART4);  /* Connect GPIOxn to USART4_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART4_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART4_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART4_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART4_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART4_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART4_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART4_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART4_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -440,21 +440,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART5_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART5_Tx, ENABLE);  /* Enable USART5_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART5_Rx, ENABLE);  /* Enable USART5_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART5_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART5_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART5_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART5_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART5_Tx, GPIO_PinSource_USART5_Tx, GPIO_AF_UART5);  /* Connect GPIOxn to USART5_Tx */
-      GPIO_PinAFConfig(GPIO_USART5_Rx, GPIO_PinSource_USART5_Rx, GPIO_AF_UART5);  /* Connect GPIOxn to USART5_Rx */
+      GPIO_PinAFConfig(USART5_Tx_GPIO, USART5_Tx_GPIO_PinSource, GPIO_AF_UART5);  /* Connect GPIOxn to USART5_Tx */
+      GPIO_PinAFConfig(USART5_Rx_GPIO, USART5_Rx_GPIO_PinSource, GPIO_AF_UART5);  /* Connect GPIOxn to USART5_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART5_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART5_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART5_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART5_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART5_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART5_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART5_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART5_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -486,21 +486,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART6_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART6_Tx, ENABLE);  /* Enable USART6_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART6_Rx, ENABLE);  /* Enable USART6_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART6_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART6_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART6_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART6_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART6_Tx, GPIO_PinSource_USART6_Tx, GPIO_AF_USART6);  /* Connect GPIOxn to USART6_Tx */
-      GPIO_PinAFConfig(GPIO_USART6_Rx, GPIO_PinSource_USART6_Rx, GPIO_AF_USART6);  /* Connect GPIOxn to USART6_Rx */
+      GPIO_PinAFConfig(USART6_Tx_GPIO, USART6_Tx_GPIO_PinSource, GPIO_AF_USART6);  /* Connect GPIOxn to USART6_Tx */
+      GPIO_PinAFConfig(USART6_Rx_GPIO, USART6_Rx_GPIO_PinSource, GPIO_AF_USART6);  /* Connect GPIOxn to USART6_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART6_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART6_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART6_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART6_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART6_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART6_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART6_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART6_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -532,21 +532,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART7_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART7_Tx, ENABLE);  /* Enable USART7_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART7_Rx, ENABLE);  /* Enable USART7_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART7_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART7_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART7_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART7_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART7_Tx, GPIO_PinSource_USART7_Tx, GPIO_AF_UART7);  /* Connect GPIOxn to USART7_Tx */
-      GPIO_PinAFConfig(GPIO_USART7_Rx, GPIO_PinSource_USART7_Rx, GPIO_AF_UART7);  /* Connect GPIOxn to USART7_Rx */
+      GPIO_PinAFConfig(USART7_Tx_GPIO, USART7_Tx_GPIO_PinSource, GPIO_AF_UART7);  /* Connect GPIOxn to USART7_Tx */
+      GPIO_PinAFConfig(USART7_Rx_GPIO, USART7_Rx_GPIO_PinSource, GPIO_AF_UART7);  /* Connect GPIOxn to USART7_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART7_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART7_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART7_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART7_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART7_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART7_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART7_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART7_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -577,21 +577,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART8_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART8_Tx, ENABLE);  /* Enable USART8_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART8_Rx, ENABLE);  /* Enable USART8_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART8_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART8_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART8_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART8_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART8_Tx, GPIO_PinSource_USART8_Tx, GPIO_AF_UART8);  /* Connect GPIOxn to USART8_Tx */
-      GPIO_PinAFConfig(GPIO_USART8_Rx, GPIO_PinSource_USART8_Rx, GPIO_AF_UART8);  /* Connect GPIOxn to USART8_Rx */
+      GPIO_PinAFConfig(USART8_Tx_GPIO, USART8_Tx_GPIO_PinSource, GPIO_AF_UART8);  /* Connect GPIOxn to USART8_Tx */
+      GPIO_PinAFConfig(USART8_Rx_GPIO, USART8_Rx_GPIO_PinSource, GPIO_AF_UART8);  /* Connect GPIOxn to USART8_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART8_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART8_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART8_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART8_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART8_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART8_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART8_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART8_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -624,21 +624,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART9_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART9_Tx, ENABLE);  /* Enable USART9_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART9_Rx, ENABLE);  /* Enable USART9_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART9_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART9_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART9_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART9_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART9_Tx, GPIO_PinSource_USART9_Tx, GPIO_AF11_UART9);  /* Connect GPIOxn to USART9_Tx */
-      GPIO_PinAFConfig(GPIO_USART9_Rx, GPIO_PinSource_USART9_Rx, GPIO_AF11_UART9);  /* Connect GPIOxn to USART9_Rx */
+      GPIO_PinAFConfig(USART9_Tx_GPIO, USART9_Tx_GPIO_PinSource, GPIO_AF11_UART9);  /* Connect GPIOxn to USART9_Tx */
+      GPIO_PinAFConfig(USART9_Rx_GPIO, USART9_Rx_GPIO_PinSource, GPIO_AF11_UART9);  /* Connect GPIOxn to USART9_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART9_Tx;   /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART9_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART9_Tx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART9_Tx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART9_Rx;   /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART9_Rx, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART9_Rx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART9_Rx_GPIO, &GPIO_InitStructure);     /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
@@ -669,21 +669,21 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     {
       USART10_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART10_Tx, ENABLE);  /* Enable USART10_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_USART10_Rx, ENABLE);  /* Enable USART10_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART10_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART10_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART10_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART10_Rx GPIO clock */
       
-      GPIO_PinAFConfig(GPIO_USART10_Tx, GPIO_PinSource_USART10_Tx, GPIO_AF11_UART10); /* Connect GPIOxn to USART10_Tx */
-      GPIO_PinAFConfig(GPIO_USART10_Rx, GPIO_PinSource_USART10_Rx, GPIO_AF11_UART10); /* Connect GPIOxn to USART10_Rx */
+      GPIO_PinAFConfig(USART10_Tx_GPIO, USART10_Tx_GPIO_PinSource, GPIO_AF11_UART10); /* Connect GPIOxn to USART10_Tx */
+      GPIO_PinAFConfig(USART10_Rx_GPIO, USART10_Rx_GPIO_PinSource, GPIO_AF11_UART10); /* Connect GPIOxn to USART10_Rx */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART10_Tx;  /* Specifies the GPIO pins to be configured. */
+      GPIO_InitStructure.GPIO_Pin = USART10_Tx_GPIO_Pin;  /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
       GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;  /* Specifies the speed for the selected pins. */
       GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      /* Specifies the operating output type for the selected pins. */
       GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        /* Specifies the operating Pull-up/Pull down for the selected pins. */
-      GPIO_Init(GPIO_USART10_Tx, &GPIO_InitStructure);    /* Initializes the GPIOx peripheral. */
+      GPIO_Init(USART10_Tx_GPIO, &GPIO_InitStructure);    /* Initializes the GPIOx peripheral. */
       
-      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_USART10_Rx;  /* Specifies the GPIO pins to be configured. */
-      GPIO_Init(GPIO_USART10_Rx, &GPIO_InitStructure);    /* Initializes the GPIOx peripheral. */
+      GPIO_InitStructure.GPIO_Pin = USART10_Rx_GPIO_Pin;  /* Specifies the GPIO pins to be configured. */
+      GPIO_Init(USART10_Rx_GPIO, &GPIO_InitStructure);    /* Initializes the GPIOx peripheral. */
     }
 #else
     return;
