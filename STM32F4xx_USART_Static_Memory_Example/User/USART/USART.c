@@ -2,7 +2,7 @@
  * Copyright (C) 2016, XinLi, all right reserved.
  * File name:    USART.c
  * Date:         2016.03.22
- * Description:  USART Driver
+ * Description:  USART driver.
 *****************************************************************/
 
 /****************************************************************
@@ -219,7 +219,7 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 
 /****************************************************************
  * Function:    USART_Configuration
- * Description: USART Configuration.
+ * Description: USART configuration.
  * Input:       USARTx
  *              BaudRate
  * Output:
@@ -728,7 +728,7 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
 
 /****************************************************************
  * Function:    USART_Unconfigure
- * Description: USART Unconfigure.
+ * Description: USART unconfigure.
  * Input:       USARTx
  * Output:
  * Return:
@@ -1017,7 +1017,7 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_TX_Configuration
- * Description: USART DMA TX Configuration.
+ * Description: USART DMA TX configuration.
  * Input:       USARTx
  * Output:
  * Return:
@@ -1243,7 +1243,7 @@ static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_RX_Configuration
- * Description: USART DMA RX Configuration.
+ * Description: USART DMA RX configuration.
  * Input:       USARTx
  * Output:
  * Return:
@@ -1469,7 +1469,7 @@ static void USART_DMA_RX_Configuration(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_TX_Unconfigure
- * Description: USART DMA TX Unconfigure.
+ * Description: USART DMA TX unconfigure.
  * Input:       USARTx
  * Output:
  * Return:
@@ -1608,7 +1608,7 @@ static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_RX_Unconfigure
- * Description: USART DMA RX Unconfigure.
+ * Description: USART DMA RX unconfigure.
  * Input:       USARTx
  * Output:
  * Return:
@@ -1747,7 +1747,7 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_NVIC_Configuration
- * Description: USART NVIC Configuration.
+ * Description: USART NVIC configuration.
  * Input:       USARTx
  * Output:
  * Return:
@@ -1918,7 +1918,7 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_NVIC_Unconfigure
- * Description: USART NVIC Unconfigure.
+ * Description: USART NVIC unconfigure.
  * Input:       USARTx
  * Output:
  * Return:
@@ -2089,7 +2089,7 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_SetSendData
- * Description: USART Set Send Data.
+ * Description: USART set send data.
  * Input:       USARTx
                 Buffer
                 BufferSize
@@ -2617,7 +2617,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
 
 /****************************************************************
  * Function:    USART_GetReceiveData
- * Description: USART Get Receive Data.
+ * Description: USART get receive data.
  * Input:       USARTx
  *              Buffer
  *              BufferSize
@@ -2967,7 +2967,7 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
 
 /****************************************************************
  * Function:    USART1_IRQHandler
- * Description: USART1 IRQ Handler.
+ * Description: USART1 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3056,7 +3056,7 @@ void USART1_IRQHandler(void)
 
 /****************************************************************
  * Function:    USART2_IRQHandler
- * Description: USART2 IRQ Handler.
+ * Description: USART2 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3146,7 +3146,7 @@ void USART2_IRQHandler(void)
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
 /****************************************************************
  * Function:    USART3_IRQHandler
- * Description: USART3 IRQ Handler.
+ * Description: USART3 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3237,7 +3237,7 @@ void USART3_IRQHandler(void)
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
 /****************************************************************
  * Function:    UART4_IRQHandler
- * Description: UART4 IRQ Handler.
+ * Description: UART4 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3326,7 +3326,7 @@ void UART4_IRQHandler(void)
 
 /****************************************************************
  * Function:    UART5_IRQHandler
- * Description: UART5 IRQ Handler.
+ * Description: UART5 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3416,7 +3416,7 @@ void UART5_IRQHandler(void)
 
 /****************************************************************
  * Function:    USART6_IRQHandler
- * Description: USART6 IRQ Handler.
+ * Description: USART6 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3506,7 +3506,7 @@ void USART6_IRQHandler(void)
 #if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
 /****************************************************************
  * Function:    UART7_IRQHandler
- * Description: UART7 IRQ Handler.
+ * Description: UART7 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3595,7 +3595,7 @@ void UART7_IRQHandler(void)
 
 /****************************************************************
  * Function:    UART8_IRQHandler
- * Description: UART8 IRQ Handler.
+ * Description: UART8 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3686,7 +3686,7 @@ void UART8_IRQHandler(void)
 #if defined(STM32F413_423xx)
 /****************************************************************
  * Function:    UART9_IRQHandler
- * Description: UART9 IRQ Handler.
+ * Description: UART9 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3775,7 +3775,7 @@ void UART9_IRQHandler(void)
 
 /****************************************************************
  * Function:    UART10_IRQHandler
- * Description: UART10 IRQ Handler.
+ * Description: UART10 IRQ handler.
  * Input:
  * Output:
  * Return:
@@ -3865,7 +3865,7 @@ void UART10_IRQHandler(void)
 
 /****************************************************************
  * Function:    USART_SendDataFinishCallback
- * Description: USART Send Data Finish Callback.
+ * Description: USART send data finish callback.
  * Input:       USARTx
  * Output:
  * Return:
@@ -3877,7 +3877,7 @@ __weak void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_ReceiveDataFinishCallback
- * Description: USART Receive Data Finish Callback.
+ * Description: USART receive data finish callback.
  * Input:       USARTx
  * Output:
  * Return:

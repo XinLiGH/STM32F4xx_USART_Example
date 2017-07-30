@@ -2,7 +2,7 @@
  * Copyright (C) 2016, XinLi, all right reserved.
  * File name:    main.c
  * Date:         2016.03.22
- * Description:  USART Example.
+ * Description:  USART example.
 *****************************************************************/
 
 /****************************************************************
@@ -44,7 +44,7 @@ int main(void)
 
 /****************************************************************
  * Function:    System_Init
- * Description: Initialization System.
+ * Description: System initialization.
  * Input:
  * Output:
  * Return:
@@ -56,7 +56,7 @@ static void System_Init(void)
 
 /****************************************************************
  * Function:    USART_ReceiveDataFinishCallback
- * Description: USART Receive Data Finish Callback.
+ * Description: USART receive data finish callback.
  * Input:       USARTx
  * Output:
  * Return:

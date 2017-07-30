@@ -2,7 +2,7 @@
  * Copyright (C) 2016, XinLi, all right reserved.
  * File name:    main.h
  * Date:         2016.03.22
- * Description:  USART Example.
+ * Description:  USART example.
 *****************************************************************/
 
 #ifndef __MAIN_H

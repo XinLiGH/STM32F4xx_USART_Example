@@ -2,7 +2,7 @@
  * Copyright (C) 2016, XinLi, all right reserved.
  * File name:    USART.h
  * Date:         2016.03.22
- * Description:  USART Driver
+ * Description:  USART driver.
 *****************************************************************/
 
 #ifndef __USART_H
