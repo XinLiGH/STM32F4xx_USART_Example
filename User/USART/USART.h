@@ -300,8 +300,8 @@
 *****************************************************************/
 void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate);
 void USART_Unconfigure(USART_TypeDef* USARTx);
-uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferSize);
-uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferSize);
+uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
+uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
 void USART_SendDataFinishCallback(USART_TypeDef* USARTx);
 void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
 

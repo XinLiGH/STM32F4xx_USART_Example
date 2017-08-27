@@ -57,7 +57,7 @@ static void System_Init(void)
 /****************************************************************
  * Function:    USART_ReceiveDataFinishCallback
  * Description: USART receive data finish callback.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/

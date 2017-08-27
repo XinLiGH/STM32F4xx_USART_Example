@@ -220,8 +220,8 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 /****************************************************************
  * Function:    USART_Configuration
  * Description: USART configuration.
- * Input:       USARTx
- *              BaudRate
+ * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ *              BaudRate: Communication baud rate.
  * Output:
  * Return:
 *****************************************************************/
@@ -729,7 +729,7 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
 /****************************************************************
  * Function:    USART_Unconfigure
  * Description: USART unconfigure.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -1018,7 +1018,7 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_DMA_TX_Configuration
  * Description: USART DMA TX configuration.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -1244,7 +1244,7 @@ static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_DMA_RX_Configuration
  * Description: USART DMA RX configuration.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -1470,7 +1470,7 @@ static void USART_DMA_RX_Configuration(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_DMA_TX_Unconfigure
  * Description: USART DMA TX unconfigure.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -1609,7 +1609,7 @@ static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_DMA_RX_Unconfigure
  * Description: USART DMA RX unconfigure.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -1748,7 +1748,7 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_NVIC_Configuration
  * Description: USART NVIC configuration.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -1919,7 +1919,7 @@ static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_NVIC_Unconfigure
  * Description: USART NVIC unconfigure.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -2090,15 +2090,15 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_SetSendData
  * Description: USART set send data.
- * Input:       USARTx
-                Buffer
-                BufferSize
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ *              Data:   The address of the data to be sent.
+ *              Length: The length of the data to be sent.
  * Output:
- * Return:      Send Data Number
+ * Return:      The number of data sent.
 *****************************************************************/
-uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferSize)
+uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
 {
-  if((Buffer == NULL) || (BufferSize == NULL))
+  if((Data == NULL) || (Length == NULL))
   {
     return NULL;
   }
@@ -2111,13 +2111,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART1_BufferSize_Tx - USART1_SendData_P))
+    if(Length > (USART1_BufferSize_Tx - USART1_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART1_Buffer_Tx + USART1_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART1_SendData_P += BufferSize;
+    memcpy(USART1_Buffer_Tx + USART1_SendData_P, Data, Length); /* Copy memory */
+    USART1_SendData_P += Length;
     
     if(USART1_SendData_Flag == false)
     {
@@ -2150,7 +2150,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
   }
   else if(USARTx == USART2)
@@ -2161,13 +2161,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART2_BufferSize_Tx - USART2_SendData_P))
+    if(Length > (USART2_BufferSize_Tx - USART2_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART2_Buffer_Tx + USART2_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART2_SendData_P += BufferSize;
+    memcpy(USART2_Buffer_Tx + USART2_SendData_P, Data, Length); /* Copy memory */
+    USART2_SendData_P += Length;
     
     if(USART2_SendData_Flag == false)
     {
@@ -2200,7 +2200,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
   }
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
@@ -2212,13 +2212,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART3_BufferSize_Tx - USART3_SendData_P))
+    if(Length > (USART3_BufferSize_Tx - USART3_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART3_Buffer_Tx + USART3_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART3_SendData_P += BufferSize;
+    memcpy(USART3_Buffer_Tx + USART3_SendData_P, Data, Length); /* Copy memory */
+    USART3_SendData_P += Length;
     
     if(USART3_SendData_Flag == false)
     {
@@ -2251,7 +2251,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
   }
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
@@ -2264,13 +2264,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART4_BufferSize_Tx - USART4_SendData_P))
+    if(Length > (USART4_BufferSize_Tx - USART4_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART4_Buffer_Tx + USART4_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART4_SendData_P += BufferSize;
+    memcpy(USART4_Buffer_Tx + USART4_SendData_P, Data, Length); /* Copy memory */
+    USART4_SendData_P += Length;
     
     if(USART4_SendData_Flag == false)
     {
@@ -2303,7 +2303,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
   }
   else if(USARTx == UART5)
@@ -2314,13 +2314,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART5_BufferSize_Tx - USART5_SendData_P))
+    if(Length > (USART5_BufferSize_Tx - USART5_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART5_Buffer_Tx + USART5_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART5_SendData_P += BufferSize;
+    memcpy(USART5_Buffer_Tx + USART5_SendData_P, Data, Length); /* Copy memory */
+    USART5_SendData_P += Length;
     
     if(USART5_SendData_Flag == false)
     {
@@ -2353,7 +2353,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
   }
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
@@ -2365,13 +2365,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART6_BufferSize_Tx - USART6_SendData_P))
+    if(Length > (USART6_BufferSize_Tx - USART6_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART6_Buffer_Tx + USART6_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART6_SendData_P += BufferSize;
+    memcpy(USART6_Buffer_Tx + USART6_SendData_P, Data, Length); /* Copy memory */
+    USART6_SendData_P += Length;
     
     if(USART6_SendData_Flag == false)
     {
@@ -2404,7 +2404,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
   }
 #if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
@@ -2416,13 +2416,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART7_BufferSize_Tx - USART7_SendData_P))
+    if(Length > (USART7_BufferSize_Tx - USART7_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART7_Buffer_Tx + USART7_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART7_SendData_P += BufferSize;
+    memcpy(USART7_Buffer_Tx + USART7_SendData_P, Data, Length); /* Copy memory */
+    USART7_SendData_P += Length;
     
     if(USART7_SendData_Flag == false)
     {
@@ -2455,7 +2455,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
   }
   else if(USARTx == UART8)
@@ -2466,13 +2466,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART8_BufferSize_Tx - USART8_SendData_P))
+    if(Length > (USART8_BufferSize_Tx - USART8_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART8_Buffer_Tx + USART8_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART8_SendData_P += BufferSize;
+    memcpy(USART8_Buffer_Tx + USART8_SendData_P, Data, Length); /* Copy memory */
+    USART8_SendData_P += Length;
     
     if(USART8_SendData_Flag == false)
     {
@@ -2505,7 +2505,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
   }
 #endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
@@ -2518,13 +2518,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART9_BufferSize_Tx - USART9_SendData_P))
+    if(Length > (USART9_BufferSize_Tx - USART9_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART9_Buffer_Tx + USART9_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART9_SendData_P += BufferSize;
+    memcpy(USART9_Buffer_Tx + USART9_SendData_P, Data, Length); /* Copy memory */
+    USART9_SendData_P += Length;
     
     if(USART9_SendData_Flag == false)
     {
@@ -2557,7 +2557,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
   }
   else if(USARTx == UART10)
@@ -2568,13 +2568,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       return NULL;
     }
     
-    if(BufferSize > (USART10_BufferSize_Tx - USART10_SendData_P))
+    if(Length > (USART10_BufferSize_Tx - USART10_SendData_P))
     {
       return NULL;
     }
     
-    memcpy(USART10_Buffer_Tx + USART10_SendData_P, Buffer, BufferSize); /* Copy memory */
-    USART10_SendData_P += BufferSize;
+    memcpy(USART10_Buffer_Tx + USART10_SendData_P, Data, Length); /* Copy memory */
+    USART10_SendData_P += Length;
     
     if(USART10_SendData_Flag == false)
     {
@@ -2607,7 +2607,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
       }
     }
     
-    return BufferSize;
+    return Length;
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
   }
 #endif /* STM32F413_423xx */
@@ -2618,17 +2618,17 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferS
 /****************************************************************
  * Function:    USART_GetReceiveData
  * Description: USART get receive data.
- * Input:       USARTx
- *              Buffer
- *              BufferSize
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ *              Data:   To store the address of the receive data.
+ *              Length: To read the length of the received data.
  * Output:
- * Return:      Receive Data Number
+ * Return:      To read the length of the received data.
 *****************************************************************/
-uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t BufferSize)
+uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
 {
   uint32_t number = NULL;
   
-  if((Buffer == NULL) || (BufferSize == NULL))
+  if((Data == NULL) || (Length == NULL))
   {
     return NULL;
   }
@@ -2646,17 +2646,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART1_ReceiveData_P > BufferSize)
+    if(USART1_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART1_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART1_Buffer_Rx, USART1_Buffer_Rx + BufferSize, USART1_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART1_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART1_Buffer_Rx, USART1_Buffer_Rx + Length, USART1_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART1_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART1_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART1_Buffer_Rx, USART1_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART1_Buffer_Rx, USART1_ReceiveData_P); /* Copy memory */
       
       number = USART1_ReceiveData_P;
       USART1_ReceiveData_P = NULL;
@@ -2678,17 +2678,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART2_ReceiveData_P > BufferSize)
+    if(USART2_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART2_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART2_Buffer_Rx, USART2_Buffer_Rx + BufferSize, USART2_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART2_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART2_Buffer_Rx, USART2_Buffer_Rx + Length, USART2_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART2_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART2_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART2_Buffer_Rx, USART2_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART2_Buffer_Rx, USART2_ReceiveData_P); /* Copy memory */
       
       number = USART2_ReceiveData_P;
       USART2_ReceiveData_P = NULL;
@@ -2711,17 +2711,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART3_ReceiveData_P > BufferSize)
+    if(USART3_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART3_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART3_Buffer_Rx, USART3_Buffer_Rx + BufferSize, USART3_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART3_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART3_Buffer_Rx, USART3_Buffer_Rx + Length, USART3_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART3_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART3_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART3_Buffer_Rx, USART3_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART3_Buffer_Rx, USART3_ReceiveData_P); /* Copy memory */
       
       number = USART3_ReceiveData_P;
       USART3_ReceiveData_P = NULL;
@@ -2745,17 +2745,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART4_ReceiveData_P > BufferSize)
+    if(USART4_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART4_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART4_Buffer_Rx, USART4_Buffer_Rx + BufferSize, USART4_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART4_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART4_Buffer_Rx, USART4_Buffer_Rx + Length, USART4_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART4_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART4_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART4_Buffer_Rx, USART4_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART4_Buffer_Rx, USART4_ReceiveData_P); /* Copy memory */
       
       number = USART4_ReceiveData_P;
       USART4_ReceiveData_P = NULL;
@@ -2777,17 +2777,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART5_ReceiveData_P > BufferSize)
+    if(USART5_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART5_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART5_Buffer_Rx, USART5_Buffer_Rx + BufferSize, USART5_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART5_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART5_Buffer_Rx, USART5_Buffer_Rx + Length, USART5_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART5_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART5_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART5_Buffer_Rx, USART5_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART5_Buffer_Rx, USART5_ReceiveData_P); /* Copy memory */
       
       number = USART5_ReceiveData_P;
       USART5_ReceiveData_P = NULL;
@@ -2810,17 +2810,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART6_ReceiveData_P > BufferSize)
+    if(USART6_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART6_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART6_Buffer_Rx, USART6_Buffer_Rx + BufferSize, USART6_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART6_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART6_Buffer_Rx, USART6_Buffer_Rx + Length, USART6_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART6_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART6_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART6_Buffer_Rx, USART6_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART6_Buffer_Rx, USART6_ReceiveData_P); /* Copy memory */
       
       number = USART6_ReceiveData_P;
       USART6_ReceiveData_P = NULL;
@@ -2843,17 +2843,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART7_ReceiveData_P > BufferSize)
+    if(USART7_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART7_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART7_Buffer_Rx, USART7_Buffer_Rx + BufferSize, USART7_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART7_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART7_Buffer_Rx, USART7_Buffer_Rx + Length, USART7_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART7_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART7_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART7_Buffer_Rx, USART7_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART7_Buffer_Rx, USART7_ReceiveData_P); /* Copy memory */
       
       number = USART7_ReceiveData_P;
       USART7_ReceiveData_P = NULL;
@@ -2875,17 +2875,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART8_ReceiveData_P > BufferSize)
+    if(USART8_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART8_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART8_Buffer_Rx, USART8_Buffer_Rx + BufferSize, USART8_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART8_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART8_Buffer_Rx, USART8_Buffer_Rx + Length, USART8_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART8_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART8_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART8_Buffer_Rx, USART8_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART8_Buffer_Rx, USART8_ReceiveData_P); /* Copy memory */
       
       number = USART8_ReceiveData_P;
       USART8_ReceiveData_P = NULL;
@@ -2909,17 +2909,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART9_ReceiveData_P > BufferSize)
+    if(USART9_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART9_Buffer_Rx, BufferSize);                                                 /* Copy memory */
-      memmove(USART9_Buffer_Rx, USART9_Buffer_Rx + BufferSize, USART9_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART9_Buffer_Rx, Length);                                               /* Copy memory */
+      memmove(USART9_Buffer_Rx, USART9_Buffer_Rx + Length, USART9_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART9_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART9_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART9_Buffer_Rx, USART9_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART9_Buffer_Rx, USART9_ReceiveData_P); /* Copy memory */
       
       number = USART9_ReceiveData_P;
       USART9_ReceiveData_P = NULL;
@@ -2941,17 +2941,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Buffer, uint32_t Buff
       return NULL;
     }
     
-    if(USART10_ReceiveData_P > BufferSize)
+    if(USART10_ReceiveData_P > Length)
     {
-      memcpy(Buffer, USART10_Buffer_Rx, BufferSize);                                                   /* Copy memory */
-      memmove(USART10_Buffer_Rx, USART10_Buffer_Rx + BufferSize, USART10_ReceiveData_P - BufferSize);  /* Copy memory */
+      memcpy(Data, USART10_Buffer_Rx, Length);                                                 /* Copy memory */
+      memmove(USART10_Buffer_Rx, USART10_Buffer_Rx + Length, USART10_ReceiveData_P - Length);  /* Copy memory */
       
-      number = BufferSize;
-      USART10_ReceiveData_P -= BufferSize;
+      number = Length;
+      USART10_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Buffer, USART10_Buffer_Rx, USART10_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART10_Buffer_Rx, USART10_ReceiveData_P); /* Copy memory */
       
       number = USART10_ReceiveData_P;
       USART10_ReceiveData_P = NULL;
@@ -3866,7 +3866,7 @@ void UART10_IRQHandler(void)
 /****************************************************************
  * Function:    USART_SendDataFinishCallback
  * Description: USART send data finish callback.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -3878,7 +3878,7 @@ __weak void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_ReceiveDataFinishCallback
  * Description: USART receive data finish callback.
- * Input:       USARTx
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
