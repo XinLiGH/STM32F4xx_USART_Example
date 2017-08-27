@@ -2622,7 +2622,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
  *              Data:   To store the address of the receive data.
  *              Length: To read the length of the received data.
  * Output:
- * Return:      To read the length of the received data.
+ * Return:      To read the number of the received data.
 *****************************************************************/
 uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
 {
