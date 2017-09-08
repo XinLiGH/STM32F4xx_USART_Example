@@ -51,7 +51,7 @@ int main(void)
 *****************************************************************/
 static void System_Init(void)
 {
-  USART_Configuration(USART1, 115200);
+  USART_Configure(USART1, 115200);
 }
 
 /****************************************************************

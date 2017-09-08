@@ -206,11 +206,11 @@ static uint8_t USART10_DMA_Buffer_Rx[USART10_DMA_BufferSize_Rx] = {NULL};
 /****************************************************************
  *                     Function declaration
 *****************************************************************/
-static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx);
-static void USART_DMA_RX_Configuration(USART_TypeDef* USARTx);
+static void USART_DMA_TX_Configure(USART_TypeDef* USARTx);
+static void USART_DMA_RX_Configure(USART_TypeDef* USARTx);
 static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx);
 static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx);
-static void USART_NVIC_Configuration(USART_TypeDef* USARTx);
+static void USART_NVIC_Configure(USART_TypeDef* USARTx);
 static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 
 /****************************************************************
@@ -218,14 +218,14 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 *****************************************************************/
 
 /****************************************************************
- * Function:    USART_Configuration
- * Description: USART configuration.
+ * Function:    USART_Configure
+ * Description: USART configure.
  * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  *              BaudRate: Communication baud rate.
  * Output:
  * Return:
 *****************************************************************/
-void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
+void USART_Configure(USART_TypeDef* USARTx, uint32_t BaudRate)
 {
   uint16_t USART_Mode = NULL;             /* USART Mode definition */
   
@@ -704,13 +704,13 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
   {
     USART_DMACmd(USARTx, USART_DMAReq_Tx, ENABLE);  /* Enabling the DMA request specified USARTx */
     USART_ITConfig(USARTx, USART_IT_TC, ENABLE);    /* Enabling interrupts specified USARTx */
-    USART_DMA_TX_Configuration(USARTx);             /* Configuration USARTx DMA TX */
+    USART_DMA_TX_Configure(USARTx);                 /* Configuration USARTx DMA TX */
   }
   else if(USART_Mode == USART_Mode_Rx)
   {
     USART_DMACmd(USARTx, USART_DMAReq_Rx, ENABLE);  /* Enabling the DMA request specified USARTx */
     USART_ITConfig(USARTx, USART_IT_IDLE, ENABLE);  /* Enabling interrupts specified USARTx */
-    USART_DMA_RX_Configuration(USARTx);             /* Configuration USARTx DMA RX */
+    USART_DMA_RX_Configure(USARTx);                 /* Configuration USARTx DMA RX */
   }
   else
   {
@@ -718,12 +718,12 @@ void USART_Configuration(USART_TypeDef* USARTx, uint32_t BaudRate)
     USART_DMACmd(USARTx, USART_DMAReq_Rx, ENABLE);  /* Enabling the DMA request specified USARTx */
     USART_ITConfig(USARTx, USART_IT_TC, ENABLE);    /* Enabling interrupts specified USARTx */
     USART_ITConfig(USARTx, USART_IT_IDLE, ENABLE);  /* Enabling interrupts specified USARTx */
-    USART_DMA_TX_Configuration(USARTx);             /* Configuration USARTx DMA TX */
-    USART_DMA_RX_Configuration(USARTx);             /* Configuration USARTx DMA RX */
+    USART_DMA_TX_Configure(USARTx);                 /* Configuration USARTx DMA TX */
+    USART_DMA_RX_Configure(USARTx);                 /* Configuration USARTx DMA RX */
   }
   
   USART_Cmd(USARTx, ENABLE);                        /* Enables or disables the specified USARTx peripheral. */
-  USART_NVIC_Configuration(USARTx);                 /* Configuration USARTx NVIC */
+  USART_NVIC_Configure(USARTx);                     /* Configuration USARTx NVIC */
 }
 
 /****************************************************************
@@ -1016,13 +1016,13 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 }
 
 /****************************************************************
- * Function:    USART_DMA_TX_Configuration
- * Description: USART DMA TX configuration.
+ * Function:    USART_DMA_TX_Configure
+ * Description: USART DMA TX configure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
-static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx)
+static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 {
   DMA_InitTypeDef DMA_InitStructure;  /* DMA Init structure definition */
 
@@ -1242,13 +1242,13 @@ static void USART_DMA_TX_Configuration(USART_TypeDef* USARTx)
 }
 
 /****************************************************************
- * Function:    USART_DMA_RX_Configuration
- * Description: USART DMA RX configuration.
+ * Function:    USART_DMA_RX_Configure
+ * Description: USART DMA RX configure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
-static void USART_DMA_RX_Configuration(USART_TypeDef* USARTx)
+static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
 {
   DMA_InitTypeDef DMA_InitStructure;  /* DMA Init structure definition */
 
@@ -1746,13 +1746,13 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 }
 
 /****************************************************************
- * Function:    USART_NVIC_Configuration
- * Description: USART NVIC configuration.
+ * Function:    USART_NVIC_Configure
+ * Description: USART NVIC configure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
-static void USART_NVIC_Configuration(USART_TypeDef* USARTx)
+static void USART_NVIC_Configure(USART_TypeDef* USARTx)
 {
   NVIC_InitTypeDef NVIC_InitStructure;  /* NVIC Init Structure definition */
   
