@@ -20,6 +20,7 @@
  *                     Function declaration
 *****************************************************************/
 static void System_Init(void);
+static void USART1_ReceiveDataFinishCallback(void);
 
 /****************************************************************
  *                     Function definition
@@ -52,22 +53,20 @@ int main(void)
 static void System_Init(void)
 {
   USART_Configure(USART1, 115200);
+  USART_SetReceiveDataFinishCallback(USART1, USART1_ReceiveDataFinishCallback);
 }
 
 /****************************************************************
- * Function:    USART_ReceiveDataFinishCallback
- * Description: USART receive data finish callback.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Function:    USART1_ReceiveDataFinishCallback
+ * Description: USART1 receive data finish callback.
+ * Input:
  * Output:
  * Return:
 *****************************************************************/
-void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
+static void USART1_ReceiveDataFinishCallback(void)
 {
-  if(USARTx == USART1)
-  {
-    uint8_t buff[100] = {0};
-    
-    uint32_t num = USART_GetReceiveData(USART1, buff, sizeof(buff));
-    USART_SetSendData(USART1, buff, num);
-  }
+  uint8_t buff[100] = {0};
+  
+  uint32_t num = USART_GetReceiveData(USART1, buff, sizeof(buff));
+  USART_SetSendData(USART1, buff, num);
 }

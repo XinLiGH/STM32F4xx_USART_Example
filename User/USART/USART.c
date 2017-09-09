@@ -23,6 +23,7 @@ static bool USART1_DMA_Tx_Flag = false, USART1_SendData_Flag = false;
 static uint32_t USART1_SendData_P = NULL;
 static uint8_t USART1_Buffer_Tx[USART1_BufferSize_Tx]         = {NULL};
 static uint8_t USART1_DMA_Buffer_Tx[USART1_DMA_BufferSize_Tx] = {NULL};
+static void (*USART1_SendDataFinishCallback)(void) = NULL;
 #endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
 
 #if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
@@ -30,6 +31,7 @@ static bool USART1_DMA_Rx_Flag = false;
 static uint32_t USART1_ReceiveData_P = NULL;
 static uint8_t USART1_Buffer_Rx[USART1_BufferSize_Rx]         = {NULL};
 static uint8_t USART1_DMA_Buffer_Rx[USART1_DMA_BufferSize_Rx] = {NULL};
+static void (*USART1_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
 #endif /* (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx) */
 
@@ -41,6 +43,7 @@ static bool USART2_DMA_Tx_Flag = false, USART2_SendData_Flag = false;
 static uint32_t USART2_SendData_P = NULL;
 static uint8_t USART2_Buffer_Tx[USART2_BufferSize_Tx]         = {NULL};
 static uint8_t USART2_DMA_Buffer_Tx[USART2_DMA_BufferSize_Tx] = {NULL};
+static void (*USART2_SendDataFinishCallback)(void) = NULL;
 #endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
 
 #if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
@@ -48,6 +51,7 @@ static bool USART2_DMA_Rx_Flag = false;
 static uint32_t USART2_ReceiveData_P = NULL;
 static uint8_t USART2_Buffer_Rx[USART2_BufferSize_Rx]         = {NULL};
 static uint8_t USART2_DMA_Buffer_Rx[USART2_DMA_BufferSize_Rx] = {NULL};
+static void (*USART2_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
 #endif /* (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx) */
 
@@ -60,6 +64,7 @@ static bool USART3_DMA_Tx_Flag = false, USART3_SendData_Flag = false;
 static uint32_t USART3_SendData_P = NULL;
 static uint8_t USART3_Buffer_Tx[USART3_BufferSize_Tx]         = {NULL};
 static uint8_t USART3_DMA_Buffer_Tx[USART3_DMA_BufferSize_Tx] = {NULL};
+static void (*USART3_SendDataFinishCallback)(void) = NULL;
 #endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
 
 #if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
@@ -67,6 +72,7 @@ static bool USART3_DMA_Rx_Flag = false;
 static uint32_t USART3_ReceiveData_P = NULL;
 static uint8_t USART3_Buffer_Rx[USART3_BufferSize_Rx]         = {NULL};
 static uint8_t USART3_DMA_Buffer_Rx[USART3_DMA_BufferSize_Rx] = {NULL};
+static void (*USART3_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
 #endif /* (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx) */
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
@@ -80,6 +86,7 @@ static bool USART4_DMA_Tx_Flag = false, USART4_SendData_Flag = false;
 static uint32_t USART4_SendData_P = NULL;
 static uint8_t USART4_Buffer_Tx[USART4_BufferSize_Tx]         = {NULL};
 static uint8_t USART4_DMA_Buffer_Tx[USART4_DMA_BufferSize_Tx] = {NULL};
+static void (*USART4_SendDataFinishCallback)(void) = NULL;
 #endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
 
 #if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
@@ -87,6 +94,7 @@ static bool USART4_DMA_Rx_Flag = false;
 static uint32_t USART4_ReceiveData_P = NULL;
 static uint8_t USART4_Buffer_Rx[USART4_BufferSize_Rx]         = {NULL};
 static uint8_t USART4_DMA_Buffer_Rx[USART4_DMA_BufferSize_Rx] = {NULL};
+static void (*USART4_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
 #endif /* (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx) */
 
@@ -98,6 +106,7 @@ static bool USART5_DMA_Tx_Flag = false, USART5_SendData_Flag = false;
 static uint32_t USART5_SendData_P = NULL;
 static uint8_t USART5_Buffer_Tx[USART5_BufferSize_Tx]         = {NULL};
 static uint8_t USART5_DMA_Buffer_Tx[USART5_DMA_BufferSize_Tx] = {NULL};
+static void (*USART5_SendDataFinishCallback)(void) = NULL;
 #endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
 
 #if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
@@ -105,6 +114,7 @@ static bool USART5_DMA_Rx_Flag = false;
 static uint32_t USART5_ReceiveData_P = NULL;
 static uint8_t USART5_Buffer_Rx[USART5_BufferSize_Rx]         = {NULL};
 static uint8_t USART5_DMA_Buffer_Rx[USART5_DMA_BufferSize_Rx] = {NULL};
+static void (*USART5_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
 #endif /* (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx) */
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
@@ -117,6 +127,7 @@ static bool USART6_DMA_Tx_Flag = false, USART6_SendData_Flag = false;
 static uint32_t USART6_SendData_P = NULL;
 static uint8_t USART6_Buffer_Tx[USART6_BufferSize_Tx]         = {NULL};
 static uint8_t USART6_DMA_Buffer_Tx[USART6_DMA_BufferSize_Tx] = {NULL};
+static void (*USART6_SendDataFinishCallback)(void) = NULL;
 #endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
 
 #if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
@@ -124,6 +135,7 @@ static bool USART6_DMA_Rx_Flag = false;
 static uint32_t USART6_ReceiveData_P = NULL;
 static uint8_t USART6_Buffer_Rx[USART6_BufferSize_Rx]         = {NULL};
 static uint8_t USART6_DMA_Buffer_Rx[USART6_DMA_BufferSize_Rx] = {NULL};
+static void (*USART6_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
 #endif /* (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx) */
 
@@ -136,6 +148,7 @@ static bool USART7_DMA_Tx_Flag = false, USART7_SendData_Flag = false;
 static uint32_t USART7_SendData_P = NULL;
 static uint8_t USART7_Buffer_Tx[USART7_BufferSize_Tx]         = {NULL};
 static uint8_t USART7_DMA_Buffer_Tx[USART7_DMA_BufferSize_Tx] = {NULL};
+static void (*USART7_SendDataFinishCallback)(void) = NULL;
 #endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
 
 #if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
@@ -143,6 +156,7 @@ static bool USART7_DMA_Rx_Flag = false;
 static uint32_t USART7_ReceiveData_P = NULL;
 static uint8_t USART7_Buffer_Rx[USART7_BufferSize_Rx]         = {NULL};
 static uint8_t USART7_DMA_Buffer_Rx[USART7_DMA_BufferSize_Rx] = {NULL};
+static void (*USART7_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
 #endif /* (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx) */
 
@@ -154,6 +168,7 @@ static bool USART8_DMA_Tx_Flag = false, USART8_SendData_Flag = false;
 static uint32_t USART8_SendData_P = NULL;
 static uint8_t USART8_Buffer_Tx[USART8_BufferSize_Tx]         = {NULL};
 static uint8_t USART8_DMA_Buffer_Tx[USART8_DMA_BufferSize_Tx] = {NULL};
+static void (*USART8_SendDataFinishCallback)(void) = NULL;
 #endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
 
 #if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
@@ -161,6 +176,7 @@ static bool USART8_DMA_Rx_Flag = false;
 static uint32_t USART8_ReceiveData_P = NULL;
 static uint8_t USART8_Buffer_Rx[USART8_BufferSize_Rx]         = {NULL};
 static uint8_t USART8_DMA_Buffer_Rx[USART8_DMA_BufferSize_Rx] = {NULL};
+static void (*USART8_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
 #endif /* (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx) */
 #endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
@@ -174,6 +190,7 @@ static bool USART9_DMA_Tx_Flag = false, USART9_SendData_Flag = false;
 static uint32_t USART9_SendData_P = NULL;
 static uint8_t USART9_Buffer_Tx[USART9_BufferSize_Tx]         = {NULL};
 static uint8_t USART9_DMA_Buffer_Tx[USART9_DMA_BufferSize_Tx] = {NULL};
+static void (*USART9_SendDataFinishCallback)(void) = NULL;
 #endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
 
 #if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
@@ -181,6 +198,7 @@ static bool USART9_DMA_Rx_Flag = false;
 static uint32_t USART9_ReceiveData_P = NULL;
 static uint8_t USART9_Buffer_Rx[USART9_BufferSize_Rx]         = {NULL};
 static uint8_t USART9_DMA_Buffer_Rx[USART9_DMA_BufferSize_Rx] = {NULL};
+static void (*USART9_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
 #endif /* (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx) */
 
@@ -192,6 +210,7 @@ static bool USART10_DMA_Tx_Flag = false, USART10_SendData_Flag = false;
 static uint32_t USART10_SendData_P = NULL;
 static uint8_t USART10_Buffer_Tx[USART10_BufferSize_Tx]         = {NULL};
 static uint8_t USART10_DMA_Buffer_Tx[USART10_DMA_BufferSize_Tx] = {NULL};
+static void (*USART10_SendDataFinishCallback)(void) = NULL;
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
 
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
@@ -199,6 +218,7 @@ static bool USART10_DMA_Rx_Flag = false;
 static uint32_t USART10_ReceiveData_P = NULL;
 static uint8_t USART10_Buffer_Rx[USART10_BufferSize_Rx]         = {NULL};
 static uint8_t USART10_DMA_Buffer_Rx[USART10_DMA_BufferSize_Rx] = {NULL};
+static void (*USART10_ReceiveDataFinishCallback)(void) = NULL;
 #endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
 #endif /* (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx) */
 #endif /* STM32F413_423xx */
@@ -212,6 +232,8 @@ static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx);
 static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx);
 static void USART_NVIC_Configure(USART_TypeDef* USARTx);
 static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
+static void USART_SendDataFinishCallback(USART_TypeDef* USARTx);
+static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
 
 /****************************************************************
  *                     Function definition
@@ -219,7 +241,7 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 
 /****************************************************************
  * Function:    USART_Configure
- * Description: USART configure.
+ * Description: Configure.
  * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  *              BaudRate: Communication baud rate.
  * Output:
@@ -728,7 +750,7 @@ void USART_Configure(USART_TypeDef* USARTx, uint32_t BaudRate)
 
 /****************************************************************
  * Function:    USART_Unconfigure
- * Description: USART unconfigure.
+ * Description: Unconfigure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -1017,7 +1039,7 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_TX_Configure
- * Description: USART DMA TX configure.
+ * Description: DMA TX configure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -1243,7 +1265,7 @@ static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_RX_Configure
- * Description: USART DMA RX configure.
+ * Description: DMA RX configure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -1469,7 +1491,7 @@ static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_TX_Unconfigure
- * Description: USART DMA TX unconfigure.
+ * Description: DMA TX unconfigure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -1608,7 +1630,7 @@ static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_DMA_RX_Unconfigure
- * Description: USART DMA RX unconfigure.
+ * Description: DMA RX unconfigure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -1747,7 +1769,7 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_NVIC_Configure
- * Description: USART NVIC configure.
+ * Description: NVIC configure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -1918,7 +1940,7 @@ static void USART_NVIC_Configure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_NVIC_Unconfigure
- * Description: USART NVIC unconfigure.
+ * Description: NVIC unconfigure.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
@@ -2089,7 +2111,7 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 
 /****************************************************************
  * Function:    USART_SetSendData
- * Description: USART set send data.
+ * Description: Set send data.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  *              Data:   The address of the data to be sent.
  *              Length: The length of the data to be sent.
@@ -2617,7 +2639,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
 
 /****************************************************************
  * Function:    USART_GetReceiveData
- * Description: USART get receive data.
+ * Description: Get receive data.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  *              Data:   To store the address of the receive data.
  *              Length: To read the length of the received data.
@@ -3865,24 +3887,546 @@ void UART10_IRQHandler(void)
 
 /****************************************************************
  * Function:    USART_SendDataFinishCallback
- * Description: USART send data finish callback.
+ * Description: Send data finish callback.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
-__weak void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
+static void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
 {
-  
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    if(USART1_SendDataFinishCallback != NULL)
+    {
+      USART1_SendDataFinishCallback();
+    }
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    if(USART2_SendDataFinishCallback != NULL)
+    {
+      USART2_SendDataFinishCallback();
+    }
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    if(USART3_SendDataFinishCallback != NULL)
+    {
+      USART3_SendDataFinishCallback();
+    }
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    if(USART4_SendDataFinishCallback != NULL)
+    {
+      USART4_SendDataFinishCallback();
+    }
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    if(USART5_SendDataFinishCallback != NULL)
+    {
+      USART5_SendDataFinishCallback();
+    }
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    if(USART6_SendDataFinishCallback != NULL)
+    {
+      USART6_SendDataFinishCallback();
+    }
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    if(USART7_SendDataFinishCallback != NULL)
+    {
+      USART7_SendDataFinishCallback();
+    }
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    if(USART8_SendDataFinishCallback != NULL)
+    {
+      USART8_SendDataFinishCallback();
+    }
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    if(USART9_SendDataFinishCallback != NULL)
+    {
+      USART9_SendDataFinishCallback();
+    }
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    if(USART10_SendDataFinishCallback != NULL)
+    {
+      USART10_SendDataFinishCallback();
+    }
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
 }
 
 /****************************************************************
  * Function:    USART_ReceiveDataFinishCallback
- * Description: USART receive data finish callback.
+ * Description: Receive data finish callback.
  * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
-__weak void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
+static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
 {
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    if(USART1_ReceiveDataFinishCallback != NULL)
+    {
+      USART1_ReceiveDataFinishCallback();
+    }
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    if(USART2_ReceiveDataFinishCallback != NULL)
+    {
+      USART2_ReceiveDataFinishCallback();
+    }
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    if(USART3_ReceiveDataFinishCallback != NULL)
+    {
+      USART3_ReceiveDataFinishCallback();
+    }
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    if(USART4_ReceiveDataFinishCallback != NULL)
+    {
+      USART4_ReceiveDataFinishCallback();
+    }
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    if(USART5_ReceiveDataFinishCallback != NULL)
+    {
+      USART5_ReceiveDataFinishCallback();
+    }
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    if(USART6_ReceiveDataFinishCallback != NULL)
+    {
+      USART6_ReceiveDataFinishCallback();
+    }
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    if(USART7_ReceiveDataFinishCallback != NULL)
+    {
+      USART7_ReceiveDataFinishCallback();
+    }
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    if(USART8_ReceiveDataFinishCallback != NULL)
+    {
+      USART8_ReceiveDataFinishCallback();
+    }
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    if(USART9_ReceiveDataFinishCallback != NULL)
+    {
+      USART9_ReceiveDataFinishCallback();
+    }
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    if(USART10_ReceiveDataFinishCallback != NULL)
+    {
+      USART10_ReceiveDataFinishCallback();
+    }
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_SetSendDataFinishCallback
+ * Description: Set send data finish callback.
+ * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ *              Function: Function pointer.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void))
+{
+  if(Function == NULL)
+  {
+    return;
+  }
   
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    USART1_SendDataFinishCallback = Function;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    USART2_SendDataFinishCallback = Function;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    USART3_SendDataFinishCallback = Function;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    USART4_SendDataFinishCallback = Function;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    USART5_SendDataFinishCallback = Function;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    USART6_SendDataFinishCallback = Function;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    USART7_SendDataFinishCallback = Function;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    USART8_SendDataFinishCallback = Function;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    USART9_SendDataFinishCallback = Function;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    USART10_SendDataFinishCallback = Function;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_SetReceiveDataFinishCallback
+ * Description: Set receive data finish callback.
+ * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ *              Function: Function pointer.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void))
+{
+  if(Function == NULL)
+  {
+    return;
+  }
+  
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    USART1_ReceiveDataFinishCallback = Function;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    USART2_ReceiveDataFinishCallback = Function;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    USART3_ReceiveDataFinishCallback = Function;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    USART4_ReceiveDataFinishCallback = Function;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    USART5_ReceiveDataFinishCallback = Function;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    USART6_ReceiveDataFinishCallback = Function;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    USART7_ReceiveDataFinishCallback = Function;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    USART8_ReceiveDataFinishCallback = Function;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    USART9_ReceiveDataFinishCallback = Function;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    USART10_ReceiveDataFinishCallback = Function;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_ClearSendDataFinishCallback
+ * Description: Clear send data finish callback.
+ * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    USART1_SendDataFinishCallback = NULL;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    USART2_SendDataFinishCallback = NULL;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    USART3_SendDataFinishCallback = NULL;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    USART4_SendDataFinishCallback = NULL;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    USART5_SendDataFinishCallback = NULL;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    USART6_SendDataFinishCallback = NULL;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    USART7_SendDataFinishCallback = NULL;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    USART8_SendDataFinishCallback = NULL;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    USART9_SendDataFinishCallback = NULL;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    USART10_SendDataFinishCallback = NULL;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_ClearReceiveDataFinishCallback
+ * Description: Clear receive data finish callback.
+ * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    USART1_ReceiveDataFinishCallback = NULL;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    USART2_ReceiveDataFinishCallback = NULL;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    USART3_ReceiveDataFinishCallback = NULL;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    USART4_ReceiveDataFinishCallback = NULL;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    USART5_ReceiveDataFinishCallback = NULL;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    USART6_ReceiveDataFinishCallback = NULL;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    USART7_ReceiveDataFinishCallback = NULL;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    USART8_ReceiveDataFinishCallback = NULL;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    USART9_ReceiveDataFinishCallback = NULL;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    USART10_ReceiveDataFinishCallback = NULL;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
 }

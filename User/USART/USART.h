@@ -302,8 +302,10 @@ void USART_Configure(USART_TypeDef* USARTx, uint32_t BaudRate);
 void USART_Unconfigure(USART_TypeDef* USARTx);
 uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
 uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
-void USART_SendDataFinishCallback(USART_TypeDef* USARTx);
-void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
+void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void));
+void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void));
+void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx);
+void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx);
 
 #ifdef __cplusplus
 }
