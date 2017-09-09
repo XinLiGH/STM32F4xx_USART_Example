@@ -278,7 +278,43 @@
 /****************************************************************
  *                       Type definition
 *****************************************************************/
+typedef enum
+{
+  USART_BaudRate1200   = 1200,
+  USART_BaudRate2400   = 2400,
+  USART_BaudRate4800   = 4800,
+  USART_BaudRate9600   = 9600,
+  USART_BaudRate19200  = 19200,
+  USART_BaudRate38400  = 38400,
+  USART_BaudRate57600  = 57600,
+  USART_BaudRate115200 = 115200,
+  USART_BaudRate230400 = 230400,
+  USART_BaudRate460800 = 460800,
+  USART_BaudRate921600 = 921600
+  
+}USART_BaudRate;
 
+typedef enum
+{
+  USART_DataBits8 = USART_WordLength_8b,
+  USART_DataBits9 = USART_WordLength_9b
+  
+}USART_DataBits;
+
+typedef enum
+{
+  USART_StopBits1 = USART_StopBits_1,
+  USART_StopBits2 = USART_StopBits_2
+  
+}USART_StopBits;
+
+typedef enum
+{
+  USART_ParityNo   = USART_Parity_No,
+  USART_ParityEven = USART_Parity_Even,
+  USART_ParityOdd  = USART_Parity_Odd
+  
+}USART_Parity;
 
 /****************************************************************
  *                     Structure definition
@@ -298,7 +334,7 @@
 /****************************************************************
  *                     Function declaration
 *****************************************************************/
-void USART_Configure(USART_TypeDef* USARTx, uint32_t BaudRate);
+void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity);
 void USART_Unconfigure(USART_TypeDef* USARTx);
 uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
 uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length);

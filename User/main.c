@@ -52,7 +52,7 @@ int main(void)
 *****************************************************************/
 static void System_Init(void)
 {
-  USART_Configure(USART1, 115200);
+  USART_Configure(USART1, USART_BaudRate115200, USART_DataBits8, USART_StopBits1, USART_ParityNo);
   USART_SetReceiveDataFinishCallback(USART1, USART1_ReceiveDataFinishCallback);
 }
 

@@ -244,10 +244,13 @@ static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
  * Description: Configure.
  * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  *              BaudRate: Communication baud rate.
+ *              DataBits: The number of data bits sent or received.
+ *              StopBits: The number of stop bits to send or receive.
+ *              Parity:   Parity mode.
  * Output:
  * Return:
 *****************************************************************/
-void USART_Configure(USART_TypeDef* USARTx, uint32_t BaudRate)
+void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity)
 {
   uint16_t USART_Mode = NULL;             /* USART Mode definition */
   
@@ -715,9 +718,9 @@ void USART_Configure(USART_TypeDef* USARTx, uint32_t BaudRate)
   
   USART_DeInit(USARTx);                                                           /* Deinitializes the USARTx peripheral registers to their default reset values. */
   USART_InitStructure.USART_BaudRate = BaudRate;                                  /* This member configures the USART communication baud rate. */
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;                     /* Specifies the number of data bits transmitted or received in a frame. */
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;                          /* Specifies the number of stop bits transmitted. */
-  USART_InitStructure.USART_Parity = USART_Parity_No;                             /* Specifies the parity mode. */
+  USART_InitStructure.USART_WordLength = DataBits;                                /* Specifies the number of data bits transmitted or received in a frame. */
+  USART_InitStructure.USART_StopBits = StopBits;                                  /* Specifies the number of stop bits transmitted. */
+  USART_InitStructure.USART_Parity = Parity;                                      /* Specifies the parity mode. */
   USART_InitStructure.USART_Mode = USART_Mode;                                    /* Specifies whether the Receive or Transmit mode is enabled or disabled. */
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None; /* Specifies wether the hardware flow control mode is enabled or disabled. */
   USART_Init(USARTx, &USART_InitStructure);                                       /* Initializes the USARTx peripheral. */
