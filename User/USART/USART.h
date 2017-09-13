@@ -12,6 +12,7 @@
  *                        Header include
 *****************************************************************/
 #include "stm32f4xx.h"
+#include <stdbool.h>
 
 /****************************************************************
  *                       Macro definition
@@ -342,6 +343,23 @@ void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(voi
 void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void));
 void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx);
 void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx);
+uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx);
+uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx);
+void USART_ClearSendDataCount(USART_TypeDef* USARTx);
+void USART_ClearReceiveDataCount(USART_TypeDef* USARTx);
+uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx);
+uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx);
+uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx);
+uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx);
+float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx);
+float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx);
+void USART_ClearSendBuffer(USART_TypeDef* USARTx);
+void USART_ClearReceiveBuffer(USART_TypeDef* USARTx);
+bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx);
+bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx);
+bool USART_IsSendBufferFull(USART_TypeDef* USARTx);
+bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx);
+bool USART_IsSendingData(USART_TypeDef* USARTx);
 
 #ifdef __cplusplus
 }

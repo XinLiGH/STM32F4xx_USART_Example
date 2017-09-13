@@ -10,7 +10,6 @@
 *****************************************************************/
 #include "USART.h"
 #include <string.h>
-#include <stdbool.h>
 
 /****************************************************************
  *                       Global variables
@@ -24,6 +23,7 @@ static uint32_t USART1_SendData_P = NULL;
 static uint8_t USART1_Buffer_Tx[USART1_BufferSize_Tx]         = {NULL};
 static uint8_t USART1_DMA_Buffer_Tx[USART1_DMA_BufferSize_Tx] = {NULL};
 static void (*USART1_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART1_SendDataCount = NULL;
 #endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
 
 #if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
@@ -32,6 +32,7 @@ static uint32_t USART1_ReceiveData_P = NULL;
 static uint8_t USART1_Buffer_Rx[USART1_BufferSize_Rx]         = {NULL};
 static uint8_t USART1_DMA_Buffer_Rx[USART1_DMA_BufferSize_Rx] = {NULL};
 static void (*USART1_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART1_ReceiveDataCount = NULL;
 #endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
 #endif /* (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx) */
 
@@ -44,6 +45,7 @@ static uint32_t USART2_SendData_P = NULL;
 static uint8_t USART2_Buffer_Tx[USART2_BufferSize_Tx]         = {NULL};
 static uint8_t USART2_DMA_Buffer_Tx[USART2_DMA_BufferSize_Tx] = {NULL};
 static void (*USART2_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART2_SendDataCount = NULL;
 #endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
 
 #if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
@@ -52,6 +54,7 @@ static uint32_t USART2_ReceiveData_P = NULL;
 static uint8_t USART2_Buffer_Rx[USART2_BufferSize_Rx]         = {NULL};
 static uint8_t USART2_DMA_Buffer_Rx[USART2_DMA_BufferSize_Rx] = {NULL};
 static void (*USART2_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART2_ReceiveDataCount = NULL;
 #endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
 #endif /* (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx) */
 
@@ -65,6 +68,7 @@ static uint32_t USART3_SendData_P = NULL;
 static uint8_t USART3_Buffer_Tx[USART3_BufferSize_Tx]         = {NULL};
 static uint8_t USART3_DMA_Buffer_Tx[USART3_DMA_BufferSize_Tx] = {NULL};
 static void (*USART3_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART3_SendDataCount = NULL;
 #endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
 
 #if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
@@ -73,6 +77,7 @@ static uint32_t USART3_ReceiveData_P = NULL;
 static uint8_t USART3_Buffer_Rx[USART3_BufferSize_Rx]         = {NULL};
 static uint8_t USART3_DMA_Buffer_Rx[USART3_DMA_BufferSize_Rx] = {NULL};
 static void (*USART3_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART3_ReceiveDataCount = NULL;
 #endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
 #endif /* (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx) */
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
@@ -87,6 +92,7 @@ static uint32_t USART4_SendData_P = NULL;
 static uint8_t USART4_Buffer_Tx[USART4_BufferSize_Tx]         = {NULL};
 static uint8_t USART4_DMA_Buffer_Tx[USART4_DMA_BufferSize_Tx] = {NULL};
 static void (*USART4_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART4_SendDataCount = NULL;
 #endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
 
 #if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
@@ -95,6 +101,7 @@ static uint32_t USART4_ReceiveData_P = NULL;
 static uint8_t USART4_Buffer_Rx[USART4_BufferSize_Rx]         = {NULL};
 static uint8_t USART4_DMA_Buffer_Rx[USART4_DMA_BufferSize_Rx] = {NULL};
 static void (*USART4_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART4_ReceiveDataCount = NULL;
 #endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
 #endif /* (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx) */
 
@@ -107,6 +114,7 @@ static uint32_t USART5_SendData_P = NULL;
 static uint8_t USART5_Buffer_Tx[USART5_BufferSize_Tx]         = {NULL};
 static uint8_t USART5_DMA_Buffer_Tx[USART5_DMA_BufferSize_Tx] = {NULL};
 static void (*USART5_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART5_SendDataCount = NULL;
 #endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
 
 #if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
@@ -115,6 +123,7 @@ static uint32_t USART5_ReceiveData_P = NULL;
 static uint8_t USART5_Buffer_Rx[USART5_BufferSize_Rx]         = {NULL};
 static uint8_t USART5_DMA_Buffer_Rx[USART5_DMA_BufferSize_Rx] = {NULL};
 static void (*USART5_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART5_ReceiveDataCount = NULL;
 #endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
 #endif /* (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx) */
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
@@ -128,6 +137,7 @@ static uint32_t USART6_SendData_P = NULL;
 static uint8_t USART6_Buffer_Tx[USART6_BufferSize_Tx]         = {NULL};
 static uint8_t USART6_DMA_Buffer_Tx[USART6_DMA_BufferSize_Tx] = {NULL};
 static void (*USART6_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART6_SendDataCount = NULL;
 #endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
 
 #if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
@@ -136,6 +146,7 @@ static uint32_t USART6_ReceiveData_P = NULL;
 static uint8_t USART6_Buffer_Rx[USART6_BufferSize_Rx]         = {NULL};
 static uint8_t USART6_DMA_Buffer_Rx[USART6_DMA_BufferSize_Rx] = {NULL};
 static void (*USART6_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART6_ReceiveDataCount = NULL;
 #endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
 #endif /* (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx) */
 
@@ -149,6 +160,7 @@ static uint32_t USART7_SendData_P = NULL;
 static uint8_t USART7_Buffer_Tx[USART7_BufferSize_Tx]         = {NULL};
 static uint8_t USART7_DMA_Buffer_Tx[USART7_DMA_BufferSize_Tx] = {NULL};
 static void (*USART7_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART7_SendDataCount = NULL;
 #endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
 
 #if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
@@ -157,6 +169,7 @@ static uint32_t USART7_ReceiveData_P = NULL;
 static uint8_t USART7_Buffer_Rx[USART7_BufferSize_Rx]         = {NULL};
 static uint8_t USART7_DMA_Buffer_Rx[USART7_DMA_BufferSize_Rx] = {NULL};
 static void (*USART7_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART7_ReceiveDataCount = NULL;
 #endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
 #endif /* (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx) */
 
@@ -169,6 +182,7 @@ static uint32_t USART8_SendData_P = NULL;
 static uint8_t USART8_Buffer_Tx[USART8_BufferSize_Tx]         = {NULL};
 static uint8_t USART8_DMA_Buffer_Tx[USART8_DMA_BufferSize_Tx] = {NULL};
 static void (*USART8_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART8_SendDataCount = NULL;
 #endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
 
 #if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
@@ -177,6 +191,7 @@ static uint32_t USART8_ReceiveData_P = NULL;
 static uint8_t USART8_Buffer_Rx[USART8_BufferSize_Rx]         = {NULL};
 static uint8_t USART8_DMA_Buffer_Rx[USART8_DMA_BufferSize_Rx] = {NULL};
 static void (*USART8_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART8_ReceiveDataCount = NULL;
 #endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
 #endif /* (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx) */
 #endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
@@ -191,6 +206,7 @@ static uint32_t USART9_SendData_P = NULL;
 static uint8_t USART9_Buffer_Tx[USART9_BufferSize_Tx]         = {NULL};
 static uint8_t USART9_DMA_Buffer_Tx[USART9_DMA_BufferSize_Tx] = {NULL};
 static void (*USART9_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART9_SendDataCount = NULL;
 #endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
 
 #if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
@@ -199,6 +215,7 @@ static uint32_t USART9_ReceiveData_P = NULL;
 static uint8_t USART9_Buffer_Rx[USART9_BufferSize_Rx]         = {NULL};
 static uint8_t USART9_DMA_Buffer_Rx[USART9_DMA_BufferSize_Rx] = {NULL};
 static void (*USART9_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART9_ReceiveDataCount = NULL;
 #endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
 #endif /* (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx) */
 
@@ -211,6 +228,7 @@ static uint32_t USART10_SendData_P = NULL;
 static uint8_t USART10_Buffer_Tx[USART10_BufferSize_Tx]         = {NULL};
 static uint8_t USART10_DMA_Buffer_Tx[USART10_DMA_BufferSize_Tx] = {NULL};
 static void (*USART10_SendDataFinishCallback)(void) = NULL;
+static uint64_t USART10_SendDataCount = NULL;
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
 
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
@@ -219,6 +237,7 @@ static uint32_t USART10_ReceiveData_P = NULL;
 static uint8_t USART10_Buffer_Rx[USART10_BufferSize_Rx]         = {NULL};
 static uint8_t USART10_DMA_Buffer_Rx[USART10_DMA_BufferSize_Rx] = {NULL};
 static void (*USART10_ReceiveDataFinishCallback)(void) = NULL;
+static uint64_t USART10_ReceiveDataCount = NULL;
 #endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
 #endif /* (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx) */
 #endif /* STM32F413_423xx */
@@ -252,10 +271,9 @@ static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
 *****************************************************************/
 void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity)
 {
-  uint16_t USART_Mode = NULL;             /* USART Mode definition */
-  
-  GPIO_InitTypeDef GPIO_InitStructure;    /* GPIO Init structure definition */
-  USART_InitTypeDef USART_InitStructure;  /* USART Init Structure definition */
+  uint16_t          USART_Mode          =  NULL;  /* USART Mode definition */
+  GPIO_InitTypeDef  GPIO_InitStructure  = {NULL}; /* GPIO Init structure definition */
+  USART_InitTypeDef USART_InitStructure = {NULL}; /* USART Init Structure definition */
   
   if(USARTx == USART1)
   {
@@ -331,7 +349,7 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
       RCC_AHB1PeriphClockCmd(USART2_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART2_Rx GPIO clock */
       
       GPIO_PinAFConfig(USART2_Tx_GPIO, USART2_Tx_GPIO_PinSource, GPIO_AF_USART2);	/* Connect GPIOxn to USART2_Tx */
-      GPIO_PinAFConfig(USART2_Rx_GPIO, USART2_Rx_GPIO_PinSource, GPIO_AF_USART2);	/* Connect GPIOxn to USART2_Rx */
+      GPIO_PinAFConfig(USART2_Rx_GPIO, USART2_Rx_GPIO_PinSource, GPIO_AF_USART2); /* Connect GPIOxn to USART2_Rx */
       
       GPIO_InitStructure.GPIO_Pin = USART2_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
@@ -514,8 +532,8 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
       RCC_AHB1PeriphClockCmd(USART6_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART6_Tx GPIO clock */
       RCC_AHB1PeriphClockCmd(USART6_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART6_Rx GPIO clock */
       
-      GPIO_PinAFConfig(USART6_Tx_GPIO, USART6_Tx_GPIO_PinSource, GPIO_AF_USART6);  /* Connect GPIOxn to USART6_Tx */
-      GPIO_PinAFConfig(USART6_Rx_GPIO, USART6_Rx_GPIO_PinSource, GPIO_AF_USART6);  /* Connect GPIOxn to USART6_Rx */
+      GPIO_PinAFConfig(USART6_Tx_GPIO, USART6_Tx_GPIO_PinSource, GPIO_AF_USART6); /* Connect GPIOxn to USART6_Tx */
+      GPIO_PinAFConfig(USART6_Rx_GPIO, USART6_Rx_GPIO_PinSource, GPIO_AF_USART6); /* Connect GPIOxn to USART6_Rx */
       
       GPIO_InitStructure.GPIO_Pin = USART6_Tx_GPIO_Pin;   /* Specifies the GPIO pins to be configured. */
       GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        /* Specifies the operating mode for the selected pins. */
@@ -673,13 +691,13 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   {
 #if (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx)
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
-    USART_Mode          |= USART_Mode_Tx;
+    USART_Mode           |= USART_Mode_Tx;
     USART10_SendData_Flag = false;
     USART10_SendData_P    = NULL;
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
     
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
-    USART_Mode          |= USART_Mode_Rx;
+    USART_Mode           |= USART_Mode_Rx;
     USART10_ReceiveData_P = NULL;
 #endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
     
@@ -694,8 +712,8 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
     {
       USART10_GPIO_Flag = true;
       
-      RCC_AHB1PeriphClockCmd(USART10_Tx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART10_Tx GPIO clock */
-      RCC_AHB1PeriphClockCmd(USART10_Rx_RCC_AHB1Periph_GPIO, ENABLE);  /* Enable USART10_Rx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART10_Tx_RCC_AHB1Periph_GPIO, ENABLE); /* Enable USART10_Tx GPIO clock */
+      RCC_AHB1PeriphClockCmd(USART10_Rx_RCC_AHB1Periph_GPIO, ENABLE); /* Enable USART10_Rx GPIO clock */
       
       GPIO_PinAFConfig(USART10_Tx_GPIO, USART10_Tx_GPIO_PinSource, GPIO_AF11_UART10); /* Connect GPIOxn to USART10_Tx */
       GPIO_PinAFConfig(USART10_Rx_GPIO, USART10_Rx_GPIO_PinSource, GPIO_AF11_UART10); /* Connect GPIOxn to USART10_Rx */
@@ -862,12 +880,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, DISABLE);  /* Disable USART4 clock */
       
-      USART_DeInit(UART4); /* Deinitializes the USART4 peripheral registers to their default reset values. */
+      USART_DeInit(UART4);  /* Deinitializes the USART4 peripheral registers to their default reset values. */
       
-      USART_DMA_TX_Unconfigure(UART4); /* Unconfigure USART4 DMA TX */
-      USART_DMA_RX_Unconfigure(UART4); /* Unconfigure USART4 DMA RX */
+      USART_DMA_TX_Unconfigure(UART4);  /* Unconfigure USART4 DMA TX */
+      USART_DMA_RX_Unconfigure(UART4);  /* Unconfigure USART4 DMA RX */
       
-      USART_NVIC_Unconfigure(UART4);   /* Unconfigure USART4 NVIC */
+      USART_NVIC_Unconfigure(UART4);    /* Unconfigure USART4 NVIC */
     }
 #endif /* (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx) */
   }
@@ -889,12 +907,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, DISABLE);  /* Disable USART5 clock */
       
-      USART_DeInit(UART5); /* Deinitializes the USART5 peripheral registers to their default reset values. */
+      USART_DeInit(UART5);  /* Deinitializes the USART5 peripheral registers to their default reset values. */
       
-      USART_DMA_TX_Unconfigure(UART5); /* Unconfigure USART5 DMA TX */
-      USART_DMA_RX_Unconfigure(UART5); /* Unconfigure USART5 DMA RX */
+      USART_DMA_TX_Unconfigure(UART5);  /* Unconfigure USART5 DMA TX */
+      USART_DMA_RX_Unconfigure(UART5);  /* Unconfigure USART5 DMA RX */
       
-      USART_NVIC_Unconfigure(UART5);   /* Unconfigure USART5 NVIC */
+      USART_NVIC_Unconfigure(UART5);    /* Unconfigure USART5 NVIC */
     }
 #endif /* (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx) */
   }
@@ -945,12 +963,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART7, DISABLE);  /* Disable USART7 clock */
       
-      USART_DeInit(UART7); /* Deinitializes the USART7 peripheral registers to their default reset values. */
+      USART_DeInit(UART7);  /* Deinitializes the USART7 peripheral registers to their default reset values. */
       
-      USART_DMA_TX_Unconfigure(UART7); /* Unconfigure USART7 DMA TX */
-      USART_DMA_RX_Unconfigure(UART7); /* Unconfigure USART7 DMA RX */
+      USART_DMA_TX_Unconfigure(UART7);  /* Unconfigure USART7 DMA TX */
+      USART_DMA_RX_Unconfigure(UART7);  /* Unconfigure USART7 DMA RX */
       
-      USART_NVIC_Unconfigure(UART7);   /* Unconfigure USART7 NVIC */
+      USART_NVIC_Unconfigure(UART7);    /* Unconfigure USART7 NVIC */
     }
 #endif /* (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx) */
   }
@@ -972,12 +990,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART8, DISABLE);  /* Disable USART8 clock */
       
-      USART_DeInit(UART8); /* Deinitializes the USART8 peripheral registers to their default reset values. */
+      USART_DeInit(UART8);  /* Deinitializes the USART8 peripheral registers to their default reset values. */
       
-      USART_DMA_TX_Unconfigure(UART8); /* Unconfigure USART8 DMA TX */
-      USART_DMA_RX_Unconfigure(UART8); /* Unconfigure USART8 DMA RX */
+      USART_DMA_TX_Unconfigure(UART8);  /* Unconfigure USART8 DMA TX */
+      USART_DMA_RX_Unconfigure(UART8);  /* Unconfigure USART8 DMA RX */
       
-      USART_NVIC_Unconfigure(UART8);   /* Unconfigure USART8 NVIC */
+      USART_NVIC_Unconfigure(UART8);    /* Unconfigure USART8 NVIC */
     }
 #endif /* (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx) */
   }
@@ -1001,12 +1019,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART9, DISABLE);  /* Disable USART9 clock */
       
-      USART_DeInit(UART9); /* Deinitializes the USART9 peripheral registers to their default reset values. */
+      USART_DeInit(UART9);  /* Deinitializes the USART9 peripheral registers to their default reset values. */
       
-      USART_DMA_TX_Unconfigure(UART9); /* Unconfigure USART9 DMA TX */
-      USART_DMA_RX_Unconfigure(UART9); /* Unconfigure USART9 DMA RX */
+      USART_DMA_TX_Unconfigure(UART9);  /* Unconfigure USART9 DMA TX */
+      USART_DMA_RX_Unconfigure(UART9);  /* Unconfigure USART9 DMA RX */
       
-      USART_NVIC_Unconfigure(UART9);   /* Unconfigure USART9 NVIC */
+      USART_NVIC_Unconfigure(UART9);    /* Unconfigure USART9 NVIC */
     }
 #endif /* (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx) */
   }
@@ -1049,8 +1067,8 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 {
-  DMA_InitTypeDef DMA_InitStructure;  /* DMA Init structure definition */
-
+  DMA_InitTypeDef DMA_InitStructure = {NULL}; /* DMA Init structure definition */
+  
   if((USARTx == USART2)
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
      || (USARTx == USART3)
@@ -1251,10 +1269,10 @@ static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
     USART10_DMA_Tx_Flag = true;
     
-    DMA_InitStructure.DMA_Channel = DMA_Channel_6;                           /* Channel selection */
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&UART10->DR);      /* Set the DMA source: peripheral data register address */
-    DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)USART10_DMA_Buffer_Tx; /* Memory address */
-    DMA_InitStructure.DMA_BufferSize = USART10_DMA_BufferSize_Tx;            /* Specifies the DMA channel DMA buffer size */
+    DMA_InitStructure.DMA_Channel = DMA_Channel_6;                            /* Channel selection */
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&UART10->DR);       /* Set the DMA source: peripheral data register address */
+    DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)USART10_DMA_Buffer_Tx;  /* Memory address */
+    DMA_InitStructure.DMA_BufferSize = USART10_DMA_BufferSize_Tx;             /* Specifies the DMA channel DMA buffer size */
     
     DMA_DeInit(DMA2_Stream7);                         /* Deinitialize the DMA2 Stream7 registers to their default reset values. */
     while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE); /* Wait for the specified DMA2 Stream7 reset to complete. */
@@ -1275,8 +1293,8 @@ static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
 {
-  DMA_InitTypeDef DMA_InitStructure;  /* DMA Init structure definition */
-
+  DMA_InitTypeDef DMA_InitStructure = {NULL}; /* DMA Init structure definition */
+  
   if((USARTx == USART2)
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
      || (USARTx == USART3)
@@ -1393,7 +1411,7 @@ static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
     DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)USART5_DMA_Buffer_Rx; /* Memory address */
     DMA_InitStructure.DMA_BufferSize = USART5_DMA_BufferSize_Rx;            /* Specifies the DMA channel DMA buffer size */
     
-    DMA_DeInit(DMA1_Stream0);                           /* Deinitialize the DMA1 Stream0 registers to their default reset values. */
+    DMA_DeInit(DMA1_Stream0);                         /* Deinitialize the DMA1 Stream0 registers to their default reset values. */
     while(DMA_GetCmdStatus(DMA1_Stream0) != DISABLE); /* Wait for the specified DMA1 Stream0 reset to complete. */
     
     DMA_Init(DMA1_Stream0, &DMA_InitStructure); /* Initializes the DMA1 Stream0. */
@@ -1477,10 +1495,10 @@ static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
     USART10_DMA_Rx_Flag = true;
     
-    DMA_InitStructure.DMA_Channel = DMA_Channel_5;                           /* Channel selection */
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&UART10->DR);      /* Set the DMA source: peripheral data register address */
-    DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)USART10_DMA_Buffer_Rx; /* Memory address */
-    DMA_InitStructure.DMA_BufferSize = USART10_DMA_BufferSize_Rx;            /* Specifies the DMA channel DMA buffer size */
+    DMA_InitStructure.DMA_Channel = DMA_Channel_5;                            /* Channel selection */
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&UART10->DR);       /* Set the DMA source: peripheral data register address */
+    DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)USART10_DMA_Buffer_Rx;  /* Memory address */
+    DMA_InitStructure.DMA_BufferSize = USART10_DMA_BufferSize_Rx;             /* Specifies the DMA channel DMA buffer size */
     
     DMA_DeInit(DMA2_Stream0);                         /* Deinitialize the DMA2 Stream0 registers to their default reset values. */
     while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE); /* Wait for the specified DMA2 Stream0 reset to complete. */
@@ -1779,7 +1797,7 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_NVIC_Configure(USART_TypeDef* USARTx)
 {
-  NVIC_InitTypeDef NVIC_InitStructure;  /* NVIC Init Structure definition */
+  NVIC_InitTypeDef NVIC_InitStructure = {NULL}; /* NVIC Init Structure definition */
   
   if(USARTx == USART1)
   {
@@ -1950,7 +1968,7 @@ static void USART_NVIC_Configure(USART_TypeDef* USARTx)
 *****************************************************************/
 static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 {
-  NVIC_InitTypeDef NVIC_InitStructure;  /* NVIC Init Structure definition */
+  NVIC_InitTypeDef NVIC_InitStructure = {NULL}; /* NVIC Init Structure definition */
   
   if(USARTx == USART1)
   {
@@ -2136,13 +2154,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART1_BufferSize_Tx - USART1_SendData_P))
+    if(USART1_SendData_P >= USART1_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART1_Buffer_Tx + USART1_SendData_P, Data, Length); /* Copy memory */
-    USART1_SendData_P += Length;
+    if(Length > (USART1_BufferSize_Tx - USART1_SendData_P))
+    {
+      memcpy(USART1_Buffer_Tx + USART1_SendData_P, Data, USART1_BufferSize_Tx - USART1_SendData_P);
+      
+      USART1_SendData_P = USART1_BufferSize_Tx;
+      Length            = USART1_BufferSize_Tx - USART1_SendData_P;
+    }
+    else
+    {
+      memcpy(USART1_Buffer_Tx + USART1_SendData_P, Data, Length);
+      
+      USART1_SendData_P += Length;
+    }
     
     if(USART1_SendData_Flag == false)
     {
@@ -2150,8 +2179,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART1_SendData_P > USART1_DMA_BufferSize_Tx)
       {
-        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART1_Buffer_Tx, USART1_Buffer_Tx + USART1_DMA_BufferSize_Tx, USART1_SendData_P - USART1_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_DMA_BufferSize_Tx);
+        memmove(USART1_Buffer_Tx, USART1_Buffer_Tx + USART1_DMA_BufferSize_Tx, USART1_SendData_P - USART1_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);                    /* Clears the DMA2 Stream7's pending flags. */
         DMA_Cmd(DMA2_Stream7, DISABLE);                                 /* Disables the specified DMA2 Stream7. */
@@ -2159,19 +2188,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA2_Stream7, USART1_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
         DMA_Cmd(DMA2_Stream7, ENABLE);                                  /* Enables the specified DMA2 Stream7. */
         
-        USART1_SendData_P -= USART1_DMA_BufferSize_Tx;
+        USART1_SendDataCount += USART1_DMA_BufferSize_Tx;
+        USART1_SendData_P    -= USART1_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_SendData_P); /* Copy memory */
+        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);             /* Clears the DMA2 Stream7's pending flags. */
-        DMA_Cmd(DMA2_Stream7, DISABLE);                          /* Disables the specified DMA2 Stream7. */
-        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);        /* Wait for the specified DMA2 Stream7 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream7, USART1_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
-        DMA_Cmd(DMA2_Stream7, ENABLE);                           /* Enables the specified DMA2 Stream7. */
+        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);              /* Clears the DMA2 Stream7's pending flags. */
+        DMA_Cmd(DMA2_Stream7, DISABLE);                           /* Disables the specified DMA2 Stream7. */
+        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);         /* Wait for the specified DMA2 Stream7 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream7, USART1_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream7. */
+        DMA_Cmd(DMA2_Stream7, ENABLE);                            /* Enables the specified DMA2 Stream7. */
         
-        USART1_SendData_P = NULL;
+        USART1_SendDataCount += USART1_SendData_P;
+        USART1_SendData_P     = NULL;
       }
     }
     
@@ -2186,13 +2217,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART2_BufferSize_Tx - USART2_SendData_P))
+    if(USART2_SendData_P >= USART2_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART2_Buffer_Tx + USART2_SendData_P, Data, Length); /* Copy memory */
-    USART2_SendData_P += Length;
+    if(Length > (USART2_BufferSize_Tx - USART2_SendData_P))
+    {
+      memcpy(USART2_Buffer_Tx + USART2_SendData_P, Data, USART2_BufferSize_Tx - USART2_SendData_P);
+      
+      USART2_SendData_P = USART2_BufferSize_Tx;
+      Length            = USART2_BufferSize_Tx - USART2_SendData_P;
+    }
+    else
+    {
+      memcpy(USART2_Buffer_Tx + USART2_SendData_P, Data, Length);
+      
+      USART2_SendData_P += Length;
+    }
     
     if(USART2_SendData_Flag == false)
     {
@@ -2200,8 +2242,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART2_SendData_P > USART2_DMA_BufferSize_Tx)
       {
-        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART2_Buffer_Tx, USART2_Buffer_Tx + USART2_DMA_BufferSize_Tx, USART2_SendData_P - USART2_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_DMA_BufferSize_Tx);
+        memmove(USART2_Buffer_Tx, USART2_Buffer_Tx + USART2_DMA_BufferSize_Tx, USART2_SendData_P - USART2_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream6, DMA_FLAG_TCIF6);                    /* Clears the DMA1 Stream6's pending flags. */
         DMA_Cmd(DMA1_Stream6, DISABLE);                                 /* Disables the specified DMA1 Stream6. */
@@ -2209,19 +2251,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA1_Stream6, USART2_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream6. */
         DMA_Cmd(DMA1_Stream6, ENABLE);                                  /* Enables the specified DMA1 Stream6. */
         
-        USART2_SendData_P -= USART2_DMA_BufferSize_Tx;
+        USART2_SendDataCount += USART2_DMA_BufferSize_Tx;
+        USART2_SendData_P    -= USART2_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_SendData_P); /* Copy memory */
+        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream6, DMA_FLAG_TCIF6);             /* Clears the DMA1 Stream6's pending flags. */
-        DMA_Cmd(DMA1_Stream6, DISABLE);                          /* Disables the specified DMA1 Stream6. */
-        while(DMA_GetCmdStatus(DMA1_Stream6) != DISABLE);        /* Wait for the specified DMA1 Stream6 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream6, USART2_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream6. */
-        DMA_Cmd(DMA1_Stream6, ENABLE);                           /* Enables the specified DMA1 Stream6. */
+        DMA_ClearFlag(DMA1_Stream6, DMA_FLAG_TCIF6);              /* Clears the DMA1 Stream6's pending flags. */
+        DMA_Cmd(DMA1_Stream6, DISABLE);                           /* Disables the specified DMA1 Stream6. */
+        while(DMA_GetCmdStatus(DMA1_Stream6) != DISABLE);         /* Wait for the specified DMA1 Stream6 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream6, USART2_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream6. */
+        DMA_Cmd(DMA1_Stream6, ENABLE);                            /* Enables the specified DMA1 Stream6. */
         
-        USART2_SendData_P = NULL;
+        USART2_SendDataCount += USART2_SendData_P;
+        USART2_SendData_P     = NULL;
       }
     }
     
@@ -2237,13 +2281,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART3_BufferSize_Tx - USART3_SendData_P))
+    if(USART3_SendData_P >= USART3_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART3_Buffer_Tx + USART3_SendData_P, Data, Length); /* Copy memory */
-    USART3_SendData_P += Length;
+    if(Length > (USART3_BufferSize_Tx - USART3_SendData_P))
+    {
+      memcpy(USART3_Buffer_Tx + USART3_SendData_P, Data, USART3_BufferSize_Tx - USART3_SendData_P);
+      
+      USART3_SendData_P = USART3_BufferSize_Tx;
+      Length            = USART3_BufferSize_Tx - USART3_SendData_P;
+    }
+    else
+    {
+      memcpy(USART3_Buffer_Tx + USART3_SendData_P, Data, Length);
+      
+      USART3_SendData_P += Length;
+    }
     
     if(USART3_SendData_Flag == false)
     {
@@ -2251,8 +2306,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART3_SendData_P > USART3_DMA_BufferSize_Tx)
       {
-        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART3_Buffer_Tx, USART3_Buffer_Tx + USART3_DMA_BufferSize_Tx, USART3_SendData_P - USART3_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_DMA_BufferSize_Tx);
+        memmove(USART3_Buffer_Tx, USART3_Buffer_Tx + USART3_DMA_BufferSize_Tx, USART3_SendData_P - USART3_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);                    /* Clears the DMA1 Stream3's pending flags. */
         DMA_Cmd(DMA1_Stream3, DISABLE);                                 /* Disables the specified DMA1 Stream3. */
@@ -2260,19 +2315,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA1_Stream3, USART3_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream3. */
         DMA_Cmd(DMA1_Stream3, ENABLE);                                  /* Enables the specified DMA1 Stream3. */
         
-        USART3_SendData_P -= USART3_DMA_BufferSize_Tx;
+        USART3_SendDataCount += USART3_DMA_BufferSize_Tx;
+        USART3_SendData_P    -= USART3_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_SendData_P); /* Copy memory */
+        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);             /* Clears the DMA1 Stream3's pending flags. */
-        DMA_Cmd(DMA1_Stream3, DISABLE);                          /* Disables the specified DMA1 Stream3. */
-        while(DMA_GetCmdStatus(DMA1_Stream3) != DISABLE);        /* Wait for the specified DMA1 Stream3 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream3, USART3_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream3. */
-        DMA_Cmd(DMA1_Stream3, ENABLE);                           /* Enables the specified DMA1 Stream3. */
+        DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);              /* Clears the DMA1 Stream3's pending flags. */
+        DMA_Cmd(DMA1_Stream3, DISABLE);                           /* Disables the specified DMA1 Stream3. */
+        while(DMA_GetCmdStatus(DMA1_Stream3) != DISABLE);         /* Wait for the specified DMA1 Stream3 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream3, USART3_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream3. */
+        DMA_Cmd(DMA1_Stream3, ENABLE);                            /* Enables the specified DMA1 Stream3. */
         
-        USART3_SendData_P = NULL;
+        USART3_SendDataCount += USART3_SendData_P;
+        USART3_SendData_P     = NULL;
       }
     }
     
@@ -2289,13 +2346,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART4_BufferSize_Tx - USART4_SendData_P))
+    if(USART4_SendData_P >= USART4_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART4_Buffer_Tx + USART4_SendData_P, Data, Length); /* Copy memory */
-    USART4_SendData_P += Length;
+    if(Length > (USART4_BufferSize_Tx - USART4_SendData_P))
+    {
+      memcpy(USART4_Buffer_Tx + USART4_SendData_P, Data, USART4_BufferSize_Tx - USART4_SendData_P);
+      
+      USART4_SendData_P = USART4_BufferSize_Tx;
+      Length            = USART4_BufferSize_Tx - USART4_SendData_P;
+    }
+    else
+    {
+      memcpy(USART4_Buffer_Tx + USART4_SendData_P, Data, Length);
+      
+      USART4_SendData_P += Length;
+    }
     
     if(USART4_SendData_Flag == false)
     {
@@ -2303,8 +2371,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART4_SendData_P > USART4_DMA_BufferSize_Tx)
       {
-        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART4_Buffer_Tx, USART4_Buffer_Tx + USART4_DMA_BufferSize_Tx, USART4_SendData_P - USART4_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_DMA_BufferSize_Tx);
+        memmove(USART4_Buffer_Tx, USART4_Buffer_Tx + USART4_DMA_BufferSize_Tx, USART4_SendData_P - USART4_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream4, DMA_FLAG_TCIF4);                    /* Clears the DMA1 Stream4's pending flags. */
         DMA_Cmd(DMA1_Stream4, DISABLE);                                 /* Disables the specified DMA1 Stream4. */
@@ -2312,19 +2380,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA1_Stream4, USART4_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream4. */
         DMA_Cmd(DMA1_Stream4, ENABLE);                                  /* Enables the specified DMA1 Stream4. */
         
-        USART4_SendData_P -= USART4_DMA_BufferSize_Tx;
+        USART4_SendDataCount += USART4_DMA_BufferSize_Tx;
+        USART4_SendData_P    -= USART4_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_SendData_P); /* Copy memory */
+        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream4, DMA_FLAG_TCIF4);             /* Clears the DMA1 Stream4's pending flags. */
-        DMA_Cmd(DMA1_Stream4, DISABLE);                          /* Disables the specified DMA1 Stream4. */
-        while(DMA_GetCmdStatus(DMA1_Stream4) != DISABLE);        /* Wait for the specified DMA1 Stream4 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream4, USART4_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream4. */
-        DMA_Cmd(DMA1_Stream4, ENABLE);                           /* Enables the specified DMA1 Stream4. */
+        DMA_ClearFlag(DMA1_Stream4, DMA_FLAG_TCIF4);              /* Clears the DMA1 Stream4's pending flags. */
+        DMA_Cmd(DMA1_Stream4, DISABLE);                           /* Disables the specified DMA1 Stream4. */
+        while(DMA_GetCmdStatus(DMA1_Stream4) != DISABLE);         /* Wait for the specified DMA1 Stream4 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream4, USART4_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream4. */
+        DMA_Cmd(DMA1_Stream4, ENABLE);                            /* Enables the specified DMA1 Stream4. */
         
-        USART4_SendData_P = NULL;
+        USART4_SendDataCount += USART4_SendData_P;
+        USART4_SendData_P     = NULL;
       }
     }
     
@@ -2339,13 +2409,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART5_BufferSize_Tx - USART5_SendData_P))
+    if(USART5_SendData_P >= USART5_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART5_Buffer_Tx + USART5_SendData_P, Data, Length); /* Copy memory */
-    USART5_SendData_P += Length;
+    if(Length > (USART5_BufferSize_Tx - USART5_SendData_P))
+    {
+      memcpy(USART5_Buffer_Tx + USART5_SendData_P, Data, USART5_BufferSize_Tx - USART5_SendData_P);
+      
+      USART5_SendData_P = USART5_BufferSize_Tx;
+      Length            = USART5_BufferSize_Tx - USART5_SendData_P;
+    }
+    else
+    {
+      memcpy(USART5_Buffer_Tx + USART5_SendData_P, Data, Length);
+      
+      USART5_SendData_P += Length;
+    }
     
     if(USART5_SendData_Flag == false)
     {
@@ -2353,8 +2434,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART5_SendData_P > USART5_DMA_BufferSize_Tx)
       {
-        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART5_Buffer_Tx, USART5_Buffer_Tx + USART5_DMA_BufferSize_Tx, USART5_SendData_P - USART5_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_DMA_BufferSize_Tx);
+        memmove(USART5_Buffer_Tx, USART5_Buffer_Tx + USART5_DMA_BufferSize_Tx, USART5_SendData_P - USART5_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);                    /* Clears the DMA1 Stream7's pending flags. */
         DMA_Cmd(DMA1_Stream7, DISABLE);                                 /* Disables the specified DMA1 Stream7. */
@@ -2362,19 +2443,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA1_Stream7, USART5_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream7. */
         DMA_Cmd(DMA1_Stream7, ENABLE);                                  /* Enables the specified DMA1 Stream7. */
         
-        USART5_SendData_P -= USART5_DMA_BufferSize_Tx;
+        USART5_SendDataCount += USART5_DMA_BufferSize_Tx;
+        USART5_SendData_P    -= USART5_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_SendData_P); /* Copy memory */
+        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);             /* Clears the DMA1 Stream7's pending flags. */
-        DMA_Cmd(DMA1_Stream7, DISABLE);                          /* Disables the specified DMA1 Stream7. */
-        while(DMA_GetCmdStatus(DMA1_Stream7) != DISABLE);        /* Wait for the specified DMA1 Stream7 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream7, USART5_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream7. */
-        DMA_Cmd(DMA1_Stream7, ENABLE);                           /* Enables the specified DMA1 Stream7. */
+        DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);              /* Clears the DMA1 Stream7's pending flags. */
+        DMA_Cmd(DMA1_Stream7, DISABLE);                           /* Disables the specified DMA1 Stream7. */
+        while(DMA_GetCmdStatus(DMA1_Stream7) != DISABLE);         /* Wait for the specified DMA1 Stream7 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream7, USART5_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream7. */
+        DMA_Cmd(DMA1_Stream7, ENABLE);                            /* Enables the specified DMA1 Stream7. */
         
-        USART5_SendData_P = NULL;
+        USART5_SendDataCount += USART5_SendData_P;
+        USART5_SendData_P     = NULL;
       }
     }
     
@@ -2390,13 +2473,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART6_BufferSize_Tx - USART6_SendData_P))
+    if(USART6_SendData_P >= USART6_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART6_Buffer_Tx + USART6_SendData_P, Data, Length); /* Copy memory */
-    USART6_SendData_P += Length;
+    if(Length > (USART6_BufferSize_Tx - USART6_SendData_P))
+    {
+      memcpy(USART6_Buffer_Tx + USART6_SendData_P, Data, USART6_BufferSize_Tx - USART6_SendData_P);
+      
+      USART6_SendData_P = USART6_BufferSize_Tx;
+      Length            = USART6_BufferSize_Tx - USART6_SendData_P;
+    }
+    else
+    {
+      memcpy(USART6_Buffer_Tx + USART6_SendData_P, Data, Length);
+      
+      USART6_SendData_P += Length;
+    }
     
     if(USART6_SendData_Flag == false)
     {
@@ -2404,8 +2498,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART6_SendData_P > USART6_DMA_BufferSize_Tx)
       {
-        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART6_Buffer_Tx, USART6_Buffer_Tx + USART6_DMA_BufferSize_Tx, USART6_SendData_P - USART6_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_DMA_BufferSize_Tx);
+        memmove(USART6_Buffer_Tx, USART6_Buffer_Tx + USART6_DMA_BufferSize_Tx, USART6_SendData_P - USART6_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6);                    /* Clears the DMA2 Stream6's pending flags. */
         DMA_Cmd(DMA2_Stream6, DISABLE);                                 /* Disables the specified DMA2 Stream6. */
@@ -2413,19 +2507,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA2_Stream6, USART6_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA2 Stream6. */
         DMA_Cmd(DMA2_Stream6, ENABLE);                                  /* Enables the specified DMA2 Stream6. */
         
-        USART6_SendData_P -= USART6_DMA_BufferSize_Tx;
+        USART6_SendDataCount += USART6_DMA_BufferSize_Tx;
+        USART6_SendData_P    -= USART6_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_SendData_P); /* Copy memory */
+        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6);             /* Clears the DMA2 Stream6's pending flags. */
-        DMA_Cmd(DMA2_Stream6, DISABLE);                          /* Disables the specified DMA2 Stream6. */
-        while(DMA_GetCmdStatus(DMA2_Stream6) != DISABLE);        /* Wait for the specified DMA2 Stream6 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream6, USART6_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream6. */
-        DMA_Cmd(DMA2_Stream6, ENABLE);                           /* Enables the specified DMA2 Stream6. */
+        DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6);              /* Clears the DMA2 Stream6's pending flags. */
+        DMA_Cmd(DMA2_Stream6, DISABLE);                           /* Disables the specified DMA2 Stream6. */
+        while(DMA_GetCmdStatus(DMA2_Stream6) != DISABLE);         /* Wait for the specified DMA2 Stream6 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream6, USART6_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream6. */
+        DMA_Cmd(DMA2_Stream6, ENABLE);                            /* Enables the specified DMA2 Stream6. */
         
-        USART6_SendData_P = NULL;
+        USART6_SendDataCount += USART6_SendData_P;
+        USART6_SendData_P     = NULL;
       }
     }
     
@@ -2441,13 +2537,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART7_BufferSize_Tx - USART7_SendData_P))
+    if(USART7_SendData_P >= USART7_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART7_Buffer_Tx + USART7_SendData_P, Data, Length); /* Copy memory */
-    USART7_SendData_P += Length;
+    if(Length > (USART7_BufferSize_Tx - USART7_SendData_P))
+    {
+      memcpy(USART7_Buffer_Tx + USART7_SendData_P, Data, USART7_BufferSize_Tx - USART7_SendData_P);
+      
+      USART7_SendData_P = USART7_BufferSize_Tx;
+      Length            = USART7_BufferSize_Tx - USART7_SendData_P;
+    }
+    else
+    {
+      memcpy(USART7_Buffer_Tx + USART7_SendData_P, Data, Length);
+      
+      USART7_SendData_P += Length;
+    }
     
     if(USART7_SendData_Flag == false)
     {
@@ -2455,8 +2562,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART7_SendData_P > USART7_DMA_BufferSize_Tx)
       {
-        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART7_Buffer_Tx, USART7_Buffer_Tx + USART7_DMA_BufferSize_Tx, USART7_SendData_P - USART7_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_DMA_BufferSize_Tx);
+        memmove(USART7_Buffer_Tx, USART7_Buffer_Tx + USART7_DMA_BufferSize_Tx, USART7_SendData_P - USART7_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1);                    /* Clears the DMA1 Stream1's pending flags. */
         DMA_Cmd(DMA1_Stream1, DISABLE);                                 /* Disables the specified DMA1 Stream1. */
@@ -2464,19 +2571,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA1_Stream1, USART7_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream1. */
         DMA_Cmd(DMA1_Stream1, ENABLE);                                  /* Enables the specified DMA1 Stream1. */
         
-        USART7_SendData_P -= USART7_DMA_BufferSize_Tx;
+        USART7_SendDataCount += USART7_DMA_BufferSize_Tx;
+        USART7_SendData_P    -= USART7_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_SendData_P); /* Copy memory */
+        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1);             /* Clears the DMA1 Stream1's pending flags. */
-        DMA_Cmd(DMA1_Stream1, DISABLE);                          /* Disables the specified DMA1 Stream1. */
-        while(DMA_GetCmdStatus(DMA1_Stream1) != DISABLE);        /* Wait for the specified DMA1 Stream1 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream1, USART7_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream1. */
-        DMA_Cmd(DMA1_Stream1, ENABLE);                           /* Enables the specified DMA1 Stream1. */
+        DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1);              /* Clears the DMA1 Stream1's pending flags. */
+        DMA_Cmd(DMA1_Stream1, DISABLE);                           /* Disables the specified DMA1 Stream1. */
+        while(DMA_GetCmdStatus(DMA1_Stream1) != DISABLE);         /* Wait for the specified DMA1 Stream1 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream1, USART7_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream1. */
+        DMA_Cmd(DMA1_Stream1, ENABLE);                            /* Enables the specified DMA1 Stream1. */
         
-        USART7_SendData_P = NULL;
+        USART7_SendDataCount += USART7_SendData_P;
+        USART7_SendData_P     = NULL;
       }
     }
     
@@ -2491,13 +2600,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART8_BufferSize_Tx - USART8_SendData_P))
+    if(USART8_SendData_P >= USART8_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART8_Buffer_Tx + USART8_SendData_P, Data, Length); /* Copy memory */
-    USART8_SendData_P += Length;
+    if(Length > (USART8_BufferSize_Tx - USART8_SendData_P))
+    {
+      memcpy(USART8_Buffer_Tx + USART8_SendData_P, Data, USART8_BufferSize_Tx - USART8_SendData_P);
+      
+      USART8_SendData_P = USART8_BufferSize_Tx;
+      Length            = USART8_BufferSize_Tx - USART8_SendData_P;
+    }
+    else
+    {
+      memcpy(USART8_Buffer_Tx + USART8_SendData_P, Data, Length);
+      
+      USART8_SendData_P += Length;
+    }
     
     if(USART8_SendData_Flag == false)
     {
@@ -2505,8 +2625,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART8_SendData_P > USART8_DMA_BufferSize_Tx)
       {
-        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART8_Buffer_Tx, USART8_Buffer_Tx + USART8_DMA_BufferSize_Tx, USART8_SendData_P - USART8_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_DMA_BufferSize_Tx);
+        memmove(USART8_Buffer_Tx, USART8_Buffer_Tx + USART8_DMA_BufferSize_Tx, USART8_SendData_P - USART8_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);                    /* Clears the DMA1 Stream0's pending flags. */
         DMA_Cmd(DMA1_Stream0, DISABLE);                                 /* Disables the specified DMA1 Stream0. */
@@ -2514,19 +2634,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA1_Stream0, USART8_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream0. */
         DMA_Cmd(DMA1_Stream0, ENABLE);                                  /* Enables the specified DMA1 Stream0. */
         
-        USART8_SendData_P -= USART8_DMA_BufferSize_Tx;
+        USART8_SendDataCount += USART8_DMA_BufferSize_Tx;
+        USART8_SendData_P    -= USART8_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_SendData_P); /* Copy memory */
+        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);             /* Clears the DMA1 Stream0's pending flags. */
-        DMA_Cmd(DMA1_Stream0, DISABLE);                          /* Disables the specified DMA1 Stream0. */
-        while(DMA_GetCmdStatus(DMA1_Stream0) != DISABLE);        /* Wait for the specified DMA1 Stream0 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream0, USART8_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream0. */
-        DMA_Cmd(DMA1_Stream0, ENABLE);                           /* Enables the specified DMA1 Stream0. */
+        DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);              /* Clears the DMA1 Stream0's pending flags. */
+        DMA_Cmd(DMA1_Stream0, DISABLE);                           /* Disables the specified DMA1 Stream0. */
+        while(DMA_GetCmdStatus(DMA1_Stream0) != DISABLE);         /* Wait for the specified DMA1 Stream0 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream0, USART8_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream0. */
+        DMA_Cmd(DMA1_Stream0, ENABLE);                            /* Enables the specified DMA1 Stream0. */
         
-        USART8_SendData_P = NULL;
+        USART8_SendDataCount += USART8_SendData_P;
+        USART8_SendData_P     = NULL;
       }
     }
     
@@ -2543,13 +2665,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART9_BufferSize_Tx - USART9_SendData_P))
+    if(USART9_SendData_P >= USART9_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART9_Buffer_Tx + USART9_SendData_P, Data, Length); /* Copy memory */
-    USART9_SendData_P += Length;
+    if(Length > (USART9_BufferSize_Tx - USART9_SendData_P))
+    {
+      memcpy(USART9_Buffer_Tx + USART9_SendData_P, Data, USART9_BufferSize_Tx - USART9_SendData_P);
+      
+      USART9_SendData_P = USART9_BufferSize_Tx;
+      Length            = USART9_BufferSize_Tx - USART9_SendData_P;
+    }
+    else
+    {
+      memcpy(USART9_Buffer_Tx + USART9_SendData_P, Data, Length);
+      
+      USART9_SendData_P += Length;
+    }
     
     if(USART9_SendData_Flag == false)
     {
@@ -2557,8 +2690,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART9_SendData_P > USART9_DMA_BufferSize_Tx)
       {
-        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART9_Buffer_Tx, USART9_Buffer_Tx + USART9_DMA_BufferSize_Tx, USART9_SendData_P - USART9_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_DMA_BufferSize_Tx);
+        memmove(USART9_Buffer_Tx, USART9_Buffer_Tx + USART9_DMA_BufferSize_Tx, USART9_SendData_P - USART9_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream0, DMA_FLAG_TCIF0);                    /* Clears the DMA2 Stream0's pending flags. */
         DMA_Cmd(DMA2_Stream0, DISABLE);                                 /* Disables the specified DMA2 Stream0. */
@@ -2566,19 +2699,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA2_Stream0, USART9_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA2 Stream0. */
         DMA_Cmd(DMA2_Stream0, ENABLE);                                  /* Enables the specified DMA2 Stream0. */
         
-        USART9_SendData_P -= USART9_DMA_BufferSize_Tx;
+        USART9_SendDataCount += USART9_DMA_BufferSize_Tx;
+        USART9_SendData_P    -= USART9_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_SendData_P); /* Copy memory */
+        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream0, DMA_FLAG_TCIF0);             /* Clears the DMA2 Stream0's pending flags. */
-        DMA_Cmd(DMA2_Stream0, DISABLE);                          /* Disables the specified DMA2 Stream0. */
-        while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE);        /* Wait for the specified DMA2 Stream0 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream0, USART9_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream0. */
-        DMA_Cmd(DMA2_Stream0, ENABLE);                           /* Enables the specified DMA2 Stream0. */
+        DMA_ClearFlag(DMA2_Stream0, DMA_FLAG_TCIF0);              /* Clears the DMA2 Stream0's pending flags. */
+        DMA_Cmd(DMA2_Stream0, DISABLE);                           /* Disables the specified DMA2 Stream0. */
+        while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE);         /* Wait for the specified DMA2 Stream0 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream0, USART9_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream0. */
+        DMA_Cmd(DMA2_Stream0, ENABLE);                            /* Enables the specified DMA2 Stream0. */
         
-        USART9_SendData_P = NULL;
+        USART9_SendDataCount += USART9_SendData_P;
+        USART9_SendData_P     = NULL;
       }
     }
     
@@ -2593,13 +2728,24 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       return NULL;
     }
     
-    if(Length > (USART10_BufferSize_Tx - USART10_SendData_P))
+    if(USART10_SendData_P >= USART10_BufferSize_Tx)
     {
       return NULL;
     }
     
-    memcpy(USART10_Buffer_Tx + USART10_SendData_P, Data, Length); /* Copy memory */
-    USART10_SendData_P += Length;
+    if(Length > (USART10_BufferSize_Tx - USART10_SendData_P))
+    {
+      memcpy(USART10_Buffer_Tx + USART10_SendData_P, Data, USART10_BufferSize_Tx - USART10_SendData_P);
+      
+      USART10_SendData_P = USART10_BufferSize_Tx;
+      Length             = USART10_BufferSize_Tx - USART10_SendData_P;
+    }
+    else
+    {
+      memcpy(USART10_Buffer_Tx + USART10_SendData_P, Data, Length);
+      
+      USART10_SendData_P += Length;
+    }
     
     if(USART10_SendData_Flag == false)
     {
@@ -2607,8 +2753,8 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       
       if(USART10_SendData_P > USART10_DMA_BufferSize_Tx)
       {
-        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_DMA_BufferSize_Tx);                                               /* Copy memory */
-        memmove(USART10_Buffer_Tx, USART10_Buffer_Tx + USART10_DMA_BufferSize_Tx, USART10_SendData_P - USART10_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_DMA_BufferSize_Tx);
+        memmove(USART10_Buffer_Tx, USART10_Buffer_Tx + USART10_DMA_BufferSize_Tx, USART10_SendData_P - USART10_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);                      /* Clears the DMA2 Stream7's pending flags. */
         DMA_Cmd(DMA2_Stream7, DISABLE);                                   /* Disables the specified DMA2 Stream7. */
@@ -2616,19 +2762,21 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
         DMA_SetCurrDataCounter(DMA2_Stream7, USART10_DMA_BufferSize_Tx);  /* Writes the number of data units to be transferred on the DMA2 Stream7. */
         DMA_Cmd(DMA2_Stream7, ENABLE);                                    /* Enables the specified DMA2 Stream7. */
         
-        USART10_SendData_P -= USART10_DMA_BufferSize_Tx;
+        USART10_SendDataCount += USART10_DMA_BufferSize_Tx;
+        USART10_SendData_P    -= USART10_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_SendData_P); /* Copy memory */
+        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);               /* Clears the DMA2 Stream7's pending flags. */
-        DMA_Cmd(DMA2_Stream7, DISABLE);                            /* Disables the specified DMA2 Stream7. */
-        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);          /* Wait for the specified DMA2 Stream7 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream7, USART10_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream7. */
-        DMA_Cmd(DMA2_Stream7, ENABLE);                             /* Enables the specified DMA2 Stream7. */
+        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);              /* Clears the DMA2 Stream7's pending flags. */
+        DMA_Cmd(DMA2_Stream7, DISABLE);                           /* Disables the specified DMA2 Stream7. */
+        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);         /* Wait for the specified DMA2 Stream7 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream7, USART10_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
+        DMA_Cmd(DMA2_Stream7, ENABLE);                            /* Enables the specified DMA2 Stream7. */
         
-        USART10_SendData_P = NULL;
+        USART10_SendDataCount += USART10_SendData_P;
+        USART10_SendData_P     = NULL;
       }
     }
     
@@ -2673,17 +2821,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART1_ReceiveData_P > Length)
     {
-      memcpy(Data, USART1_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART1_Buffer_Rx, USART1_Buffer_Rx + Length, USART1_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART1_Buffer_Rx, Length);
+      memmove(USART1_Buffer_Rx, USART1_Buffer_Rx + Length, USART1_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART1_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART1_Buffer_Rx, USART1_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART1_Buffer_Rx, USART1_ReceiveData_P);
       
-      number = USART1_ReceiveData_P;
+      number               = USART1_ReceiveData_P;
       USART1_ReceiveData_P = NULL;
     }
     
@@ -2705,17 +2853,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART2_ReceiveData_P > Length)
     {
-      memcpy(Data, USART2_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART2_Buffer_Rx, USART2_Buffer_Rx + Length, USART2_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART2_Buffer_Rx, Length);
+      memmove(USART2_Buffer_Rx, USART2_Buffer_Rx + Length, USART2_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART2_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART2_Buffer_Rx, USART2_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART2_Buffer_Rx, USART2_ReceiveData_P);
       
-      number = USART2_ReceiveData_P;
+      number               = USART2_ReceiveData_P;
       USART2_ReceiveData_P = NULL;
     }
     
@@ -2738,17 +2886,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART3_ReceiveData_P > Length)
     {
-      memcpy(Data, USART3_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART3_Buffer_Rx, USART3_Buffer_Rx + Length, USART3_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART3_Buffer_Rx, Length);
+      memmove(USART3_Buffer_Rx, USART3_Buffer_Rx + Length, USART3_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART3_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART3_Buffer_Rx, USART3_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART3_Buffer_Rx, USART3_ReceiveData_P);
       
-      number = USART3_ReceiveData_P;
+      number               = USART3_ReceiveData_P;
       USART3_ReceiveData_P = NULL;
     }
     
@@ -2772,17 +2920,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART4_ReceiveData_P > Length)
     {
-      memcpy(Data, USART4_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART4_Buffer_Rx, USART4_Buffer_Rx + Length, USART4_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART4_Buffer_Rx, Length);
+      memmove(USART4_Buffer_Rx, USART4_Buffer_Rx + Length, USART4_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART4_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART4_Buffer_Rx, USART4_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART4_Buffer_Rx, USART4_ReceiveData_P);
       
-      number = USART4_ReceiveData_P;
+      number               = USART4_ReceiveData_P;
       USART4_ReceiveData_P = NULL;
     }
     
@@ -2804,17 +2952,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART5_ReceiveData_P > Length)
     {
-      memcpy(Data, USART5_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART5_Buffer_Rx, USART5_Buffer_Rx + Length, USART5_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART5_Buffer_Rx, Length);
+      memmove(USART5_Buffer_Rx, USART5_Buffer_Rx + Length, USART5_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART5_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART5_Buffer_Rx, USART5_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART5_Buffer_Rx, USART5_ReceiveData_P);
       
-      number = USART5_ReceiveData_P;
+      number               = USART5_ReceiveData_P;
       USART5_ReceiveData_P = NULL;
     }
     
@@ -2837,17 +2985,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART6_ReceiveData_P > Length)
     {
-      memcpy(Data, USART6_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART6_Buffer_Rx, USART6_Buffer_Rx + Length, USART6_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART6_Buffer_Rx, Length);
+      memmove(USART6_Buffer_Rx, USART6_Buffer_Rx + Length, USART6_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART6_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART6_Buffer_Rx, USART6_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART6_Buffer_Rx, USART6_ReceiveData_P);
       
-      number = USART6_ReceiveData_P;
+      number               = USART6_ReceiveData_P;
       USART6_ReceiveData_P = NULL;
     }
     
@@ -2870,17 +3018,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART7_ReceiveData_P > Length)
     {
-      memcpy(Data, USART7_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART7_Buffer_Rx, USART7_Buffer_Rx + Length, USART7_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART7_Buffer_Rx, Length);
+      memmove(USART7_Buffer_Rx, USART7_Buffer_Rx + Length, USART7_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART7_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART7_Buffer_Rx, USART7_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART7_Buffer_Rx, USART7_ReceiveData_P);
       
-      number = USART7_ReceiveData_P;
+      number               = USART7_ReceiveData_P;
       USART7_ReceiveData_P = NULL;
     }
     
@@ -2902,17 +3050,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART8_ReceiveData_P > Length)
     {
-      memcpy(Data, USART8_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART8_Buffer_Rx, USART8_Buffer_Rx + Length, USART8_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART8_Buffer_Rx, Length);
+      memmove(USART8_Buffer_Rx, USART8_Buffer_Rx + Length, USART8_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART8_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART8_Buffer_Rx, USART8_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART8_Buffer_Rx, USART8_ReceiveData_P);
       
-      number = USART8_ReceiveData_P;
+      number               = USART8_ReceiveData_P;
       USART8_ReceiveData_P = NULL;
     }
     
@@ -2936,17 +3084,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART9_ReceiveData_P > Length)
     {
-      memcpy(Data, USART9_Buffer_Rx, Length);                                               /* Copy memory */
-      memmove(USART9_Buffer_Rx, USART9_Buffer_Rx + Length, USART9_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART9_Buffer_Rx, Length);
+      memmove(USART9_Buffer_Rx, USART9_Buffer_Rx + Length, USART9_ReceiveData_P - Length);
       
-      number = Length;
+      number                = Length;
       USART9_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART9_Buffer_Rx, USART9_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART9_Buffer_Rx, USART9_ReceiveData_P);
       
-      number = USART9_ReceiveData_P;
+      number               = USART9_ReceiveData_P;
       USART9_ReceiveData_P = NULL;
     }
     
@@ -2968,17 +3116,17 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
     
     if(USART10_ReceiveData_P > Length)
     {
-      memcpy(Data, USART10_Buffer_Rx, Length);                                                 /* Copy memory */
-      memmove(USART10_Buffer_Rx, USART10_Buffer_Rx + Length, USART10_ReceiveData_P - Length);  /* Copy memory */
+      memcpy(Data, USART10_Buffer_Rx, Length);
+      memmove(USART10_Buffer_Rx, USART10_Buffer_Rx + Length, USART10_ReceiveData_P - Length);
       
-      number = Length;
+      number                 = Length;
       USART10_ReceiveData_P -= Length;
     }
     else
     {
-      memcpy(Data, USART10_Buffer_Rx, USART10_ReceiveData_P); /* Copy memory */
+      memcpy(Data, USART10_Buffer_Rx, USART10_ReceiveData_P);
       
-      number = USART10_ReceiveData_P;
+      number                = USART10_ReceiveData_P;
       USART10_ReceiveData_P = NULL;
     }
     
@@ -3014,8 +3162,8 @@ void USART1_IRQHandler(void)
     {
       if(USART1_SendData_P > USART1_DMA_BufferSize_Tx)
       {
-        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART1_Buffer_Tx, USART1_Buffer_Tx + USART1_DMA_BufferSize_Tx, USART1_SendData_P - USART1_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_DMA_BufferSize_Tx);
+        memmove(USART1_Buffer_Tx, USART1_Buffer_Tx + USART1_DMA_BufferSize_Tx, USART1_SendData_P - USART1_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);                    /* Clears the DMA2 Stream7's pending flags. */
         DMA_Cmd(DMA2_Stream7, DISABLE);                                 /* Disables the specified DMA2 Stream7. */
@@ -3023,19 +3171,21 @@ void USART1_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA2_Stream7, USART1_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
         DMA_Cmd(DMA2_Stream7, ENABLE);                                  /* Enables the specified DMA2 Stream7. */
         
-        USART1_SendData_P -= USART1_DMA_BufferSize_Tx;
+        USART1_SendDataCount += USART1_DMA_BufferSize_Tx;
+        USART1_SendData_P    -= USART1_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_SendData_P); /* Copy memory */
+        memcpy(USART1_DMA_Buffer_Tx, USART1_Buffer_Tx, USART1_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);             /* Clears the DMA2 Stream7's pending flags. */
-        DMA_Cmd(DMA2_Stream7, DISABLE);                          /* Disables the specified DMA2 Stream7. */
-        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);        /* Wait for the specified DMA2 Stream7 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream7, USART1_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
-        DMA_Cmd(DMA2_Stream7, ENABLE);                           /* Enables the specified DMA2 Stream7. */
+        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);              /* Clears the DMA2 Stream7's pending flags. */
+        DMA_Cmd(DMA2_Stream7, DISABLE);                           /* Disables the specified DMA2 Stream7. */
+        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);         /* Wait for the specified DMA2 Stream7 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream7, USART1_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream7. */
+        DMA_Cmd(DMA2_Stream7, ENABLE);                            /* Enables the specified DMA2 Stream7. */
         
-        USART1_SendData_P = NULL;
+        USART1_SendDataCount += USART1_SendData_P;
+        USART1_SendData_P     = NULL;
       }
     }
   }
@@ -3044,27 +3194,29 @@ void USART1_IRQHandler(void)
 #if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
   if(USART_GetITStatus(USART1, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART1);  /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(USART1);                          /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART1_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream2); /* Returns the number of remaining data units in the current DMA2 Stream2 transfer. */
+    uint32_t number = USART1_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream2);  /* Returns the number of remaining data units in the current DMA2 Stream2 transfer. */
+    
+    USART1_ReceiveDataCount += number;
     
     if(number > (USART1_BufferSize_Rx - USART1_ReceiveData_P))
     {
       if(number < USART1_BufferSize_Rx)
       {
-        memmove(USART1_Buffer_Rx, USART1_Buffer_Rx + (number - (USART1_BufferSize_Rx - USART1_ReceiveData_P)), USART1_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART1_Buffer_Rx + (USART1_BufferSize_Rx - number), USART1_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART1_Buffer_Rx, USART1_Buffer_Rx + (number - (USART1_BufferSize_Rx - USART1_ReceiveData_P)), USART1_BufferSize_Rx - number);
+        memcpy(USART1_Buffer_Rx + (USART1_BufferSize_Rx - number), USART1_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART1_Buffer_Rx, USART1_DMA_Buffer_Rx + (number - USART1_BufferSize_Rx), USART1_BufferSize_Rx); /* Copy memory */
+        memcpy(USART1_Buffer_Rx, USART1_DMA_Buffer_Rx + (number - USART1_BufferSize_Rx), USART1_BufferSize_Rx);
       }
       
       USART1_ReceiveData_P = USART1_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART1_Buffer_Rx + USART1_ReceiveData_P, USART1_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART1_Buffer_Rx + USART1_ReceiveData_P, USART1_DMA_Buffer_Rx, number);
       
       USART1_ReceiveData_P += number;
     }
@@ -3103,8 +3255,8 @@ void USART2_IRQHandler(void)
     {
       if(USART2_SendData_P > USART2_DMA_BufferSize_Tx)
       {
-        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART2_Buffer_Tx, USART2_Buffer_Tx + USART2_DMA_BufferSize_Tx, USART2_SendData_P - USART2_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_DMA_BufferSize_Tx);
+        memmove(USART2_Buffer_Tx, USART2_Buffer_Tx + USART2_DMA_BufferSize_Tx, USART2_SendData_P - USART2_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream6, DMA_FLAG_TCIF6);                    /* Clears the DMA1 Stream6's pending flags. */
         DMA_Cmd(DMA1_Stream6, DISABLE);                                 /* Disables the specified DMA1 Stream6. */
@@ -3112,19 +3264,21 @@ void USART2_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA1_Stream6, USART2_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream6. */
         DMA_Cmd(DMA1_Stream6, ENABLE);                                  /* Enables the specified DMA1 Stream6. */
         
-        USART2_SendData_P -= USART2_DMA_BufferSize_Tx;
+        USART2_SendDataCount += USART2_DMA_BufferSize_Tx;
+        USART2_SendData_P    -= USART2_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_SendData_P); /* Copy memory */
+        memcpy(USART2_DMA_Buffer_Tx, USART2_Buffer_Tx, USART2_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream6, DMA_FLAG_TCIF6);             /* Clears the DMA1 Stream6's pending flags. */
-        DMA_Cmd(DMA1_Stream6, DISABLE);                          /* Disables the specified DMA1 Stream6. */
-        while(DMA_GetCmdStatus(DMA1_Stream6) != DISABLE);        /* Wait for the specified DMA1 Stream6 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream6, USART2_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream6. */
-        DMA_Cmd(DMA1_Stream6, ENABLE);                           /* Enables the specified DMA1 Stream6. */
+        DMA_ClearFlag(DMA1_Stream6, DMA_FLAG_TCIF6);              /* Clears the DMA1 Stream6's pending flags. */
+        DMA_Cmd(DMA1_Stream6, DISABLE);                           /* Disables the specified DMA1 Stream6. */
+        while(DMA_GetCmdStatus(DMA1_Stream6) != DISABLE);         /* Wait for the specified DMA1 Stream6 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream6, USART2_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream6. */
+        DMA_Cmd(DMA1_Stream6, ENABLE);                            /* Enables the specified DMA1 Stream6. */
         
-        USART2_SendData_P = NULL;
+        USART2_SendDataCount += USART2_SendData_P;
+        USART2_SendData_P     = NULL;
       }
     }
   }
@@ -3133,27 +3287,29 @@ void USART2_IRQHandler(void)
 #if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
   if(USART_GetITStatus(USART2, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART2);  /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(USART2);                          /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART2_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream5); /* Returns the number of remaining data units in the current DMA1 Stream5 transfer. */
+    uint32_t number = USART2_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream5);  /* Returns the number of remaining data units in the current DMA1 Stream5 transfer. */
+    
+    USART2_ReceiveDataCount += number;
     
     if(number > (USART2_BufferSize_Rx - USART2_ReceiveData_P))
     {
       if(number < USART2_BufferSize_Rx)
       {
-        memmove(USART2_Buffer_Rx, USART2_Buffer_Rx + (number - (USART2_BufferSize_Rx - USART2_ReceiveData_P)), USART2_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART2_Buffer_Rx + (USART2_BufferSize_Rx - number), USART2_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART2_Buffer_Rx, USART2_Buffer_Rx + (number - (USART2_BufferSize_Rx - USART2_ReceiveData_P)), USART2_BufferSize_Rx - number);
+        memcpy(USART2_Buffer_Rx + (USART2_BufferSize_Rx - number), USART2_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART2_Buffer_Rx, USART2_DMA_Buffer_Rx + (number - USART2_BufferSize_Rx), USART2_BufferSize_Rx); /* Copy memory */
+        memcpy(USART2_Buffer_Rx, USART2_DMA_Buffer_Rx + (number - USART2_BufferSize_Rx), USART2_BufferSize_Rx);
       }
       
       USART2_ReceiveData_P = USART2_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART2_Buffer_Rx + USART2_ReceiveData_P, USART2_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART2_Buffer_Rx + USART2_ReceiveData_P, USART2_DMA_Buffer_Rx, number);
       
       USART2_ReceiveData_P += number;
     }
@@ -3193,8 +3349,8 @@ void USART3_IRQHandler(void)
     {
       if(USART3_SendData_P > USART3_DMA_BufferSize_Tx)
       {
-        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART3_Buffer_Tx, USART3_Buffer_Tx + USART3_DMA_BufferSize_Tx, USART3_SendData_P - USART3_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_DMA_BufferSize_Tx);
+        memmove(USART3_Buffer_Tx, USART3_Buffer_Tx + USART3_DMA_BufferSize_Tx, USART3_SendData_P - USART3_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);                    /* Clears the DMA1 Stream3's pending flags. */
         DMA_Cmd(DMA1_Stream3, DISABLE);                                 /* Disables the specified DMA1 Stream3. */
@@ -3202,19 +3358,21 @@ void USART3_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA1_Stream3, USART3_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream3. */
         DMA_Cmd(DMA1_Stream3, ENABLE);                                  /* Enables the specified DMA1 Stream3. */
         
-        USART3_SendData_P -= USART3_DMA_BufferSize_Tx;
+        USART3_SendDataCount += USART3_DMA_BufferSize_Tx;
+        USART3_SendData_P    -= USART3_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_SendData_P); /* Copy memory */
+        memcpy(USART3_DMA_Buffer_Tx, USART3_Buffer_Tx, USART3_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);             /* Clears the DMA1 Stream3's pending flags. */
-        DMA_Cmd(DMA1_Stream3, DISABLE);                          /* Disables the specified DMA1 Stream3. */
-        while(DMA_GetCmdStatus(DMA1_Stream3) != DISABLE);        /* Wait for the specified DMA1 Stream3 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream3, USART3_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream3. */
-        DMA_Cmd(DMA1_Stream3, ENABLE);                           /* Enables the specified DMA1 Stream3. */
+        DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);              /* Clears the DMA1 Stream3's pending flags. */
+        DMA_Cmd(DMA1_Stream3, DISABLE);                           /* Disables the specified DMA1 Stream3. */
+        while(DMA_GetCmdStatus(DMA1_Stream3) != DISABLE);         /* Wait for the specified DMA1 Stream3 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream3, USART3_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream3. */
+        DMA_Cmd(DMA1_Stream3, ENABLE);                            /* Enables the specified DMA1 Stream3. */
         
-        USART3_SendData_P = NULL;
+        USART3_SendDataCount += USART3_SendData_P;
+        USART3_SendData_P     = NULL;
       }
     }
   }
@@ -3225,25 +3383,27 @@ void USART3_IRQHandler(void)
   {
     USART_ReceiveData(USART3);                          /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART3_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream1); /* Returns the number of remaining data units in the current DMA1 Stream1 transfer. */
+    uint32_t number = USART3_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream1);  /* Returns the number of remaining data units in the current DMA1 Stream1 transfer. */
+    
+    USART3_ReceiveDataCount += number;
     
     if(number > (USART3_BufferSize_Rx - USART3_ReceiveData_P))
     {
       if(number < USART3_BufferSize_Rx)
       {
-        memmove(USART3_Buffer_Rx, USART3_Buffer_Rx + (number - (USART3_BufferSize_Rx - USART3_ReceiveData_P)), USART3_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART3_Buffer_Rx + (USART3_BufferSize_Rx - number), USART3_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART3_Buffer_Rx, USART3_Buffer_Rx + (number - (USART3_BufferSize_Rx - USART3_ReceiveData_P)), USART3_BufferSize_Rx - number);
+        memcpy(USART3_Buffer_Rx + (USART3_BufferSize_Rx - number), USART3_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART3_Buffer_Rx, USART3_DMA_Buffer_Rx + (number - USART3_BufferSize_Rx), USART3_BufferSize_Rx); /* Copy memory */
+        memcpy(USART3_Buffer_Rx, USART3_DMA_Buffer_Rx + (number - USART3_BufferSize_Rx), USART3_BufferSize_Rx);
       }
       
       USART3_ReceiveData_P = USART3_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART3_Buffer_Rx + USART3_ReceiveData_P, USART3_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART3_Buffer_Rx + USART3_ReceiveData_P, USART3_DMA_Buffer_Rx, number);
       
       USART3_ReceiveData_P += number;
     }
@@ -3284,8 +3444,8 @@ void UART4_IRQHandler(void)
     {
       if(USART4_SendData_P > USART4_DMA_BufferSize_Tx)
       {
-        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART4_Buffer_Tx, USART4_Buffer_Tx + USART4_DMA_BufferSize_Tx, USART4_SendData_P - USART4_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_DMA_BufferSize_Tx);
+        memmove(USART4_Buffer_Tx, USART4_Buffer_Tx + USART4_DMA_BufferSize_Tx, USART4_SendData_P - USART4_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream4, DMA_FLAG_TCIF4);                    /* Clears the DMA1 Stream4's pending flags. */
         DMA_Cmd(DMA1_Stream4, DISABLE);                                 /* Disables the specified DMA1 Stream4. */
@@ -3293,19 +3453,21 @@ void UART4_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA1_Stream4, USART4_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream4. */
         DMA_Cmd(DMA1_Stream4, ENABLE);                                  /* Enables the specified DMA1 Stream4. */
         
-        USART4_SendData_P -= USART4_DMA_BufferSize_Tx;
+        USART4_SendDataCount += USART4_DMA_BufferSize_Tx;
+        USART4_SendData_P    -= USART4_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_SendData_P); /* Copy memory */
+        memcpy(USART4_DMA_Buffer_Tx, USART4_Buffer_Tx, USART4_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream4, DMA_FLAG_TCIF4);             /* Clears the DMA1 Stream4's pending flags. */
-        DMA_Cmd(DMA1_Stream4, DISABLE);                          /* Disables the specified DMA1 Stream4. */
-        while(DMA_GetCmdStatus(DMA1_Stream4) != DISABLE);        /* Wait for the specified DMA1 Stream4 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream4, USART4_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream4. */
-        DMA_Cmd(DMA1_Stream4, ENABLE);                           /* Enables the specified DMA1 Stream4. */
+        DMA_ClearFlag(DMA1_Stream4, DMA_FLAG_TCIF4);              /* Clears the DMA1 Stream4's pending flags. */
+        DMA_Cmd(DMA1_Stream4, DISABLE);                           /* Disables the specified DMA1 Stream4. */
+        while(DMA_GetCmdStatus(DMA1_Stream4) != DISABLE);         /* Wait for the specified DMA1 Stream4 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream4, USART4_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream4. */
+        DMA_Cmd(DMA1_Stream4, ENABLE);                            /* Enables the specified DMA1 Stream4. */
         
-        USART4_SendData_P = NULL;
+        USART4_SendDataCount += USART4_SendData_P;
+        USART4_SendData_P     = NULL;
       }
     }
   }
@@ -3314,27 +3476,29 @@ void UART4_IRQHandler(void)
 #if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
   if(USART_GetITStatus(UART4, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART4); /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(UART4);                           /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART4_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream2); /* Returns the number of remaining data units in the current DMA1 Stream2 transfer. */
+    uint32_t number = USART4_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream2);  /* Returns the number of remaining data units in the current DMA1 Stream2 transfer. */
+    
+    USART4_ReceiveDataCount += number;
     
     if(number > (USART4_BufferSize_Rx - USART4_ReceiveData_P))
     {
       if(number < USART4_BufferSize_Rx)
       {
-        memmove(USART4_Buffer_Rx, USART4_Buffer_Rx + (number - (USART4_BufferSize_Rx - USART4_ReceiveData_P)), USART4_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART4_Buffer_Rx + (USART4_BufferSize_Rx - number), USART4_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART4_Buffer_Rx, USART4_Buffer_Rx + (number - (USART4_BufferSize_Rx - USART4_ReceiveData_P)), USART4_BufferSize_Rx - number);
+        memcpy(USART4_Buffer_Rx + (USART4_BufferSize_Rx - number), USART4_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART4_Buffer_Rx, USART4_DMA_Buffer_Rx + (number - USART4_BufferSize_Rx), USART4_BufferSize_Rx); /* Copy memory */
+        memcpy(USART4_Buffer_Rx, USART4_DMA_Buffer_Rx + (number - USART4_BufferSize_Rx), USART4_BufferSize_Rx);
       }
       
       USART4_ReceiveData_P = USART4_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART4_Buffer_Rx + USART4_ReceiveData_P, USART4_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART4_Buffer_Rx + USART4_ReceiveData_P, USART4_DMA_Buffer_Rx, number);
       
       USART4_ReceiveData_P += number;
     }
@@ -3373,8 +3537,8 @@ void UART5_IRQHandler(void)
     {
       if(USART5_SendData_P > USART5_DMA_BufferSize_Tx)
       {
-        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART5_Buffer_Tx, USART5_Buffer_Tx + USART5_DMA_BufferSize_Tx, USART5_SendData_P - USART5_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_DMA_BufferSize_Tx);
+        memmove(USART5_Buffer_Tx, USART5_Buffer_Tx + USART5_DMA_BufferSize_Tx, USART5_SendData_P - USART5_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);                    /* Clears the DMA1 Stream7's pending flags. */
         DMA_Cmd(DMA1_Stream7, DISABLE);                                 /* Disables the specified DMA1 Stream7. */
@@ -3382,19 +3546,21 @@ void UART5_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA1_Stream7, USART5_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream7. */
         DMA_Cmd(DMA1_Stream7, ENABLE);                                  /* Enables the specified DMA1 Stream7. */
         
-        USART5_SendData_P -= USART5_DMA_BufferSize_Tx;
+        USART5_SendDataCount += USART5_DMA_BufferSize_Tx;
+        USART5_SendData_P    -= USART5_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_SendData_P); /* Copy memory */
+        memcpy(USART5_DMA_Buffer_Tx, USART5_Buffer_Tx, USART5_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);             /* Clears the DMA1 Stream7's pending flags. */
-        DMA_Cmd(DMA1_Stream7, DISABLE);                          /* Disables the specified DMA1 Stream7. */
-        while(DMA_GetCmdStatus(DMA1_Stream7) != DISABLE);        /* Wait for the specified DMA1 Stream7 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream7, USART5_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream7. */
-        DMA_Cmd(DMA1_Stream7, ENABLE);                           /* Enables the specified DMA1 Stream7. */
+        DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);              /* Clears the DMA1 Stream7's pending flags. */
+        DMA_Cmd(DMA1_Stream7, DISABLE);                           /* Disables the specified DMA1 Stream7. */
+        while(DMA_GetCmdStatus(DMA1_Stream7) != DISABLE);         /* Wait for the specified DMA1 Stream7 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream7, USART5_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream7. */
+        DMA_Cmd(DMA1_Stream7, ENABLE);                            /* Enables the specified DMA1 Stream7. */
         
-        USART5_SendData_P = NULL;
+        USART5_SendDataCount += USART5_SendData_P;
+        USART5_SendData_P     = NULL;
       }
     }
   }
@@ -3403,27 +3569,29 @@ void UART5_IRQHandler(void)
 #if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
   if(USART_GetITStatus(UART5, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART5); /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(UART5);                           /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART5_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream0); /* Returns the number of remaining data units in the current DMA1 Stream0 transfer. */
+    uint32_t number = USART5_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream0);  /* Returns the number of remaining data units in the current DMA1 Stream0 transfer. */
+    
+    USART5_ReceiveDataCount += number;
     
     if(number > (USART5_BufferSize_Rx - USART5_ReceiveData_P))
     {
       if(number < USART5_BufferSize_Rx)
       {
-        memmove(USART5_Buffer_Rx, USART5_Buffer_Rx + (number - (USART5_BufferSize_Rx - USART5_ReceiveData_P)), USART5_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART5_Buffer_Rx + (USART5_BufferSize_Rx - number), USART5_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART5_Buffer_Rx, USART5_Buffer_Rx + (number - (USART5_BufferSize_Rx - USART5_ReceiveData_P)), USART5_BufferSize_Rx - number);
+        memcpy(USART5_Buffer_Rx + (USART5_BufferSize_Rx - number), USART5_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART5_Buffer_Rx, USART5_DMA_Buffer_Rx + (number - USART5_BufferSize_Rx), USART5_BufferSize_Rx); /* Copy memory */
+        memcpy(USART5_Buffer_Rx, USART5_DMA_Buffer_Rx + (number - USART5_BufferSize_Rx), USART5_BufferSize_Rx);
       }
       
       USART5_ReceiveData_P = USART5_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART5_Buffer_Rx + USART5_ReceiveData_P, USART5_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART5_Buffer_Rx + USART5_ReceiveData_P, USART5_DMA_Buffer_Rx, number);
       
       USART5_ReceiveData_P += number;
     }
@@ -3463,8 +3631,8 @@ void USART6_IRQHandler(void)
     {
       if(USART6_SendData_P > USART6_DMA_BufferSize_Tx)
       {
-        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART6_Buffer_Tx, USART6_Buffer_Tx + USART6_DMA_BufferSize_Tx, USART6_SendData_P - USART6_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_DMA_BufferSize_Tx);
+        memmove(USART6_Buffer_Tx, USART6_Buffer_Tx + USART6_DMA_BufferSize_Tx, USART6_SendData_P - USART6_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6);                    /* Clears the DMA2 Stream6's pending flags. */
         DMA_Cmd(DMA2_Stream6, DISABLE);                                 /* Disables the specified DMA2 Stream6. */
@@ -3472,19 +3640,21 @@ void USART6_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA2_Stream6, USART6_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA2 Stream6. */
         DMA_Cmd(DMA2_Stream6, ENABLE);                                  /* Enables the specified DMA2 Stream6. */
         
-        USART6_SendData_P -= USART6_DMA_BufferSize_Tx;
+        USART6_SendDataCount += USART6_DMA_BufferSize_Tx;
+        USART6_SendData_P    -= USART6_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_SendData_P); /* Copy memory */
+        memcpy(USART6_DMA_Buffer_Tx, USART6_Buffer_Tx, USART6_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6);             /* Clears the DMA2 Stream6's pending flags. */
-        DMA_Cmd(DMA2_Stream6, DISABLE);                          /* Disables the specified DMA2 Stream6. */
-        while(DMA_GetCmdStatus(DMA2_Stream6) != DISABLE);        /* Wait for the specified DMA2 Stream6 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream6, USART6_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream6. */
-        DMA_Cmd(DMA2_Stream6, ENABLE);                           /* Enables the specified DMA2 Stream6. */
+        DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6);              /* Clears the DMA2 Stream6's pending flags. */
+        DMA_Cmd(DMA2_Stream6, DISABLE);                           /* Disables the specified DMA2 Stream6. */
+        while(DMA_GetCmdStatus(DMA2_Stream6) != DISABLE);         /* Wait for the specified DMA2 Stream6 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream6, USART6_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream6. */
+        DMA_Cmd(DMA2_Stream6, ENABLE);                            /* Enables the specified DMA2 Stream6. */
         
-        USART6_SendData_P = NULL;
+        USART6_SendDataCount += USART6_SendData_P;
+        USART6_SendData_P     = NULL;
       }
     }
   }
@@ -3493,27 +3663,29 @@ void USART6_IRQHandler(void)
 #if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
   if(USART_GetITStatus(USART6, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(USART6);  /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(USART6);                          /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART6_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream1); /* Returns the number of remaining data units in the current DMA2 Stream1 transfer. */
+    uint32_t number = USART6_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream1);  /* Returns the number of remaining data units in the current DMA2 Stream1 transfer. */
+    
+    USART6_ReceiveDataCount += number;
     
     if(number > (USART6_BufferSize_Rx - USART6_ReceiveData_P))
     {
       if(number < USART6_BufferSize_Rx)
       {
-        memmove(USART6_Buffer_Rx, USART6_Buffer_Rx + (number - (USART6_BufferSize_Rx - USART6_ReceiveData_P)), USART6_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART6_Buffer_Rx + (USART6_BufferSize_Rx - number), USART6_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART6_Buffer_Rx, USART6_Buffer_Rx + (number - (USART6_BufferSize_Rx - USART6_ReceiveData_P)), USART6_BufferSize_Rx - number);
+        memcpy(USART6_Buffer_Rx + (USART6_BufferSize_Rx - number), USART6_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART6_Buffer_Rx, USART6_DMA_Buffer_Rx + (number - USART6_BufferSize_Rx), USART6_BufferSize_Rx); /* Copy memory */
+        memcpy(USART6_Buffer_Rx, USART6_DMA_Buffer_Rx + (number - USART6_BufferSize_Rx), USART6_BufferSize_Rx);
       }
       
       USART6_ReceiveData_P = USART6_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART6_Buffer_Rx + USART6_ReceiveData_P, USART6_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART6_Buffer_Rx + USART6_ReceiveData_P, USART6_DMA_Buffer_Rx, number);
       
       USART6_ReceiveData_P += number;
     }
@@ -3553,8 +3725,8 @@ void UART7_IRQHandler(void)
     {
       if(USART7_SendData_P > USART7_DMA_BufferSize_Tx)
       {
-        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART7_Buffer_Tx, USART7_Buffer_Tx + USART7_DMA_BufferSize_Tx, USART7_SendData_P - USART7_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_DMA_BufferSize_Tx);
+        memmove(USART7_Buffer_Tx, USART7_Buffer_Tx + USART7_DMA_BufferSize_Tx, USART7_SendData_P - USART7_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1);                    /* Clears the DMA1 Stream1's pending flags. */
         DMA_Cmd(DMA1_Stream1, DISABLE);                                 /* Disables the specified DMA1 Stream1. */
@@ -3562,19 +3734,21 @@ void UART7_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA1_Stream1, USART7_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream1. */
         DMA_Cmd(DMA1_Stream1, ENABLE);                                  /* Enables the specified DMA1 Stream1. */
         
-        USART7_SendData_P -= USART7_DMA_BufferSize_Tx;
+        USART7_SendDataCount += USART7_DMA_BufferSize_Tx;
+        USART7_SendData_P    -= USART7_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_SendData_P); /* Copy memory */
+        memcpy(USART7_DMA_Buffer_Tx, USART7_Buffer_Tx, USART7_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1);             /* Clears the DMA1 Stream1's pending flags. */
-        DMA_Cmd(DMA1_Stream1, DISABLE);                          /* Disables the specified DMA1 Stream1. */
-        while(DMA_GetCmdStatus(DMA1_Stream1) != DISABLE);        /* Wait for the specified DMA1 Stream1 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream1, USART7_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream1. */
-        DMA_Cmd(DMA1_Stream1, ENABLE);                           /* Enables the specified DMA1 Stream1. */
+        DMA_ClearFlag(DMA1_Stream1, DMA_FLAG_TCIF1);              /* Clears the DMA1 Stream1's pending flags. */
+        DMA_Cmd(DMA1_Stream1, DISABLE);                           /* Disables the specified DMA1 Stream1. */
+        while(DMA_GetCmdStatus(DMA1_Stream1) != DISABLE);         /* Wait for the specified DMA1 Stream1 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream1, USART7_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream1. */
+        DMA_Cmd(DMA1_Stream1, ENABLE);                            /* Enables the specified DMA1 Stream1. */
         
-        USART7_SendData_P = NULL;
+        USART7_SendDataCount += USART7_SendData_P;
+        USART7_SendData_P     = NULL;
       }
     }
   }
@@ -3583,27 +3757,29 @@ void UART7_IRQHandler(void)
 #if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
   if(USART_GetITStatus(UART7, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART7); /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(UART7);                           /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART7_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream3); /* Returns the number of remaining data units in the current DMA1 Stream3 transfer. */
+    uint32_t number = USART7_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream3);  /* Returns the number of remaining data units in the current DMA1 Stream3 transfer. */
+    
+    USART7_ReceiveDataCount += number;
     
     if(number > (USART7_BufferSize_Rx - USART7_ReceiveData_P))
     {
       if(number < USART7_BufferSize_Rx)
       {
-        memmove(USART7_Buffer_Rx, USART7_Buffer_Rx + (number - (USART7_BufferSize_Rx - USART7_ReceiveData_P)), USART7_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART7_Buffer_Rx + (USART7_BufferSize_Rx - number), USART7_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART7_Buffer_Rx, USART7_Buffer_Rx + (number - (USART7_BufferSize_Rx - USART7_ReceiveData_P)), USART7_BufferSize_Rx - number);
+        memcpy(USART7_Buffer_Rx + (USART7_BufferSize_Rx - number), USART7_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART7_Buffer_Rx, USART7_DMA_Buffer_Rx + (number - USART7_BufferSize_Rx), USART7_BufferSize_Rx); /* Copy memory */
+        memcpy(USART7_Buffer_Rx, USART7_DMA_Buffer_Rx + (number - USART7_BufferSize_Rx), USART7_BufferSize_Rx);
       }
       
       USART7_ReceiveData_P = USART7_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART7_Buffer_Rx + USART7_ReceiveData_P, USART7_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART7_Buffer_Rx + USART7_ReceiveData_P, USART7_DMA_Buffer_Rx, number);
       
       USART7_ReceiveData_P += number;
     }
@@ -3642,8 +3818,8 @@ void UART8_IRQHandler(void)
     {
       if(USART8_SendData_P > USART8_DMA_BufferSize_Tx)
       {
-        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART8_Buffer_Tx, USART8_Buffer_Tx + USART8_DMA_BufferSize_Tx, USART8_SendData_P - USART8_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_DMA_BufferSize_Tx);
+        memmove(USART8_Buffer_Tx, USART8_Buffer_Tx + USART8_DMA_BufferSize_Tx, USART8_SendData_P - USART8_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);                    /* Clears the DMA1 Stream0's pending flags. */
         DMA_Cmd(DMA1_Stream0, DISABLE);                                 /* Disables the specified DMA1 Stream0. */
@@ -3651,19 +3827,21 @@ void UART8_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA1_Stream0, USART8_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA1 Stream0. */
         DMA_Cmd(DMA1_Stream0, ENABLE);                                  /* Enables the specified DMA1 Stream0. */
         
-        USART8_SendData_P -= USART8_DMA_BufferSize_Tx;
+        USART8_SendDataCount += USART8_DMA_BufferSize_Tx;
+        USART8_SendData_P    -= USART8_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_SendData_P); /* Copy memory */
+        memcpy(USART8_DMA_Buffer_Tx, USART8_Buffer_Tx, USART8_SendData_P);
         
-        DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);             /* Clears the DMA1 Stream0's pending flags. */
-        DMA_Cmd(DMA1_Stream0, DISABLE);                          /* Disables the specified DMA1 Stream0. */
-        while(DMA_GetCmdStatus(DMA1_Stream0) != DISABLE);        /* Wait for the specified DMA1 Stream0 disable to finish. */
-        DMA_SetCurrDataCounter(DMA1_Stream0, USART8_SendData_P); /* Writes the number of data units to be transferred on the DMA1 Stream0. */
-        DMA_Cmd(DMA1_Stream0, ENABLE);                           /* Enables the specified DMA1 Stream0. */
+        DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);              /* Clears the DMA1 Stream0's pending flags. */
+        DMA_Cmd(DMA1_Stream0, DISABLE);                           /* Disables the specified DMA1 Stream0. */
+        while(DMA_GetCmdStatus(DMA1_Stream0) != DISABLE);         /* Wait for the specified DMA1 Stream0 disable to finish. */
+        DMA_SetCurrDataCounter(DMA1_Stream0, USART8_SendData_P);  /* Writes the number of data units to be transferred on the DMA1 Stream0. */
+        DMA_Cmd(DMA1_Stream0, ENABLE);                            /* Enables the specified DMA1 Stream0. */
         
-        USART8_SendData_P = NULL;
+        USART8_SendDataCount += USART8_SendData_P;
+        USART8_SendData_P     = NULL;
       }
     }
   }
@@ -3672,27 +3850,29 @@ void UART8_IRQHandler(void)
 #if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
   if(USART_GetITStatus(UART8, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART8); /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(UART8);                           /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART8_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream6); /* Returns the number of remaining data units in the current DMA1 Stream6 transfer. */
+    uint32_t number = USART8_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream6);  /* Returns the number of remaining data units in the current DMA1 Stream6 transfer. */
+    
+    USART8_ReceiveDataCount += number;
     
     if(number > (USART8_BufferSize_Rx - USART8_ReceiveData_P))
     {
       if(number < USART8_BufferSize_Rx)
       {
-        memmove(USART8_Buffer_Rx, USART8_Buffer_Rx + (number - (USART8_BufferSize_Rx - USART8_ReceiveData_P)), USART8_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART8_Buffer_Rx + (USART8_BufferSize_Rx - number), USART8_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART8_Buffer_Rx, USART8_Buffer_Rx + (number - (USART8_BufferSize_Rx - USART8_ReceiveData_P)), USART8_BufferSize_Rx - number);
+        memcpy(USART8_Buffer_Rx + (USART8_BufferSize_Rx - number), USART8_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART8_Buffer_Rx, USART8_DMA_Buffer_Rx + (number - USART8_BufferSize_Rx), USART8_BufferSize_Rx); /* Copy memory */
+        memcpy(USART8_Buffer_Rx, USART8_DMA_Buffer_Rx + (number - USART8_BufferSize_Rx), USART8_BufferSize_Rx);
       }
       
       USART8_ReceiveData_P = USART8_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART8_Buffer_Rx + USART8_ReceiveData_P, USART8_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART8_Buffer_Rx + USART8_ReceiveData_P, USART8_DMA_Buffer_Rx, number);
       
       USART8_ReceiveData_P += number;
     }
@@ -3733,8 +3913,8 @@ void UART9_IRQHandler(void)
     {
       if(USART9_SendData_P > USART9_DMA_BufferSize_Tx)
       {
-        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_DMA_BufferSize_Tx);                                             /* Copy memory */
-        memmove(USART9_Buffer_Tx, USART9_Buffer_Tx + USART9_DMA_BufferSize_Tx, USART9_SendData_P - USART9_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_DMA_BufferSize_Tx);
+        memmove(USART9_Buffer_Tx, USART9_Buffer_Tx + USART9_DMA_BufferSize_Tx, USART9_SendData_P - USART9_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream0, DMA_FLAG_TCIF0);                    /* Clears the DMA2 Stream0's pending flags. */
         DMA_Cmd(DMA2_Stream0, DISABLE);                                 /* Disables the specified DMA2 Stream0. */
@@ -3742,19 +3922,21 @@ void UART9_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA2_Stream0, USART9_DMA_BufferSize_Tx); /* Writes the number of data units to be transferred on the DMA2 Stream0. */
         DMA_Cmd(DMA2_Stream0, ENABLE);                                  /* Enables the specified DMA2 Stream0. */
         
-        USART9_SendData_P -= USART9_DMA_BufferSize_Tx;
+        USART9_SendDataCount += USART9_DMA_BufferSize_Tx;
+        USART9_SendData_P    -= USART9_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_SendData_P); /* Copy memory */
+        memcpy(USART9_DMA_Buffer_Tx, USART9_Buffer_Tx, USART9_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream0, DMA_FLAG_TCIF0);             /* Clears the DMA2 Stream0's pending flags. */
-        DMA_Cmd(DMA2_Stream0, DISABLE);                          /* Disables the specified DMA2 Stream0. */
-        while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE);        /* Wait for the specified DMA2 Stream0 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream0, USART9_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream0. */
-        DMA_Cmd(DMA2_Stream0, ENABLE);                           /* Enables the specified DMA2 Stream0. */
+        DMA_ClearFlag(DMA2_Stream0, DMA_FLAG_TCIF0);              /* Clears the DMA2 Stream0's pending flags. */
+        DMA_Cmd(DMA2_Stream0, DISABLE);                           /* Disables the specified DMA2 Stream0. */
+        while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE);         /* Wait for the specified DMA2 Stream0 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream0, USART9_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream0. */
+        DMA_Cmd(DMA2_Stream0, ENABLE);                            /* Enables the specified DMA2 Stream0. */
         
-        USART9_SendData_P = NULL;
+        USART9_SendDataCount += USART9_SendData_P;
+        USART9_SendData_P     = NULL;
       }
     }
   }
@@ -3763,27 +3945,29 @@ void UART9_IRQHandler(void)
 #if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
   if(USART_GetITStatus(UART9, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART9); /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(UART9);                           /* Returns the most recent received data by the USARTx peripheral. */
     
-    uint32_t number = USART9_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream7); /* Returns the number of remaining data units in the current DMA2 Stream7 transfer. */
+    uint32_t number = USART9_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream7);  /* Returns the number of remaining data units in the current DMA2 Stream7 transfer. */
+    
+    USART9_ReceiveDataCount += number;
     
     if(number > (USART9_BufferSize_Rx - USART9_ReceiveData_P))
     {
       if(number < USART9_BufferSize_Rx)
       {
-        memmove(USART9_Buffer_Rx, USART9_Buffer_Rx + (number - (USART9_BufferSize_Rx - USART9_ReceiveData_P)), USART9_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART9_Buffer_Rx + (USART9_BufferSize_Rx - number), USART9_DMA_Buffer_Rx, number);                                               /* Copy memory */
+        memmove(USART9_Buffer_Rx, USART9_Buffer_Rx + (number - (USART9_BufferSize_Rx - USART9_ReceiveData_P)), USART9_BufferSize_Rx - number);
+        memcpy(USART9_Buffer_Rx + (USART9_BufferSize_Rx - number), USART9_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART9_Buffer_Rx, USART9_DMA_Buffer_Rx + (number - USART9_BufferSize_Rx), USART9_BufferSize_Rx); /* Copy memory */
+        memcpy(USART9_Buffer_Rx, USART9_DMA_Buffer_Rx + (number - USART9_BufferSize_Rx), USART9_BufferSize_Rx);
       }
       
       USART9_ReceiveData_P = USART9_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART9_Buffer_Rx + USART9_ReceiveData_P, USART9_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART9_Buffer_Rx + USART9_ReceiveData_P, USART9_DMA_Buffer_Rx, number);
       
       USART9_ReceiveData_P += number;
     }
@@ -3822,8 +4006,8 @@ void UART10_IRQHandler(void)
     {
       if(USART10_SendData_P > USART10_DMA_BufferSize_Tx)
       {
-        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_DMA_BufferSize_Tx);                                               /* Copy memory */
-        memmove(USART10_Buffer_Tx, USART10_Buffer_Tx + USART10_DMA_BufferSize_Tx, USART10_SendData_P - USART10_DMA_BufferSize_Tx); /* Copy memory */
+        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_DMA_BufferSize_Tx);
+        memmove(USART10_Buffer_Tx, USART10_Buffer_Tx + USART10_DMA_BufferSize_Tx, USART10_SendData_P - USART10_DMA_BufferSize_Tx);
         
         DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);                      /* Clears the DMA2 Stream7's pending flags. */
         DMA_Cmd(DMA2_Stream7, DISABLE);                                   /* Disables the specified DMA2 Stream7. */
@@ -3831,19 +4015,21 @@ void UART10_IRQHandler(void)
         DMA_SetCurrDataCounter(DMA2_Stream7, USART10_DMA_BufferSize_Tx);  /* Writes the number of data units to be transferred on the DMA2 Stream7. */
         DMA_Cmd(DMA2_Stream7, ENABLE);                                    /* Enables the specified DMA2 Stream7. */
         
-        USART10_SendData_P -= USART10_DMA_BufferSize_Tx;
+        USART10_SendDataCount += USART10_DMA_BufferSize_Tx;
+        USART10_SendData_P    -= USART10_DMA_BufferSize_Tx;
       }
       else
       {
-        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_SendData_P); /* Copy memory */
+        memcpy(USART10_DMA_Buffer_Tx, USART10_Buffer_Tx, USART10_SendData_P);
         
-        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);               /* Clears the DMA2 Stream7's pending flags. */
-        DMA_Cmd(DMA2_Stream7, DISABLE);                            /* Disables the specified DMA2 Stream7. */
-        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);          /* Wait for the specified DMA2 Stream7 disable to finish. */
-        DMA_SetCurrDataCounter(DMA2_Stream7, USART10_SendData_P);  /* Writes the number of data units to be transferred on the DMA2 Stream7. */
-        DMA_Cmd(DMA2_Stream7, ENABLE);                             /* Enables the specified DMA2 Stream7. */
+        DMA_ClearFlag(DMA2_Stream7, DMA_FLAG_TCIF7);              /* Clears the DMA2 Stream7's pending flags. */
+        DMA_Cmd(DMA2_Stream7, DISABLE);                           /* Disables the specified DMA2 Stream7. */
+        while(DMA_GetCmdStatus(DMA2_Stream7) != DISABLE);         /* Wait for the specified DMA2 Stream7 disable to finish. */
+        DMA_SetCurrDataCounter(DMA2_Stream7, USART10_SendData_P); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
+        DMA_Cmd(DMA2_Stream7, ENABLE);                            /* Enables the specified DMA2 Stream7. */
         
-        USART10_SendData_P = NULL;
+        USART10_SendDataCount += USART10_SendData_P;
+        USART10_SendData_P     = NULL;
       }
     }
   }
@@ -3852,27 +4038,29 @@ void UART10_IRQHandler(void)
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
   if(USART_GetITStatus(UART10, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
-    USART_ReceiveData(UART10);  /* Returns the most recent received data by the USARTx peripheral. */
+    USART_ReceiveData(UART10);                          /* Returns the most recent received data by the USARTx peripheral. */
     
     uint32_t number = USART10_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream0); /* Returns the number of remaining data units in the current DMA2 Stream0 transfer. */
+    
+    USART10_ReceiveDataCount += number;
     
     if(number > (USART10_BufferSize_Rx - USART10_ReceiveData_P))
     {
       if(number < USART10_BufferSize_Rx)
       {
-        memmove(USART10_Buffer_Rx, USART10_Buffer_Rx + (number - (USART10_BufferSize_Rx - USART10_ReceiveData_P)), USART10_BufferSize_Rx - number);  /* Copy memory */
-        memcpy(USART10_Buffer_Rx + (USART10_BufferSize_Rx - number), USART10_DMA_Buffer_Rx, number);                                                 /* Copy memory */
+        memmove(USART10_Buffer_Rx, USART10_Buffer_Rx + (number - (USART10_BufferSize_Rx - USART10_ReceiveData_P)), USART10_BufferSize_Rx - number);
+        memcpy(USART10_Buffer_Rx + (USART10_BufferSize_Rx - number), USART10_DMA_Buffer_Rx, number);
       }
       else
       {
-        memcpy(USART10_Buffer_Rx, USART10_DMA_Buffer_Rx + (number - USART10_BufferSize_Rx), USART10_BufferSize_Rx); /* Copy memory */
+        memcpy(USART10_Buffer_Rx, USART10_DMA_Buffer_Rx + (number - USART10_BufferSize_Rx), USART10_BufferSize_Rx);
       }
       
       USART10_ReceiveData_P = USART10_BufferSize_Rx;
     }
     else
     {
-      memcpy(USART10_Buffer_Rx + USART10_ReceiveData_P, USART10_DMA_Buffer_Rx, number); /* Copy memory */
+      memcpy(USART10_Buffer_Rx + USART10_ReceiveData_P, USART10_DMA_Buffer_Rx, number);
       
       USART10_ReceiveData_P += number;
     }
@@ -4279,7 +4467,7 @@ void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(
 /****************************************************************
  * Function:    USART_ClearSendDataFinishCallback
  * Description: Clear send data finish callback.
- * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -4358,7 +4546,7 @@ void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx)
 /****************************************************************
  * Function:    USART_ClearReceiveDataFinishCallback
  * Description: Clear receive data finish callback.
- * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
  * Output:
  * Return:
 *****************************************************************/
@@ -4432,4 +4620,1658 @@ void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx)
 #endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
   }
 #endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_GetSendDataCount
+ * Description: Get the send data count.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Send data count.
+*****************************************************************/
+uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    return USART1_SendDataCount;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    return USART2_SendDataCount;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    return USART3_SendDataCount;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    return USART4_SendDataCount;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    return USART5_SendDataCount;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    return USART6_SendDataCount;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    return USART7_SendDataCount;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    return USART8_SendDataCount;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    return USART9_SendDataCount;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    return USART10_SendDataCount;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_GetReceiveDataCount
+ * Description: Get the receive data count.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Receive data count.
+*****************************************************************/
+uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    return USART1_ReceiveDataCount;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    return USART2_ReceiveDataCount;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    return USART3_ReceiveDataCount;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    return USART4_ReceiveDataCount;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    return USART5_ReceiveDataCount;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    return USART6_ReceiveDataCount;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    return USART7_ReceiveDataCount;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    return USART8_ReceiveDataCount;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    return USART9_ReceiveDataCount;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    return USART10_ReceiveDataCount;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_ClearSendDataCount
+ * Description: Clear the send data count.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_ClearSendDataCount(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    USART1_SendDataCount = NULL;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    USART2_SendDataCount = NULL;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    USART3_SendDataCount = NULL;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    USART4_SendDataCount = NULL;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    USART5_SendDataCount = NULL;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    USART6_SendDataCount = NULL;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    USART7_SendDataCount = NULL;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    USART8_SendDataCount = NULL;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    USART9_SendDataCount = NULL;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    USART10_SendDataCount = NULL;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_ClearReceiveDataCount
+ * Description: Clear the receive data count.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_ClearReceiveDataCount(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    USART1_ReceiveDataCount = NULL;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    USART2_ReceiveDataCount = NULL;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    USART3_ReceiveDataCount = NULL;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    USART4_ReceiveDataCount = NULL;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    USART5_ReceiveDataCount = NULL;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    USART6_ReceiveDataCount = NULL;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    USART7_ReceiveDataCount = NULL;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    USART8_ReceiveDataCount = NULL;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    USART9_ReceiveDataCount = NULL;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    USART10_ReceiveDataCount = NULL;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_GetUsedSendBufferSize
+ * Description: Get the size of the send buffer used.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Used the size of the send buffer.
+*****************************************************************/
+uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    return USART1_SendData_P;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    return USART2_SendData_P;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    return USART3_SendData_P;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    return USART4_SendData_P;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    return USART5_SendData_P;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    return USART6_SendData_P;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    return USART7_SendData_P;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    return USART8_SendData_P;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    return USART9_SendData_P;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    return USART10_SendData_P;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_GetUsedReceiveBufferSize
+ * Description: Get the size of the receive buffer used.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Used the size of the receive buffer.
+*****************************************************************/
+uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    return USART1_ReceiveData_P;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    return USART2_ReceiveData_P;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    return USART3_ReceiveData_P;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    return USART4_ReceiveData_P;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    return USART5_ReceiveData_P;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    return USART6_ReceiveData_P;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    return USART7_ReceiveData_P;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    return USART8_ReceiveData_P;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    return USART9_ReceiveData_P;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    return USART10_ReceiveData_P;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_GetUnusedSendBufferSize
+ * Description: Get the size of the send buffer unused.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Unused the size of the send buffer.
+*****************************************************************/
+uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    return USART1_BufferSize_Tx - USART1_SendData_P;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    return USART2_BufferSize_Tx - USART2_SendData_P;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    return USART3_BufferSize_Tx - USART3_SendData_P;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    return USART4_BufferSize_Tx - USART4_SendData_P;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    return USART5_BufferSize_Tx - USART5_SendData_P;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    return USART6_BufferSize_Tx - USART6_SendData_P;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    return USART7_BufferSize_Tx - USART7_SendData_P;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    return USART8_BufferSize_Tx - USART8_SendData_P;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    return USART9_BufferSize_Tx - USART9_SendData_P;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    return USART10_BufferSize_Tx - USART10_SendData_P;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_GetUnusedReceiveBufferSize
+ * Description: Get the size of the receive buffer unused.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Unused the size of the receive buffer.
+*****************************************************************/
+uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    return USART1_BufferSize_Rx - USART1_ReceiveData_P;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    return USART2_BufferSize_Rx - USART2_ReceiveData_P;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    return USART3_BufferSize_Rx - USART3_ReceiveData_P;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    return USART4_BufferSize_Rx - USART4_ReceiveData_P;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    return USART5_BufferSize_Rx - USART5_ReceiveData_P;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    return USART6_BufferSize_Rx - USART6_ReceiveData_P;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    return USART7_BufferSize_Rx - USART7_ReceiveData_P;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    return USART8_BufferSize_Rx - USART8_ReceiveData_P;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    return USART9_BufferSize_Rx - USART9_ReceiveData_P;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    return USART10_BufferSize_Rx - USART10_ReceiveData_P;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_GetSendBufferUnilizationRatio
+ * Description: Get the utilization rate of the send buffer.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Send buffer utilization.
+*****************************************************************/
+float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    return (float)USART1_SendData_P / (float)USART1_BufferSize_Tx;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    return (float)USART2_SendData_P / (float)USART2_BufferSize_Tx;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    return (float)USART3_SendData_P / (float)USART3_BufferSize_Tx;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    return (float)USART4_SendData_P / (float)USART4_BufferSize_Tx;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    return (float)USART5_SendData_P / (float)USART5_BufferSize_Tx;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    return (float)USART6_SendData_P / (float)USART6_BufferSize_Tx;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    return (float)USART7_SendData_P / (float)USART7_BufferSize_Tx;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    return (float)USART8_SendData_P / (float)USART8_BufferSize_Tx;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    return (float)USART9_SendData_P / (float)USART9_BufferSize_Tx;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    return (float)USART10_SendData_P / (float)USART10_BufferSize_Tx;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_GetReceiveBufferUnilizationRatio
+ * Description: Get the utilization rate of the receive buffer.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      Receive buffer utilization.
+*****************************************************************/
+float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    return (float)USART1_ReceiveData_P / (float)USART1_BufferSize_Rx;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    return (float)USART2_ReceiveData_P / (float)USART2_BufferSize_Rx;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    return (float)USART3_ReceiveData_P / (float)USART3_BufferSize_Rx;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    return (float)USART4_ReceiveData_P / (float)USART4_BufferSize_Rx;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    return (float)USART5_ReceiveData_P / (float)USART5_BufferSize_Rx;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    return (float)USART6_ReceiveData_P / (float)USART6_BufferSize_Rx;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    return (float)USART7_ReceiveData_P / (float)USART7_BufferSize_Rx;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    return (float)USART8_ReceiveData_P / (float)USART8_BufferSize_Rx;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    return (float)USART9_ReceiveData_P / (float)USART9_BufferSize_Rx;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    return (float)USART10_ReceiveData_P / (float)USART10_BufferSize_Rx;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return NULL;
+}
+
+/****************************************************************
+ * Function:    USART_ClearSendBuffer
+ * Description: Clear the send buffer.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_ClearSendBuffer(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    USART1_SendData_P = NULL;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    USART2_SendData_P = NULL;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    USART3_SendData_P = NULL;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    USART4_SendData_P = NULL;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    USART5_SendData_P = NULL;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    USART6_SendData_P = NULL;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    USART7_SendData_P = NULL;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    USART8_SendData_P = NULL;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    USART9_SendData_P = NULL;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    USART10_SendData_P = NULL;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_ClearReceiveBuffer
+ * Description: Clear the receive buffer.
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:
+*****************************************************************/
+void USART_ClearReceiveBuffer(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    USART1_ReceiveData_P = NULL;
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    USART2_ReceiveData_P = NULL;
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    USART3_ReceiveData_P = NULL;
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    USART4_ReceiveData_P = NULL;
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    USART5_ReceiveData_P = NULL;
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    USART6_ReceiveData_P = NULL;
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    USART7_ReceiveData_P = NULL;
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    USART8_ReceiveData_P = NULL;
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    USART9_ReceiveData_P = NULL;
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    USART10_ReceiveData_P = NULL;
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+}
+
+/****************************************************************
+ * Function:    USART_IsSendBufferEmpty
+ * Description: Is the send buffer empty?
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      true:  The send buffer is empty.
+ *              false: The send buffer is not empty.
+*****************************************************************/
+bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    if(USART1_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    if(USART2_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    if(USART3_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    if(USART4_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    if(USART5_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    if(USART6_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    if(USART7_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    if(USART8_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    if(USART9_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    if(USART10_SendData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return false;
+}
+
+/****************************************************************
+ * Function:    USART_IsReceiveBufferEmpty
+ * Description: Is the receive buffer empty?
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      true:  The receive buffer is empty.
+ *              false: The receive buffer is not empty.
+*****************************************************************/
+bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    if(USART1_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    if(USART2_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    if(USART3_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    if(USART4_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    if(USART5_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    if(USART6_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    if(USART7_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    if(USART8_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    if(USART9_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    if(USART10_ReceiveData_P == NULL)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return false;
+}
+
+/****************************************************************
+ * Function:    USART_IsSendBufferFull
+ * Description: Is the send buffer full?
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      true:  The send buffer is full.
+ *              false: The send buffer is not full.
+*****************************************************************/
+bool USART_IsSendBufferFull(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    if(USART1_SendData_P >= USART1_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    if(USART2_SendData_P >= USART2_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    if(USART3_SendData_P >= USART3_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    if(USART4_SendData_P >= USART4_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    if(USART5_SendData_P >= USART5_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    if(USART6_SendData_P >= USART6_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    if(USART7_SendData_P >= USART7_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    if(USART8_SendData_P >= USART8_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    if(USART9_SendData_P >= USART9_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    if(USART10_SendData_P >= USART10_BufferSize_Tx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return false;
+}
+
+/****************************************************************
+ * Function:    USART_IsReceiveBufferFull
+ * Description: Is the receive buffer full?
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      true:  The receive buffer is full.
+ *              false: The receive buffer is not full.
+*****************************************************************/
+bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
+    if(USART1_ReceiveData_P >= USART1_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
+    if(USART2_ReceiveData_P >= USART2_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
+    if(USART3_ReceiveData_P >= USART3_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
+    if(USART4_ReceiveData_P >= USART4_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
+    if(USART5_ReceiveData_P >= USART5_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
+    if(USART6_ReceiveData_P >= USART6_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
+    if(USART7_ReceiveData_P >= USART7_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
+    if(USART8_ReceiveData_P >= USART8_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
+    if(USART9_ReceiveData_P >= USART9_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
+    if(USART10_ReceiveData_P >= USART10_BufferSize_Rx)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+#endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return false;
+}
+
+/****************************************************************
+ * Function:    USART_IsSendingData
+ * Description: Is sending data?
+ * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+ * Output:
+ * Return:      true:  In sending data.
+ *              false: No sending data.
+*****************************************************************/
+bool USART_IsSendingData(USART_TypeDef* USARTx)
+{
+  if(USARTx == USART1)
+  {
+#if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
+    return USART1_SendData_Flag;
+#endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == USART2)
+  {
+#if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
+    return USART2_SendData_Flag;
+#endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
+  else if(USARTx == USART3)
+  {
+#if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
+    return USART3_SendData_Flag;
+#endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART4)
+  {
+#if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
+    return USART4_SendData_Flag;
+#endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART5)
+  {
+#if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
+    return USART5_SendData_Flag;
+#endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
+  else if(USARTx == USART6)
+  {
+#if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
+    return USART6_SendData_Flag;
+#endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
+  }
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
+  else if(USARTx == UART7)
+  {
+#if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
+    return USART7_SendData_Flag;
+#endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART8)
+  {
+#if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
+    return USART8_SendData_Flag;
+#endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
+#if defined(STM32F413_423xx)
+  else if(USARTx == UART9)
+  {
+#if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
+    return USART9_SendData_Flag;
+#endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
+  }
+  else if(USARTx == UART10)
+  {
+#if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
+    return USART10_SendData_Flag;
+#endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
+  }
+#endif /* STM32F413_423xx */
+  
+  return false;
 }
