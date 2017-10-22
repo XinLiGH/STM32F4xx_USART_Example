@@ -278,8 +278,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   if(USARTx == USART1)
   {
 #if (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART1_SendData_Flag = false;
@@ -325,8 +323,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == USART2)
   {
 #if (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART2_SendData_Flag = false;
@@ -373,8 +369,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == USART3)
   {
 #if (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART3_SendData_Flag = false;
@@ -422,8 +416,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == UART4)
   {
 #if (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART4_SendData_Flag = false;
@@ -469,8 +461,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == UART5)
   {
 #if (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART5_SendData_Flag = false;
@@ -517,8 +507,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == USART6)
   {
 #if (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART6_SendData_Flag = false;
@@ -565,8 +553,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == UART7)
   {
 #if (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART7_SendData_Flag = false;
@@ -612,8 +598,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == UART8)
   {
 #if (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART8_SendData_Flag = false;
@@ -661,8 +645,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == UART9)
   {
 #if (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
     USART_Mode          |= USART_Mode_Tx;
     USART9_SendData_Flag = false;
@@ -708,8 +690,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   else if(USARTx == UART10)
   {
 #if (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
     USART_Mode           |= USART_Mode_Tx;
     USART10_SendData_Flag = false;
@@ -787,8 +767,6 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   
   USART_Cmd(USARTx, ENABLE);                        /* Enables or disables the specified USARTx peripheral. */
   USART_NVIC_Configure(USARTx);                     /* Configure USARTx NVIC. */
-  
-  __enable_irq();                                   /* Enable IRQ Interrupts. */
 }
 
 /****************************************************************
@@ -803,8 +781,6 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
   if(USARTx == USART1)
   {
 #if (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
     USART1_SendData_Flag = false;
     USART1_SendData_P    = NULL;
@@ -827,15 +803,11 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(USART1);   /* Unconfigure USART1 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx) */
   }
   else if(USARTx == USART2)
   {
 #if (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
     USART2_SendData_Flag = false;
     USART2_SendData_P    = NULL;
@@ -858,16 +830,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(USART2);   /* Unconfigure USART2 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx) || (USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx) */
   }
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
   else if(USARTx == USART3)
   {
 #if (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
     USART3_SendData_Flag = false;
     USART3_SendData_P    = NULL;
@@ -890,8 +858,6 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(USART3);   /* Unconfigure USART3 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx) || (USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx) */
   }
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
@@ -899,8 +865,6 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
   else if(USARTx == UART4)
   {
 #if (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
     USART4_SendData_Flag = false;
     USART4_SendData_P    = NULL;
@@ -923,15 +887,11 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(UART4);    /* Unconfigure USART4 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx) || (USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx) */
   }
   else if(USARTx == UART5)
   {
 #if (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
     USART5_SendData_Flag = false;
     USART5_SendData_P    = NULL;
@@ -954,16 +914,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(UART5);    /* Unconfigure USART5 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx) || (USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx) */
   }
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
   else if(USARTx == USART6)
   {
 #if (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
     USART6_SendData_Flag = false;
     USART6_SendData_P    = NULL;
@@ -986,16 +942,12 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(USART6);   /* Unconfigure USART6 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx) || (USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx) */
   }
 #if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
   else if(USARTx == UART7)
   {
 #if (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
     USART7_SendData_Flag = false;
     USART7_SendData_P    = NULL;
@@ -1018,15 +970,11 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(UART7);    /* Unconfigure USART7 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx) || (USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx) */
   }
   else if(USARTx == UART8)
   {
 #if (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
     USART8_SendData_Flag = false;
     USART8_SendData_P    = NULL;
@@ -1049,8 +997,6 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(UART8);    /* Unconfigure USART8 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx) || (USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx) */
   }
 #endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
@@ -1058,8 +1004,6 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
   else if(USARTx == UART9)
   {
 #if (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
     USART9_SendData_Flag = false;
     USART9_SendData_P    = NULL;
@@ -1082,15 +1026,11 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(UART9);    /* Unconfigure USART9 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx) || (USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx) */
   }
   else if(USARTx == UART10)
   {
 #if (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx)
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
     USART10_SendData_Flag = false;
     USART10_SendData_P    = NULL;
@@ -1113,8 +1053,6 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
       
       USART_NVIC_Unconfigure(UART10);   /* Unconfigure USART10 NVIC. */
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
 #endif /* (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx) */
   }
 #endif /* STM32F413_423xx */
@@ -2211,19 +2149,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   if(USARTx == USART1)
   {
 #if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART1_RCC_Flag == false) || (USART1_GPIO_Flag == false) || (USART1_DMA_Tx_Flag == false) || (USART1_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART1_SendData_P >= USART1_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2274,27 +2206,19 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
   }
   else if(USARTx == USART2)
   {
 #if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART2_RCC_Flag == false) || (USART2_GPIO_Flag == false) || (USART2_DMA_Tx_Flag == false) || (USART2_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART2_SendData_P >= USART2_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2345,8 +2269,6 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
   }
@@ -2354,19 +2276,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   else if(USARTx == USART3)
   {
 #if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART3_RCC_Flag == false) || (USART3_GPIO_Flag == false) || (USART3_DMA_Tx_Flag == false) || (USART3_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART3_SendData_P >= USART3_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2417,8 +2333,6 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
   }
@@ -2427,19 +2341,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   else if(USARTx == UART4)
   {
 #if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART4_RCC_Flag == false) || (USART4_GPIO_Flag == false) || (USART4_DMA_Tx_Flag == false) || (USART4_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART4_SendData_P >= USART4_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2490,27 +2398,19 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
   }
   else if(USARTx == UART5)
   {
 #if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART5_RCC_Flag == false) || (USART5_GPIO_Flag == false) || (USART5_DMA_Tx_Flag == false) || (USART5_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART5_SendData_P >= USART5_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2561,8 +2461,6 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
   }
@@ -2570,19 +2468,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   else if(USARTx == USART6)
   {
 #if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART6_RCC_Flag == false) || (USART6_GPIO_Flag == false) || (USART6_DMA_Tx_Flag == false) || (USART6_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART6_SendData_P >= USART6_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2633,8 +2525,6 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
   }
@@ -2642,19 +2532,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   else if(USARTx == UART7)
   {
 #if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART7_RCC_Flag == false) || (USART7_GPIO_Flag == false) || (USART7_DMA_Tx_Flag == false) || (USART7_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART7_SendData_P >= USART7_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2705,27 +2589,19 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
   }
   else if(USARTx == UART8)
   {
 #if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART8_RCC_Flag == false) || (USART8_GPIO_Flag == false) || (USART8_DMA_Tx_Flag == false) || (USART8_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART8_SendData_P >= USART8_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2776,8 +2652,6 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
   }
@@ -2786,19 +2660,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   else if(USARTx == UART9)
   {
 #if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART9_RCC_Flag == false) || (USART9_GPIO_Flag == false) || (USART9_DMA_Tx_Flag == false) || (USART9_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART9_SendData_P >= USART9_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2849,27 +2717,19 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
   }
   else if(USARTx == UART10)
   {
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART10_RCC_Flag == false) || (USART10_GPIO_Flag == false) || (USART10_DMA_Tx_Flag == false) || (USART10_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART10_SendData_P >= USART10_BufferSize_Tx)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2920,8 +2780,6 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
       }
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return Length;
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
   }
@@ -2951,19 +2809,13 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   if(USARTx == USART1)
   {
 #if USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART1_RCC_Flag == false) || (USART1_GPIO_Flag == false) || (USART1_DMA_Rx_Flag == false) || (USART1_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART1_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -2983,27 +2835,19 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART1_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
   }
   else if(USARTx == USART2)
   {
 #if USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART2_RCC_Flag == false) || (USART2_GPIO_Flag == false) || (USART2_DMA_Rx_Flag == false) || (USART2_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART2_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3023,8 +2867,6 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART2_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
   }
@@ -3032,19 +2874,13 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   else if(USARTx == USART3)
   {
 #if USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART3_RCC_Flag == false) || (USART3_GPIO_Flag == false) || (USART3_DMA_Rx_Flag == false) || (USART3_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART3_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3064,8 +2900,6 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART3_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
   }
@@ -3074,19 +2908,13 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   else if(USARTx == UART4)
   {
 #if USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART4_RCC_Flag == false) || (USART4_GPIO_Flag == false) || (USART4_DMA_Rx_Flag == false) || (USART4_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART4_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3106,27 +2934,19 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART4_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
   }
   else if(USARTx == UART5)
   {
 #if USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART5_RCC_Flag == false) || (USART5_GPIO_Flag == false) || (USART5_DMA_Rx_Flag == false) || (USART5_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART5_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3146,8 +2966,6 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART5_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
   }
@@ -3155,19 +2973,13 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   else if(USARTx == USART6)
   {
 #if USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART6_RCC_Flag == false) || (USART6_GPIO_Flag == false) || (USART6_DMA_Rx_Flag == false) || (USART6_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART6_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3187,8 +2999,6 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART6_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
   }
@@ -3196,19 +3006,13 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   else if(USARTx == UART7)
   {
 #if USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART7_RCC_Flag == false) || (USART7_GPIO_Flag == false) || (USART7_DMA_Rx_Flag == false) || (USART7_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART7_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3228,27 +3032,19 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART7_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
   }
   else if(USARTx == UART8)
   {
 #if USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART8_RCC_Flag == false) || (USART8_GPIO_Flag == false) || (USART8_DMA_Rx_Flag == false) || (USART8_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART8_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3268,8 +3064,6 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART8_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
   }
@@ -3278,19 +3072,13 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   else if(USARTx == UART9)
   {
 #if USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART9_RCC_Flag == false) || (USART9_GPIO_Flag == false) || (USART9_DMA_Rx_Flag == false) || (USART9_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART9_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3310,27 +3098,19 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       USART9_ReceiveData_P = NULL;
     }
     
-    __enable_irq(); /* Enable IRQ Interrupts. */
-    
     return number;
 #endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
   }
   else if(USARTx == UART10)
   {
 #if USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx
-    __disable_irq();  /* Disable IRQ Interrupts. */
-    
     if((USART10_RCC_Flag == false) || (USART10_GPIO_Flag == false) || (USART10_DMA_Rx_Flag == false) || (USART10_NVIC_Flag == false))
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
     if(USART10_ReceiveData_P == NULL)
     {
-      __enable_irq(); /* Enable IRQ Interrupts. */
-      
       return NULL;
     }
     
@@ -3349,8 +3129,6 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
       number                = USART10_ReceiveData_P;
       USART10_ReceiveData_P = NULL;
     }
-    
-    __enable_irq(); /* Enable IRQ Interrupts. */
     
     return number;
 #endif /* USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx */
@@ -3374,13 +3152,9 @@ void USART1_IRQHandler(void)
   {
     USART_ClearITPendingBit(USART1, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART1_SendData_P == NULL)
     {
       USART1_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(USART1);
     }
@@ -3413,8 +3187,6 @@ void USART1_IRQHandler(void)
         USART1_SendDataCount += USART1_SendData_P;
         USART1_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx */
@@ -3423,8 +3195,6 @@ void USART1_IRQHandler(void)
   if(USART_GetITStatus(USART1, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(USART1);                          /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART1_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream2);  /* Returns the number of remaining data units in the current DMA2 Stream2 transfer. */
     
@@ -3456,8 +3226,6 @@ void USART1_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA2_Stream2, USART1_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA2 Stream2. */
     DMA_Cmd(DMA2_Stream2, ENABLE);                                  /* Enables the specified DMA2 Stream2. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(USART1);
   }
 #endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
@@ -3477,13 +3245,9 @@ void USART2_IRQHandler(void)
   {
     USART_ClearITPendingBit(USART2, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART2_SendData_P == NULL)
     {
       USART2_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(USART2);
     }
@@ -3516,8 +3280,6 @@ void USART2_IRQHandler(void)
         USART2_SendDataCount += USART2_SendData_P;
         USART2_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx */
@@ -3526,8 +3288,6 @@ void USART2_IRQHandler(void)
   if(USART_GetITStatus(USART2, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(USART2);                          /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART2_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream5);  /* Returns the number of remaining data units in the current DMA1 Stream5 transfer. */
     
@@ -3559,8 +3319,6 @@ void USART2_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA1_Stream5, USART2_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA1 Stream5. */
     DMA_Cmd(DMA1_Stream5, ENABLE);                                  /* Enables the specified DMA1 Stream5. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(USART2);
   }
 #endif /* USART2_BufferSize_Rx && USART2_DMA_BufferSize_Rx */
@@ -3581,13 +3339,9 @@ void USART3_IRQHandler(void)
   {
     USART_ClearITPendingBit(USART3, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART3_SendData_P == NULL)
     {
       USART3_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(USART3);
     }
@@ -3620,8 +3374,6 @@ void USART3_IRQHandler(void)
         USART3_SendDataCount += USART3_SendData_P;
         USART3_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx */
@@ -3630,8 +3382,6 @@ void USART3_IRQHandler(void)
   if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(USART3);                          /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART3_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream1);  /* Returns the number of remaining data units in the current DMA1 Stream1 transfer. */
     
@@ -3663,8 +3413,6 @@ void USART3_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA1_Stream1, USART3_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA1 Stream1. */
     DMA_Cmd(DMA1_Stream1, ENABLE);                                  /* Enables the specified DMA1 Stream1. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(USART3);
   }
 #endif /* USART3_BufferSize_Rx && USART3_DMA_BufferSize_Rx */
@@ -3686,13 +3434,9 @@ void UART4_IRQHandler(void)
   {
     USART_ClearITPendingBit(UART4, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART4_SendData_P == NULL)
     {
       USART4_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(UART4);
     }
@@ -3725,8 +3469,6 @@ void UART4_IRQHandler(void)
         USART4_SendDataCount += USART4_SendData_P;
         USART4_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx */
@@ -3735,8 +3477,6 @@ void UART4_IRQHandler(void)
   if(USART_GetITStatus(UART4, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(UART4);                           /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART4_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream2);  /* Returns the number of remaining data units in the current DMA1 Stream2 transfer. */
     
@@ -3768,8 +3508,6 @@ void UART4_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA1_Stream2, USART4_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA1 Stream2. */
     DMA_Cmd(DMA1_Stream2, ENABLE);                                  /* Enables the specified DMA1 Stream2. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(UART4);
   }
 #endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
@@ -3789,13 +3527,9 @@ void UART5_IRQHandler(void)
   {
     USART_ClearITPendingBit(UART5, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART5_SendData_P == NULL)
     {
       USART5_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(UART5);
     }
@@ -3828,8 +3562,6 @@ void UART5_IRQHandler(void)
         USART5_SendDataCount += USART5_SendData_P;
         USART5_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx */
@@ -3838,8 +3570,6 @@ void UART5_IRQHandler(void)
   if(USART_GetITStatus(UART5, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(UART5);                           /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART5_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream0);  /* Returns the number of remaining data units in the current DMA1 Stream0 transfer. */
     
@@ -3871,8 +3601,6 @@ void UART5_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA1_Stream0, USART5_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA1 Stream0. */
     DMA_Cmd(DMA1_Stream0, ENABLE);                                  /* Enables the specified DMA1 Stream0. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(UART5);
   }
 #endif /* USART5_BufferSize_Rx && USART5_DMA_BufferSize_Rx */
@@ -3893,13 +3621,9 @@ void USART6_IRQHandler(void)
   {
     USART_ClearITPendingBit(USART6, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART6_SendData_P == NULL)
     {
       USART6_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(USART6);
     }
@@ -3932,8 +3656,6 @@ void USART6_IRQHandler(void)
         USART6_SendDataCount += USART6_SendData_P;
         USART6_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx */
@@ -3942,8 +3664,6 @@ void USART6_IRQHandler(void)
   if(USART_GetITStatus(USART6, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(USART6);                          /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART6_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream1);  /* Returns the number of remaining data units in the current DMA2 Stream1 transfer. */
     
@@ -3975,8 +3695,6 @@ void USART6_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA2_Stream1, USART6_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA2 Stream1. */
     DMA_Cmd(DMA2_Stream1, ENABLE);                                  /* Enables the specified DMA2 Stream1. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(USART6);
   }
 #endif /* USART6_BufferSize_Rx && USART6_DMA_BufferSize_Rx */
@@ -3997,13 +3715,9 @@ void UART7_IRQHandler(void)
   {
     USART_ClearITPendingBit(UART7, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART7_SendData_P == NULL)
     {
       USART7_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(UART7);
     }
@@ -4036,8 +3750,6 @@ void UART7_IRQHandler(void)
         USART7_SendDataCount += USART7_SendData_P;
         USART7_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx */
@@ -4046,8 +3758,6 @@ void UART7_IRQHandler(void)
   if(USART_GetITStatus(UART7, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(UART7);                           /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART7_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream3);  /* Returns the number of remaining data units in the current DMA1 Stream3 transfer. */
     
@@ -4079,8 +3789,6 @@ void UART7_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA1_Stream3, USART7_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA1 Stream3. */
     DMA_Cmd(DMA1_Stream3, ENABLE);                                  /* Enables the specified DMA1 Stream3. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(UART7);
   }
 #endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
@@ -4100,13 +3808,9 @@ void UART8_IRQHandler(void)
   {
     USART_ClearITPendingBit(UART8, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART8_SendData_P == NULL)
     {
       USART8_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(UART8);
     }
@@ -4139,8 +3843,6 @@ void UART8_IRQHandler(void)
         USART8_SendDataCount += USART8_SendData_P;
         USART8_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx */
@@ -4149,8 +3851,6 @@ void UART8_IRQHandler(void)
   if(USART_GetITStatus(UART8, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(UART8);                           /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART8_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA1_Stream6);  /* Returns the number of remaining data units in the current DMA1 Stream6 transfer. */
     
@@ -4182,8 +3882,6 @@ void UART8_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA1_Stream6, USART8_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA1 Stream6. */
     DMA_Cmd(DMA1_Stream6, ENABLE);                                  /* Enables the specified DMA1 Stream6. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(UART8);
   }
 #endif /* USART8_BufferSize_Rx && USART8_DMA_BufferSize_Rx */
@@ -4205,13 +3903,9 @@ void UART9_IRQHandler(void)
   {
     USART_ClearITPendingBit(UART9, USART_IT_TC);      /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART9_SendData_P == NULL)
     {
       USART9_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(UART9);
     }
@@ -4244,8 +3938,6 @@ void UART9_IRQHandler(void)
         USART9_SendDataCount += USART9_SendData_P;
         USART9_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx */
@@ -4254,8 +3946,6 @@ void UART9_IRQHandler(void)
   if(USART_GetITStatus(UART9, USART_IT_IDLE) != RESET)  /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(UART9);                           /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART9_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream7);  /* Returns the number of remaining data units in the current DMA2 Stream7 transfer. */
     
@@ -4287,8 +3977,6 @@ void UART9_IRQHandler(void)
     DMA_SetCurrDataCounter(DMA2_Stream7, USART9_DMA_BufferSize_Rx); /* Writes the number of data units to be transferred on the DMA2 Stream7. */
     DMA_Cmd(DMA2_Stream7, ENABLE);                                  /* Enables the specified DMA2 Stream7. */
     
-    __enable_irq();                                                 /* Enable IRQ Interrupts. */
-    
     USART_ReceiveDataFinishCallback(UART9);
   }
 #endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
@@ -4308,13 +3996,9 @@ void UART10_IRQHandler(void)
   {
     USART_ClearITPendingBit(UART10, USART_IT_TC);     /* Clears the USARTx's interrupt pending bits. */
     
-    __disable_irq();                                  /* Disable IRQ Interrupts. */
-    
     if(USART10_SendData_P == NULL)
     {
       USART10_SendData_Flag = false;
-      
-      __enable_irq();                                 /* Enable IRQ Interrupts. */
       
       USART_SendDataFinishCallback(UART10);
     }
@@ -4347,8 +4031,6 @@ void UART10_IRQHandler(void)
         USART10_SendDataCount += USART10_SendData_P;
         USART10_SendData_P     = NULL;
       }
-      
-      __enable_irq();                                             /* Enable IRQ Interrupts. */
     }
   }
 #endif /* USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx */
@@ -4357,8 +4039,6 @@ void UART10_IRQHandler(void)
   if(USART_GetITStatus(UART10, USART_IT_IDLE) != RESET) /* Checks whether the specified USART interrupt has occurred or not. */
   {
     USART_ReceiveData(UART10);                          /* Returns the most recent received data by the USARTx peripheral. */
-    
-    __disable_irq();                                    /* Disable IRQ Interrupts. */
     
     uint32_t number = USART10_DMA_BufferSize_Rx - DMA_GetCurrDataCounter(DMA2_Stream0); /* Returns the number of remaining data units in the current DMA2 Stream0 transfer. */
     
@@ -4389,8 +4069,6 @@ void UART10_IRQHandler(void)
     while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE);                 /* Writes the number of data units to be transferred on the DMA2 Stream0. */
     DMA_SetCurrDataCounter(DMA2_Stream0, USART10_DMA_BufferSize_Rx);  /* Writes the number of data units to be transferred on the DMA2 Stream0. */
     DMA_Cmd(DMA2_Stream0, ENABLE);                                    /* Enables the specified DMA2 Stream0. */
-    
-    __enable_irq();                                                   /* Enable IRQ Interrupts. */
     
     USART_ReceiveDataFinishCallback(UART10);
   }
