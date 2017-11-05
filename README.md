@@ -1,12 +1,13 @@
 # STM32F4xx_USART_Example
 
-使用二级缓存方法，来实现STM32F4的USART驱动。
+使用二级缓存方法，来实现STM32F4的USART驱动。适用于STM32F4全部芯片。
 
 ## 开发环境
 
-* 适用芯片：STM32F4全部芯片
 * 固件库：STM32F4xx_DSP_StdPeriph_Lib_V1.8.0
-* IDE：MDK517
+* 编译器：ARMCC V5.06
+* IDE：Keil uVision5
+* 操作系统：Windows 10 专业版
 
 ## API
 

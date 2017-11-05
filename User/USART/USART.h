@@ -1,25 +1,46 @@
-/****************************************************************
- * Copyright (C) 2016, XinLi, all right reserved.
- * File name:    USART.h
- * Date:         2016.03.22
- * Description:  USART driver.
-*****************************************************************/
+/**
+  ******************************************************************************
+  * @file    USART.h
+  * @author  XinLi
+  * @version v3.8
+  * @date    24-October-2017
+  * @brief   Header file for USART.c module.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>Copyright &copy; 2017 XinLi</center></h2>
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  *
+  ******************************************************************************
+  */
 
 #ifndef __USART_H
 #define __USART_H
 
-/****************************************************************
- *                        Header include
-*****************************************************************/
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+/* Header includes -----------------------------------------------------------*/
 #include "stm32f4xx.h"
 #include <stdbool.h>
 
-/****************************************************************
- *                       Macro definition
-*****************************************************************/
-
-/********************* USART1 Configuration *********************/
-
+/* Macro definitions ---------------------------------------------------------*/
+/******************************************************************************/
+/*                              USART1 Configure                              */
+/******************************************************************************/
 #define USART1_BufferSize_Tx            (4096)
 #define USART1_BufferSize_Rx            (4096)
 
@@ -41,10 +62,9 @@
 #define USART1_Tx_GPIO_PinSource        GPIO_PinSource9
 #define USART1_Rx_GPIO_PinSource        GPIO_PinSource10
 
-/****************************************************************/
-
-/********************* USART2 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART2 Configure                              */
+/******************************************************************************/
 #define USART2_BufferSize_Tx            (4096)
 #define USART2_BufferSize_Rx            (4096)
 
@@ -66,11 +86,10 @@
 #define USART2_Tx_GPIO_PinSource        GPIO_PinSource2
 #define USART2_Rx_GPIO_PinSource        GPIO_PinSource3
 
-/****************************************************************/
-
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
-/********************* USART3 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART3 Configure                              */
+/******************************************************************************/
 #define USART3_BufferSize_Tx            (4096)
 #define USART3_BufferSize_Rx            (4096)
 
@@ -91,13 +110,12 @@
 
 #define USART3_Tx_GPIO_PinSource        GPIO_PinSource10
 #define USART3_Rx_GPIO_PinSource        GPIO_PinSource11
-
-/****************************************************************/
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
 
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
-/********************* USART4 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART4 Configure                              */
+/******************************************************************************/
 #define USART4_BufferSize_Tx            (4096)
 #define USART4_BufferSize_Rx            (4096)
 
@@ -119,10 +137,9 @@
 #define USART4_Tx_GPIO_PinSource        GPIO_PinSource10
 #define USART4_Rx_GPIO_PinSource        GPIO_PinSource11
 
-/****************************************************************/
-
-/********************* USART5 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART5 Configure                              */
+/******************************************************************************/
 #define USART5_BufferSize_Tx            (4096)
 #define USART5_BufferSize_Rx            (4096)
 
@@ -143,12 +160,11 @@
 
 #define USART5_Tx_GPIO_PinSource        GPIO_PinSource12
 #define USART5_Rx_GPIO_PinSource        GPIO_PinSource2
-
-/****************************************************************/
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
 
-/********************* USART6 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART6 Configure                              */
+/******************************************************************************/
 #define USART6_BufferSize_Tx            (4096)
 #define USART6_BufferSize_Rx            (4096)
 
@@ -170,11 +186,10 @@
 #define USART6_Tx_GPIO_PinSource        GPIO_PinSource6
 #define USART6_Rx_GPIO_PinSource        GPIO_PinSource7
 
-/****************************************************************/
-
 #if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
-/********************* USART7 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART7 Configure                              */
+/******************************************************************************/
 #define USART7_BufferSize_Tx            (4096)
 #define USART7_BufferSize_Rx            (4096)
 
@@ -196,10 +211,9 @@
 #define USART7_Tx_GPIO_PinSource        GPIO_PinSource8
 #define USART7_Rx_GPIO_PinSource        GPIO_PinSource7
 
-/****************************************************************/
-
-/********************* USART8 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART8 Configure                              */
+/******************************************************************************/
 #define USART8_BufferSize_Tx            (4096)
 #define USART8_BufferSize_Rx            (4096)
 
@@ -220,13 +234,12 @@
 
 #define USART8_Tx_GPIO_PinSource        GPIO_PinSource1
 #define USART8_Rx_GPIO_PinSource        GPIO_PinSource0
-
-/****************************************************************/
 #endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
 
 #if defined(STM32F413_423xx)
-/********************* USART9 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART9 Configure                              */
+/******************************************************************************/
 #define USART9_BufferSize_Tx            (4096)
 #define USART9_BufferSize_Rx            (4096)
 
@@ -248,10 +261,9 @@
 #define USART9_Tx_GPIO_PinSource        GPIO_PinSource1
 #define USART9_Rx_GPIO_PinSource        GPIO_PinSource0
 
-/****************************************************************/
-
-/******************** USART10 Configuration *********************/
-
+/******************************************************************************/
+/*                              USART10 Configure                             */
+/******************************************************************************/
 #define USART10_BufferSize_Tx           (4096)
 #define USART10_BufferSize_Rx           (4096)
 
@@ -272,13 +284,9 @@
 
 #define USART10_Tx_GPIO_PinSource       GPIO_PinSource3
 #define USART10_Rx_GPIO_PinSource       GPIO_PinSource2
-
-/****************************************************************/
 #endif /* STM32F413_423xx */
 
-/****************************************************************
- *                       Type definition
-*****************************************************************/
+/* Type definitions ----------------------------------------------------------*/
 typedef enum
 {
   USART_BaudRate1200   = 1200,
@@ -292,21 +300,18 @@ typedef enum
   USART_BaudRate230400 = 230400,
   USART_BaudRate460800 = 460800,
   USART_BaudRate921600 = 921600
-  
 }USART_BaudRate;
 
 typedef enum
 {
   USART_DataBits8 = USART_WordLength_8b,
   USART_DataBits9 = USART_WordLength_9b
-  
 }USART_DataBits;
 
 typedef enum
 {
   USART_StopBits1 = USART_StopBits_1,
   USART_StopBits2 = USART_StopBits_2
-  
 }USART_StopBits;
 
 typedef enum
@@ -314,27 +319,11 @@ typedef enum
   USART_ParityNo   = USART_Parity_No,
   USART_ParityEven = USART_Parity_Even,
   USART_ParityOdd  = USART_Parity_Odd
-  
 }USART_Parity;
 
-/****************************************************************
- *                     Structure definition
-*****************************************************************/
-
-
-
-#ifdef __cplusplus
- extern "C" {
-#endif  /* __cplusplus */
-
-/****************************************************************
- *                     Variable declaration
-*****************************************************************/
-
-
-/****************************************************************
- *                     Function declaration
-*****************************************************************/
+/* Variable declarations -----------------------------------------------------*/
+/* Variable definitions ------------------------------------------------------*/
+/* Function declarations -----------------------------------------------------*/
 void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity);
 void USART_Unconfigure(USART_TypeDef* USARTx);
 uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
@@ -361,8 +350,10 @@ bool USART_IsSendBufferFull(USART_TypeDef* USARTx);
 bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx);
 bool USART_IsSendingData(USART_TypeDef* USARTx);
 
+/* Function definitions ----------------------------------------------------- */
+
 #ifdef __cplusplus
 }
-#endif  /* __cplusplus */
+#endif
 
-#endif 	/* __USART_H */
+#endif /* __USART_H */

@@ -1,19 +1,39 @@
-/****************************************************************
- * Copyright (C) 2016, XinLi, all right reserved.
- * File name:    USART.c
- * Date:         2016.03.22
- * Description:  USART driver.
-*****************************************************************/
+/**
+  ******************************************************************************
+  * @file    USART.c
+  * @author  XinLi
+  * @version v3.8
+  * @date    24-October-2017
+  * @brief   USART driver.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>Copyright &copy; 2017 XinLi</center></h2>
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  *
+  ******************************************************************************
+  */
 
-/****************************************************************
- *                        Header include
-*****************************************************************/
+/* Header includes -----------------------------------------------------------*/
 #include "USART.h"
 #include <string.h>
 
-/****************************************************************
- *                       Global variables
-*****************************************************************/
+/* Macro definitions ---------------------------------------------------------*/
+/* Type definitions ----------------------------------------------------------*/
+/* Variable declarations -----------------------------------------------------*/
+/* Variable definitions ------------------------------------------------------*/
 #if (USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx) || (USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx)
 static __IO bool USART1_RCC_Flag = false, USART1_GPIO_Flag = false, USART1_NVIC_Flag = false;
 
@@ -242,9 +262,7 @@ static __IO uint64_t USART10_ReceiveDataCount = NULL;
 #endif /* (USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx) || (USART10_BufferSize_Rx && USART10_DMA_BufferSize_Rx) */
 #endif /* STM32F413_423xx */
 
-/****************************************************************
- *                     Function declaration
-*****************************************************************/
+/* Function declarations -----------------------------------------------------*/
 static void USART_DMA_TX_Configure(USART_TypeDef* USARTx);
 static void USART_DMA_RX_Configure(USART_TypeDef* USARTx);
 static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx);
@@ -254,21 +272,17 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 static void USART_SendDataFinishCallback(USART_TypeDef* USARTx);
 static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
 
-/****************************************************************
- *                     Function definition
-*****************************************************************/
+/* Function definitions ----------------------------------------------------- */
 
-/****************************************************************
- * Function:    USART_Configure
- * Description: Configure.
- * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- *              BaudRate: Communication baud rate.
- *              DataBits: The number of data bits sent or received.
- *              StopBits: The number of stop bits to send or receive.
- *              Parity:   Parity mode.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART configure.
+  * @param  [in] USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @param  [in] BaudRate: Communication baud rate.
+  * @param  [in] DataBits: The number of data bits sent or received.
+  * @param  [in] StopBits: The number of stop bits to send or receive.
+  * @param  [in] Parity:   Parity mode.
+  * @return None.
+  */
 void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity)
 {
   uint16_t          USART_Mode          =  NULL;  /* USART Mode definition. */
@@ -769,13 +783,11 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   USART_NVIC_Configure(USARTx);                     /* Configure USARTx NVIC. */
 }
 
-/****************************************************************
- * Function:    USART_Unconfigure
- * Description: Unconfigure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART unconfigure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_Unconfigure(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -1058,13 +1070,11 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_DMA_TX_Configure
- * Description: DMA TX configure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART DMA TX configure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 {
   DMA_InitTypeDef DMA_InitStructure = {NULL}; /* DMA Init structure definition. */
@@ -1284,13 +1294,11 @@ static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_DMA_RX_Configure
- * Description: DMA RX configure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART DMA RX configure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
 {
   DMA_InitTypeDef DMA_InitStructure = {NULL}; /* DMA Init structure definition. */
@@ -1510,13 +1518,11 @@ static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_DMA_TX_Unconfigure
- * Description: DMA TX unconfigure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART DMA TX unconfigure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -1649,13 +1655,11 @@ static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_DMA_RX_Unconfigure
- * Description: DMA RX unconfigure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART DMA RX unconfigure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -1788,13 +1792,11 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_NVIC_Configure
- * Description: NVIC configure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART NVIC configure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_NVIC_Configure(USART_TypeDef* USARTx)
 {
   NVIC_InitTypeDef NVIC_InitStructure = {NULL}; /* NVIC Init Structure definition */
@@ -1959,13 +1961,11 @@ static void USART_NVIC_Configure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_NVIC_Unconfigure
- * Description: NVIC unconfigure.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART NVIC unconfigure.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 {
   NVIC_InitTypeDef NVIC_InitStructure = {NULL}; /* NVIC Init Structure definition */
@@ -2130,15 +2130,13 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_SetSendData
- * Description: Set send data.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- *              Data:   The address of the data to be sent.
- *              Length: The length of the data to be sent.
- * Output:
- * Return:      The number of data sent.
-*****************************************************************/
+/**
+  * @brief  Set the data sent by the USART.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @param  [in] Data:   The address of the data to be sent.
+  * @param  [in] Length: The length of the data to be sent.
+  * @return The number of data sent.
+  */
 uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
 {
   if((Data == NULL) || (Length == NULL))
@@ -2788,15 +2786,13 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetReceiveData
- * Description: Get receive data.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- *              Data:   To store the address of the receive data.
- *              Length: To read the length of the received data.
- * Output:
- * Return:      To read the number of the received data.
-*****************************************************************/
+/**
+  * @brief  Get the data that the USART receives.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @param  [in] Data:   To store the address of the receive data.
+  * @param  [in] Length: To read the length of the received data.
+  * @return The number of data obtained.
+  */
 uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
 {
   uint32_t number = NULL;
@@ -3138,13 +3134,11 @@ uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART1_IRQHandler
- * Description: USART1 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART1 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void USART1_IRQHandler(void)
 {
 #if USART1_BufferSize_Tx && USART1_DMA_BufferSize_Tx
@@ -3231,13 +3225,11 @@ void USART1_IRQHandler(void)
 #endif /* USART1_BufferSize_Rx && USART1_DMA_BufferSize_Rx */
 }
 
-/****************************************************************
- * Function:    USART2_IRQHandler
- * Description: USART2 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART2 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void USART2_IRQHandler(void)
 {
 #if USART2_BufferSize_Tx && USART2_DMA_BufferSize_Tx
@@ -3325,13 +3317,11 @@ void USART2_IRQHandler(void)
 }
 
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F412xG) || defined(STM32F413_423xx)
-/****************************************************************
- * Function:    USART3_IRQHandler
- * Description: USART3 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART3 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void USART3_IRQHandler(void)
 {
 #if USART3_BufferSize_Tx && USART3_DMA_BufferSize_Tx
@@ -3420,13 +3410,11 @@ void USART3_IRQHandler(void)
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F412xG || STM32F413_423xx */
 
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F446xx) || defined(STM32F413_423xx)
-/****************************************************************
- * Function:    UART4_IRQHandler
- * Description: UART4 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  UART4 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void UART4_IRQHandler(void)
 {
 #if USART4_BufferSize_Tx && USART4_DMA_BufferSize_Tx
@@ -3513,13 +3501,11 @@ void UART4_IRQHandler(void)
 #endif /* USART4_BufferSize_Rx && USART4_DMA_BufferSize_Rx */
 }
 
-/****************************************************************
- * Function:    UART5_IRQHandler
- * Description: UART5 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  UART5 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void UART5_IRQHandler(void)
 {
 #if USART5_BufferSize_Tx && USART5_DMA_BufferSize_Tx
@@ -3607,13 +3593,11 @@ void UART5_IRQHandler(void)
 }
 #endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F446xx || STM32F413_423xx */
 
-/****************************************************************
- * Function:    USART6_IRQHandler
- * Description: USART6 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART6 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void USART6_IRQHandler(void)
 {
 #if USART6_BufferSize_Tx && USART6_DMA_BufferSize_Tx
@@ -3701,13 +3685,11 @@ void USART6_IRQHandler(void)
 }
 
 #if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F469_479xx) || defined(STM32F413_423xx)
-/****************************************************************
- * Function:    UART7_IRQHandler
- * Description: UART7 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  UART7 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void UART7_IRQHandler(void)
 {
 #if USART7_BufferSize_Tx && USART7_DMA_BufferSize_Tx
@@ -3794,13 +3776,11 @@ void UART7_IRQHandler(void)
 #endif /* USART7_BufferSize_Rx && USART7_DMA_BufferSize_Rx */
 }
 
-/****************************************************************
- * Function:    UART8_IRQHandler
- * Description: UART8 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  UART8 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void UART8_IRQHandler(void)
 {
 #if USART8_BufferSize_Tx && USART8_DMA_BufferSize_Tx
@@ -3889,13 +3869,11 @@ void UART8_IRQHandler(void)
 #endif /* STM32F427_437xx || STM32F429_439xx || STM32F469_479xx || STM32F413_423xx */
 
 #if defined(STM32F413_423xx)
-/****************************************************************
- * Function:    UART9_IRQHandler
- * Description: UART9 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  UART9 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void UART9_IRQHandler(void)
 {
 #if USART9_BufferSize_Tx && USART9_DMA_BufferSize_Tx
@@ -3982,13 +3960,11 @@ void UART9_IRQHandler(void)
 #endif /* USART9_BufferSize_Rx && USART9_DMA_BufferSize_Rx */
 }
 
-/****************************************************************
- * Function:    UART10_IRQHandler
- * Description: UART10 IRQ handler.
- * Input:
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  UART10 IRQ handler.
+  * @param  None.
+  * @return None.
+  */
 void UART10_IRQHandler(void)
 {
 #if USART10_BufferSize_Tx && USART10_DMA_BufferSize_Tx
@@ -4076,13 +4052,11 @@ void UART10_IRQHandler(void)
 }
 #endif /* STM32F413_423xx */
 
-/****************************************************************
- * Function:    USART_SendDataFinishCallback
- * Description: Send data finish callback.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART send data finish callback.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4185,13 +4159,11 @@ static void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_ReceiveDataFinishCallback
- * Description: Receive data finish callback.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  USART receive data finish callback.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4294,14 +4266,12 @@ static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_SetSendDataFinishCallback
- * Description: Set send data finish callback.
- * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- *              Function: Function pointer.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Set USART send data finish callback.
+  * @param  [in] USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @param  [in] Function: Function pointer.
+  * @return None.
+  */
 void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void))
 {
   if(Function == NULL)
@@ -4379,14 +4349,12 @@ void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(voi
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_SetReceiveDataFinishCallback
- * Description: Set receive data finish callback.
- * Input:       USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- *              Function: Function pointer.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Set USART receive data finish callback.
+  * @param  [in] USARTx:   Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @param  [in] Function: Function pointer.
+  * @return None.
+  */
 void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void))
 {
   if(Function == NULL)
@@ -4464,13 +4432,11 @@ void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_ClearSendDataFinishCallback
- * Description: Clear send data finish callback.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Clear USART send data finish callback.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4543,13 +4509,11 @@ void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_ClearReceiveDataFinishCallback
- * Description: Clear receive data finish callback.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Clear USART receive data finish callback.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4622,13 +4586,11 @@ void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_GetSendDataCount
- * Description: Get the send data count.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Send data count.
-*****************************************************************/
+/**
+  * @brief  Get the USART send data count.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Send data count.
+  */
 uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4703,13 +4665,11 @@ uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetReceiveDataCount
- * Description: Get the receive data count.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Receive data count.
-*****************************************************************/
+/**
+  * @brief  Get the USART receive data count.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Receive data count.
+  */
 uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4784,13 +4744,11 @@ uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_ClearSendDataCount
- * Description: Clear the send data count.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Clear the USART send data count.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_ClearSendDataCount(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4863,13 +4821,11 @@ void USART_ClearSendDataCount(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_ClearReceiveDataCount
- * Description: Clear the receive data count.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Clear the USART receive data count.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_ClearReceiveDataCount(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -4942,13 +4898,11 @@ void USART_ClearReceiveDataCount(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_GetUsedSendBufferSize
- * Description: Get the size of the send buffer used.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Used the size of the send buffer.
-*****************************************************************/
+/**
+  * @brief  Get the size of the USART send buffer used.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Used the size of the send buffer.
+  */
 uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5023,13 +4977,11 @@ uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetUsedReceiveBufferSize
- * Description: Get the size of the receive buffer used.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Used the size of the receive buffer.
-*****************************************************************/
+/**
+  * @brief  Get the size of the USART receive buffer used.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Used the size of the receive buffer.
+  */
 uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5104,13 +5056,11 @@ uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetUnusedSendBufferSize
- * Description: Get the size of the send buffer unused.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Unused the size of the send buffer.
-*****************************************************************/
+/**
+  * @brief  Get the size of the USART send buffer unused.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Unused the size of the send buffer.
+  */
 uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5185,13 +5135,11 @@ uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetUnusedReceiveBufferSize
- * Description: Get the size of the receive buffer unused.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Unused the size of the receive buffer.
-*****************************************************************/
+/**
+  * @brief  Get the size of the USART receive buffer unused.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Unused the size of the receive buffer.
+  */
 uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5266,13 +5214,11 @@ uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetSendBufferUnilizationRatio
- * Description: Get the utilization rate of the send buffer.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Send buffer utilization.
-*****************************************************************/
+/**
+  * @brief  Get the utilization rate of the USART send buffer.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Send buffer utilization.
+  */
 float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5347,13 +5293,11 @@ float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_GetReceiveBufferUnilizationRatio
- * Description: Get the utilization rate of the receive buffer.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      Receive buffer utilization.
-*****************************************************************/
+/**
+  * @brief  Get the utilization rate of the USART receive buffer.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return Receive buffer utilization.
+  */
 float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5428,13 +5372,11 @@ float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx)
   return NULL;
 }
 
-/****************************************************************
- * Function:    USART_ClearSendBuffer
- * Description: Clear the send buffer.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Clear the USART send buffer.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_ClearSendBuffer(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5507,13 +5449,11 @@ void USART_ClearSendBuffer(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_ClearReceiveBuffer
- * Description: Clear the receive buffer.
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:
-*****************************************************************/
+/**
+  * @brief  Clear the USART receive buffer.
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @return None.
+  */
 void USART_ClearReceiveBuffer(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5586,14 +5526,12 @@ void USART_ClearReceiveBuffer(USART_TypeDef* USARTx)
 #endif /* STM32F413_423xx */
 }
 
-/****************************************************************
- * Function:    USART_IsSendBufferEmpty
- * Description: Is the send buffer empty?
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      true:  The send buffer is empty.
- *              false: The send buffer is not empty.
-*****************************************************************/
+/**
+  * @brief  Is the USART send buffer empty?
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @retval true:        The send buffer is empty.
+  * @retval false:       The send buffer is not empty.
+  */
 bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5738,14 +5676,12 @@ bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx)
   return false;
 }
 
-/****************************************************************
- * Function:    USART_IsReceiveBufferEmpty
- * Description: Is the receive buffer empty?
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      true:  The receive buffer is empty.
- *              false: The receive buffer is not empty.
-*****************************************************************/
+/**
+  * @brief  Is the USART receive buffer empty?
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @retval true:        The receive buffer is empty.
+  * @retval false:       The receive buffer is not empty.
+  */
 bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -5890,14 +5826,12 @@ bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx)
   return false;
 }
 
-/****************************************************************
- * Function:    USART_IsSendBufferFull
- * Description: Is the send buffer full?
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      true:  The send buffer is full.
- *              false: The send buffer is not full.
-*****************************************************************/
+/**
+  * @brief  Is the USART send buffer full?
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @retval true:        The send buffer is full.
+  * @retval false:       The send buffer is not full.
+  */
 bool USART_IsSendBufferFull(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -6042,14 +5976,12 @@ bool USART_IsSendBufferFull(USART_TypeDef* USARTx)
   return false;
 }
 
-/****************************************************************
- * Function:    USART_IsReceiveBufferFull
- * Description: Is the receive buffer full?
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      true:  The receive buffer is full.
- *              false: The receive buffer is not full.
-*****************************************************************/
+/**
+  * @brief  Is the USART receive buffer full?
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @retval true:        The receive buffer is full.
+  * @retval false:       The receive buffer is not full.
+  */
 bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
@@ -6194,14 +6126,12 @@ bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx)
   return false;
 }
 
-/****************************************************************
- * Function:    USART_IsSendingData
- * Description: Is sending data?
- * Input:       USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
- * Output:
- * Return:      true:  In sending data.
- *              false: No sending data.
-*****************************************************************/
+/**
+  * @brief  USART is sending data?
+  * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
+  * @retval true:        In sending data.
+  * @retval false:       No sending data.
+  */
 bool USART_IsSendingData(USART_TypeDef* USARTx)
 {
   if(USARTx == USART1)
