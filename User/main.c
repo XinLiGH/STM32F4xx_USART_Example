@@ -38,7 +38,7 @@
 static void System_Init(void);
 static void USART1_ReceiveDataFinishCallback(void);
 
-/* Function definitions ----------------------------------------------------- */
+/* Function definitions ------------------------------------------------------*/
 
 /**
   * @brief  Main program.

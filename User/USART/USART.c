@@ -272,7 +272,7 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
 static void USART_SendDataFinishCallback(USART_TypeDef* USARTx);
 static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
 
-/* Function definitions ----------------------------------------------------- */
+/* Function definitions ------------------------------------------------------*/
 
 /**
   * @brief  USART configure.

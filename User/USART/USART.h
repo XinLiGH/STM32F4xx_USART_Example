@@ -30,7 +30,7 @@
 #define __USART_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Header includes -----------------------------------------------------------*/
@@ -350,7 +350,7 @@ bool USART_IsSendBufferFull(USART_TypeDef* USARTx);
 bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx);
 bool USART_IsSendingData(USART_TypeDef* USARTx);
 
-/* Function definitions ----------------------------------------------------- */
+/* Function definitions ------------------------------------------------------*/
 
 #ifdef __cplusplus
 }
