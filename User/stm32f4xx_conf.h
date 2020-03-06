@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /* Header includes -----------------------------------------------------------*/
-/* Uncomment the line below to enable peripheral header file inclusion */
+/* Uncomment the line below to enable peripheral header file inclusion. */
 #include "stm32f4xx_adc.h"
 #include "stm32f4xx_crc.h"
 #include "stm32f4xx_dbgmcu.h"
@@ -53,7 +53,7 @@ extern "C" {
 #include "stm32f4xx_tim.h"
 #include "stm32f4xx_usart.h"
 #include "stm32f4xx_wwdg.h"
-#include "misc.h" /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
+#include "misc.h" /* High level functions for NVIC and SysTick (add-on to CMSIS functions). */
 
 #if defined(STM32F429_439xx) || defined(STM32F446xx) || defined(STM32F469_479xx)
 #include "stm32f4xx_cryp.h"
@@ -139,13 +139,13 @@ extern "C" {
 #endif /* STM32F413_423xx */
 
 /* Macro definitions ---------------------------------------------------------*/
-/* If an external clock source is used, then the value of the following define 
-   should be set to the value of the external clock source, else, if no external 
-   clock is used, keep this define commented */
-//#define I2S_EXTERNAL_CLOCK_VAL  12288000 /* Value of the external clock in Hz */
+/* If an external clock source is used, then the value of the following define
+   should be set to the value of the external clock source, else, if no external
+   clock is used, keep this define commented. */
+//#define I2S_EXTERNAL_CLOCK_VAL  12288000 /* Value of the external clock in Hz. */
 
-/* Uncomment the line below to expanse the "assert_param" macro in the 
-   Standard Peripheral Library drivers code */
+/* Uncomment the line below to expanse the "assert_param" macro in the
+   standard peripheral Library drivers code. */
 //#define USE_FULL_ASSERT         1
 
 /* Type definitions ----------------------------------------------------------*/

@@ -58,7 +58,7 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
+  /* Go to infinite loop when Hard Fault exception occurs. */
   while (1)
   {
   }
@@ -71,7 +71,7 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
+  /* Go to infinite loop when Memory Manage exception occurs. */
   while (1)
   {
   }
@@ -84,7 +84,7 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
+  /* Go to infinite loop when Bus Fault exception occurs. */
   while (1)
   {
   }
@@ -97,7 +97,7 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
+  /* Go to infinite loop when Usage Fault exception occurs. */
   while (1)
   {
   }
@@ -131,7 +131,7 @@ void PendSV_Handler(void)
 }
 
 /**
-  * @brief  This function handles SysTick Handler.
+  * @brief  This function handles SysTick handler.
   * @param  None.
   * @return None.
   */
@@ -141,9 +141,9 @@ void SysTick_Handler(void)
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
-/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  Add here the interrupt handler for the used peripheral(s) (PPP), for the  */
 /*  available peripheral interrupt handler's name please refer to the startup */
-/*  file (startup_stm32f40xx.s/startup_stm32f427x.s/startup_stm32f429x.s).    */
+/*  file (startup_stm32f4xxx.s).                                              */
 /******************************************************************************/
 
 /**
