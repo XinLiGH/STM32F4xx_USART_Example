@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    USART.c
   * @author  XinLi
-  * @version v3.8
+  * @version v3.9
   * @date    24-October-2017
   * @brief   USART driver.
   ******************************************************************************
@@ -263,14 +263,14 @@ static __IO uint64_t USART10_ReceiveDataCount = NULL;
 #endif /* STM32F413_423xx */
 
 /* Function declarations -----------------------------------------------------*/
-static void USART_DMA_TX_Configure(USART_TypeDef* USARTx);
-static void USART_DMA_RX_Configure(USART_TypeDef* USARTx);
-static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx);
-static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx);
-static void USART_NVIC_Configure(USART_TypeDef* USARTx);
-static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx);
-static void USART_SendDataFinishCallback(USART_TypeDef* USARTx);
-static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
+static void USART_DMA_TX_Configure(USART_TypeDef *USARTx);
+static void USART_DMA_RX_Configure(USART_TypeDef *USARTx);
+static void USART_DMA_TX_Unconfigure(USART_TypeDef *USARTx);
+static void USART_DMA_RX_Unconfigure(USART_TypeDef *USARTx);
+static void USART_NVIC_Configure(USART_TypeDef *USARTx);
+static void USART_NVIC_Unconfigure(USART_TypeDef *USARTx);
+static void USART_SendDataFinishCallback(USART_TypeDef *USARTx);
+static void USART_ReceiveDataFinishCallback(USART_TypeDef *USARTx);
 
 /* Function definitions ------------------------------------------------------*/
 
@@ -283,7 +283,7 @@ static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx);
   * @param  [in] Parity:   Parity mode.
   * @return None.
   */
-void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity)
+void USART_Configure(USART_TypeDef *USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity)
 {
   uint16_t          USART_Mode          =  NULL;  /* USART Mode definition. */
   GPIO_InitTypeDef  GPIO_InitStructure  = {NULL}; /* GPIO Init structure definition. */
@@ -788,7 +788,7 @@ void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataB
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_Unconfigure(USART_TypeDef* USARTx)
+void USART_Unconfigure(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -1075,7 +1075,7 @@ void USART_Unconfigure(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
+static void USART_DMA_TX_Configure(USART_TypeDef *USARTx)
 {
   DMA_InitTypeDef DMA_InitStructure = {NULL}; /* DMA Init structure definition. */
   
@@ -1299,7 +1299,7 @@ static void USART_DMA_TX_Configure(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
+static void USART_DMA_RX_Configure(USART_TypeDef *USARTx)
 {
   DMA_InitTypeDef DMA_InitStructure = {NULL}; /* DMA Init structure definition. */
   
@@ -1523,7 +1523,7 @@ static void USART_DMA_RX_Configure(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
+static void USART_DMA_TX_Unconfigure(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -1660,7 +1660,7 @@ static void USART_DMA_TX_Unconfigure(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
+static void USART_DMA_RX_Unconfigure(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -1797,7 +1797,7 @@ static void USART_DMA_RX_Unconfigure(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_NVIC_Configure(USART_TypeDef* USARTx)
+static void USART_NVIC_Configure(USART_TypeDef *USARTx)
 {
   NVIC_InitTypeDef NVIC_InitStructure = {NULL}; /* NVIC Init Structure definition */
   
@@ -1966,7 +1966,7 @@ static void USART_NVIC_Configure(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
+static void USART_NVIC_Unconfigure(USART_TypeDef *USARTx)
 {
   NVIC_InitTypeDef NVIC_InitStructure = {NULL}; /* NVIC Init Structure definition */
   
@@ -2137,7 +2137,7 @@ static void USART_NVIC_Unconfigure(USART_TypeDef* USARTx)
   * @param  [in] Length: The length of the data to be sent.
   * @return The number of data sent.
   */
-uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
+uint32_t USART_SetSendData(USART_TypeDef *USARTx, const void *Data, uint32_t Length)
 {
   if((Data == NULL) || (Length == NULL))
   {
@@ -2793,7 +2793,7 @@ uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
   * @param  [in] Length: To read the length of the received data.
   * @return The number of data obtained.
   */
-uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length)
+uint32_t USART_GetReceiveData(USART_TypeDef *USARTx, void *Data, uint32_t Length)
 {
   uint32_t number = NULL;
   
@@ -4057,7 +4057,7 @@ void UART10_IRQHandler(void)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
+static void USART_SendDataFinishCallback(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4164,7 +4164,7 @@ static void USART_SendDataFinishCallback(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
+static void USART_ReceiveDataFinishCallback(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4272,7 +4272,7 @@ static void USART_ReceiveDataFinishCallback(USART_TypeDef* USARTx)
   * @param  [in] Function: Function pointer.
   * @return None.
   */
-void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void))
+void USART_SetSendDataFinishCallback(USART_TypeDef *USARTx, void (*Function)(void))
 {
   if(Function == NULL)
   {
@@ -4355,7 +4355,7 @@ void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(voi
   * @param  [in] Function: Function pointer.
   * @return None.
   */
-void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void))
+void USART_SetReceiveDataFinishCallback(USART_TypeDef *USARTx, void (*Function)(void))
 {
   if(Function == NULL)
   {
@@ -4437,7 +4437,7 @@ void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx)
+void USART_ClearSendDataFinishCallback(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4514,7 +4514,7 @@ void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx)
+void USART_ClearReceiveDataFinishCallback(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4591,7 +4591,7 @@ void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Send data count.
   */
-uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx)
+uint64_t USART_GetSendDataCount(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4670,7 +4670,7 @@ uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Receive data count.
   */
-uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx)
+uint64_t USART_GetReceiveDataCount(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4749,7 +4749,7 @@ uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_ClearSendDataCount(USART_TypeDef* USARTx)
+void USART_ClearSendDataCount(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4826,7 +4826,7 @@ void USART_ClearSendDataCount(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_ClearReceiveDataCount(USART_TypeDef* USARTx)
+void USART_ClearReceiveDataCount(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4903,7 +4903,7 @@ void USART_ClearReceiveDataCount(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Used the size of the send buffer.
   */
-uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx)
+uint32_t USART_GetUsedSendBufferSize(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -4982,7 +4982,7 @@ uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Used the size of the receive buffer.
   */
-uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx)
+uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5061,7 +5061,7 @@ uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Unused the size of the send buffer.
   */
-uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx)
+uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5140,7 +5140,7 @@ uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Unused the size of the receive buffer.
   */
-uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx)
+uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5219,7 +5219,7 @@ uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Send buffer utilization.
   */
-float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx)
+float USART_GetSendBufferUnilizationRatio(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5298,7 +5298,7 @@ float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return Receive buffer utilization.
   */
-float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx)
+float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5377,7 +5377,7 @@ float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_ClearSendBuffer(USART_TypeDef* USARTx)
+void USART_ClearSendBuffer(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5454,7 +5454,7 @@ void USART_ClearSendBuffer(USART_TypeDef* USARTx)
   * @param  [in] USARTx: Where x can be 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10 to select the USART or UART peripheral.
   * @return None.
   */
-void USART_ClearReceiveBuffer(USART_TypeDef* USARTx)
+void USART_ClearReceiveBuffer(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5532,7 +5532,7 @@ void USART_ClearReceiveBuffer(USART_TypeDef* USARTx)
   * @retval true:        The send buffer is empty.
   * @retval false:       The send buffer is not empty.
   */
-bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx)
+bool USART_IsSendBufferEmpty(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5682,7 +5682,7 @@ bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx)
   * @retval true:        The receive buffer is empty.
   * @retval false:       The receive buffer is not empty.
   */
-bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx)
+bool USART_IsReceiveBufferEmpty(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5832,7 +5832,7 @@ bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx)
   * @retval true:        The send buffer is full.
   * @retval false:       The send buffer is not full.
   */
-bool USART_IsSendBufferFull(USART_TypeDef* USARTx)
+bool USART_IsSendBufferFull(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -5982,7 +5982,7 @@ bool USART_IsSendBufferFull(USART_TypeDef* USARTx)
   * @retval true:        The receive buffer is full.
   * @retval false:       The receive buffer is not full.
   */
-bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx)
+bool USART_IsReceiveBufferFull(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {
@@ -6132,7 +6132,7 @@ bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx)
   * @retval true:        In sending data.
   * @retval false:       No sending data.
   */
-bool USART_IsSendingData(USART_TypeDef* USARTx)
+bool USART_IsSendingData(USART_TypeDef *USARTx)
 {
   if(USARTx == USART1)
   {

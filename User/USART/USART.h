@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    USART.h
   * @author  XinLi
-  * @version v3.8
+  * @version v3.9
   * @date    24-October-2017
   * @brief   Header file for USART.c module.
   ******************************************************************************
@@ -324,40 +324,40 @@ typedef enum
 /* Variable declarations -----------------------------------------------------*/
 /* Variable definitions ------------------------------------------------------*/
 /* Function declarations -----------------------------------------------------*/
-void USART_Configure(USART_TypeDef* USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity);
-void USART_Unconfigure(USART_TypeDef* USARTx);
+void USART_Configure(USART_TypeDef *USARTx, USART_BaudRate BaudRate, USART_DataBits DataBits, USART_StopBits StopBits, USART_Parity Parity);
+void USART_Unconfigure(USART_TypeDef *USARTx);
 
-uint32_t USART_SetSendData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
-uint32_t USART_GetReceiveData(USART_TypeDef* USARTx, void* Data, uint32_t Length);
+uint32_t USART_SetSendData(USART_TypeDef *USARTx, const void *Data, uint32_t Length);
+uint32_t USART_GetReceiveData(USART_TypeDef *USARTx, void *Data, uint32_t Length);
 
-void USART_SetSendDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void));
-void USART_SetReceiveDataFinishCallback(USART_TypeDef* USARTx, void (*Function)(void));
+void USART_SetSendDataFinishCallback(USART_TypeDef *USARTx, void (*Function)(void));
+void USART_SetReceiveDataFinishCallback(USART_TypeDef *USARTx, void (*Function)(void));
 
-void USART_ClearSendDataFinishCallback(USART_TypeDef* USARTx);
-void USART_ClearReceiveDataFinishCallback(USART_TypeDef* USARTx);
+void USART_ClearSendDataFinishCallback(USART_TypeDef *USARTx);
+void USART_ClearReceiveDataFinishCallback(USART_TypeDef *USARTx);
 
-uint64_t USART_GetSendDataCount(USART_TypeDef* USARTx);
-uint64_t USART_GetReceiveDataCount(USART_TypeDef* USARTx);
+uint64_t USART_GetSendDataCount(USART_TypeDef *USARTx);
+uint64_t USART_GetReceiveDataCount(USART_TypeDef *USARTx);
 
-void USART_ClearSendDataCount(USART_TypeDef* USARTx);
-void USART_ClearReceiveDataCount(USART_TypeDef* USARTx);
+void USART_ClearSendDataCount(USART_TypeDef *USARTx);
+void USART_ClearReceiveDataCount(USART_TypeDef *USARTx);
 
-uint32_t USART_GetUsedSendBufferSize(USART_TypeDef* USARTx);
-uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef* USARTx);
-uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef* USARTx);
-uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef* USARTx);
+uint32_t USART_GetUsedSendBufferSize(USART_TypeDef *USARTx);
+uint32_t USART_GetUsedReceiveBufferSize(USART_TypeDef *USARTx);
+uint32_t USART_GetUnusedSendBufferSize(USART_TypeDef *USARTx);
+uint32_t USART_GetUnusedReceiveBufferSize(USART_TypeDef *USARTx);
 
-float USART_GetSendBufferUnilizationRatio(USART_TypeDef* USARTx);
-float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef* USARTx);
+float USART_GetSendBufferUnilizationRatio(USART_TypeDef *USARTx);
+float USART_GetReceiveBufferUnilizationRatio(USART_TypeDef *USARTx);
 
-void USART_ClearSendBuffer(USART_TypeDef* USARTx);
-void USART_ClearReceiveBuffer(USART_TypeDef* USARTx);
+void USART_ClearSendBuffer(USART_TypeDef *USARTx);
+void USART_ClearReceiveBuffer(USART_TypeDef *USARTx);
 
-bool USART_IsSendBufferEmpty(USART_TypeDef* USARTx);
-bool USART_IsReceiveBufferEmpty(USART_TypeDef* USARTx);
-bool USART_IsSendBufferFull(USART_TypeDef* USARTx);
-bool USART_IsReceiveBufferFull(USART_TypeDef* USARTx);
-bool USART_IsSendingData(USART_TypeDef* USARTx);
+bool USART_IsSendBufferEmpty(USART_TypeDef *USARTx);
+bool USART_IsReceiveBufferEmpty(USART_TypeDef *USARTx);
+bool USART_IsSendBufferFull(USART_TypeDef *USARTx);
+bool USART_IsReceiveBufferFull(USART_TypeDef *USARTx);
+bool USART_IsSendingData(USART_TypeDef *USARTx);
 
 /* Function definitions ------------------------------------------------------*/
 
